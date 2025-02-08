@@ -146,204 +146,201 @@
 </head>
 <body>
   <div class="container mt-5">
-    <!-- Quản lý Chiến dịch Tuyển dụng -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Quản lý Chiến dịch Tuyển dụng</h5>
+    <div class="row">
+      <!-- Quản lý Chiến dịch Tuyển dụng -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Quản lý Chiến dịch Tuyển dụng</h5>
+          </div>
+          <div class="card-body">
+            <form method="post" action="{% url 'create_recruitment' %}">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="position" class="form-label">Vị trí tuyển dụng</label>
+                <input type="text" class="form-control" id="position" name="position" placeholder="Nhập vị trí tuyển dụng" required>
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Mô tả công việc</label>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Nhập mô tả công việc" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="requirements" class="form-label">Yêu cầu</label>
+                <textarea class="form-control" id="requirements" name="requirements" rows="3" placeholder="Nhập yêu cầu công việc" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="deadline" class="form-label">Hạn nộp hồ sơ</label>
+                <input type="date" class="form-control" id="deadline" name="deadline" required>
+              </div>
+              <button type="submit" class="btn btn-success">Tạo Chiến dịch</button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="card-body">
-        <!-- Hiển thị thông báo lỗi từ Django messages -->
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-              {{ message }}
-            </div>
-          {% endfor %}
-        {% endif %}
-
-        <!-- Form tạo chiến dịch tuyển dụng -->
-      <form method="post" action="{% url 'create_recruitment' %}">
-        {% csrf_token %}
-        <div class="mb-3">
-          <label for="position" class="form-label">Vị trí tuyển dụng</label>
-          <input type="text" class="form-control" id="position" name="position" placeholder="Nhập vị trí tuyển dụng" required>
+  
+      <!-- Danh sách Chiến dịch Tuyển dụng -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Danh sách Chiến dịch Tuyển dụng</h5>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Vị trí</th>
+                  <th>Ngày đăng</th>
+                  <th>Hạn nộp</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if recruitments %}
+                  {% for recruitment in recruitments %}
+                    <tr>
+                      <td>{{ recruitment.position }}</td>
+                      <td>{{ recruitment.posted_date|date:"d/m/Y" }}</td>
+                      <td>{{ recruitment.deadline|date:"d/m/Y" }}</td>
+                      <td>
+                        <span class="badge {% if recruitment.get_status == 'Đang hoạt động' %}bg-success{% else %}bg-danger{% endif %}">
+                          {{ recruitment.get_status }}
+                        </span>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="4" class="text-center">Không có chiến dịch tuyển dụng nào.</td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+            <!-- Phân trang -->
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                {% if recruitments.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                      <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ recruitments.previous_page_number }}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+                <li class="page-item disabled">
+                  <span class="page-link">
+                    Trang {{ recruitments.number }} / {{ recruitments.paginator.num_pages }}
+                  </span>
+                </li>
+                {% if recruitments.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ recruitments.next_page_number }}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ recruitments.paginator.num_pages }}" aria-label="Last">
+                      <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="description" class="form-label">Mô tả công việc</label>
-          <textarea class="form-control" id="description" name="description" rows="3" placeholder="Nhập mô tả công việc" required></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="requirements" class="form-label">Yêu cầu</label>
-          <textarea class="form-control" id="requirements" name="requirements" rows="3" placeholder="Nhập yêu cầu công việc" required></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="deadline" class="form-label">Hạn nộp hồ sơ</label>
-          <input type="date" class="form-control" id="deadline" name="deadline" required>
-        </div>
-        <button type="submit" class="btn btn-success">Tạo Chiến dịch</button>
-      </form>
       </div>
     </div>
+  </div>
+  
 
-    <!-- Danh sách Chiến dịch Tuyển dụng -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Danh sách Chiến dịch Tuyển dụng</h5>
+    <!-- Quản lý Ứng viên -->
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Quản lý Ứng viên</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <!-- Cột bên trái: Form Tìm kiếm & Lọc Ứng viên -->
+      <div class="col-md-5">
+        <form method="get" action="{% url 'quanlituyendung' %}">
+          <div class="mb-3">
+            <label for="candidateSearch" class="form-label">🔎 Tìm kiếm Ứng viên</label>
+            <input type="text" class="form-control" id="candidateSearch" name="candidateSearch" placeholder="Nhập tên hoặc email ứng viên" value="{{ candidate_search }}">
+          </div>
+          <div class="mb-3">
+            <label for="candidateFilter" class="form-label">📌 Lọc Ứng viên</label>
+            <select class="form-select" id="candidateFilter" name="candidateFilter">
+              <option value="all" {% if candidate_filter == 'all' %}selected{% endif %}>Tất cả</option>
+              <option value="new" {% if candidate_filter == 'new' %}selected{% endif %}>Ứng viên Mới</option>
+              <option value="interviewed" {% if candidate_filter == 'interviewed' %}selected{% endif %}>Đã Phỏng vấn</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success">🔍 Tìm kiếm</button>
+        </form>
       </div>
-      <div class="card-body">
-        <table class="table table-striped">
+
+      <!-- Cột bên phải: Danh sách Ứng viên -->
+      <div class="col-md-7">
+        <table class="table table-striped mt-4">
           <thead>
             <tr>
-              <th>Vị trí</th>
-              <th>Ngày đăng</th>
-              <th>Hạn nộp</th>
+              <th>Tên ứng viên</th>
+              <th>Email</th>
               <th>Trạng thái</th>
+              <th>Ngày ứng tuyển</th>
             </tr>
           </thead>
           <tbody>
-            {% if recruitments %}
-              {% for recruitment in recruitments %}
+            {% if candidates %}
+              {% for candidate in candidates %}
                 <tr>
-                  <td>{{ recruitment.position }}</td>
-                  <td>{{ recruitment.posted_date|date:"d/m/Y" }}</td>
-                  <td>{{ recruitment.deadline|date:"d/m/Y" }}</td>
+                  <td>{{ candidate.name }}</td>
+                  <td>{{ candidate.email }}</td>
                   <td>
-                    <span class="badge {% if recruitment.get_status == 'Đang hoạt động' %}bg-success{% else %}bg-danger{% endif %}">
-                      {{ recruitment.get_status }}
+                    <span class="badge {% if candidate.status == 'new' %}bg-primary{% else %}bg-success{% endif %}">
+                      {{ candidate.get_status_display }}
                     </span>
                   </td>
+                  <td>{{ candidate.applied_date|date:"d/m/Y" }}</td>
                 </tr>
               {% endfor %}
             {% else %}
               <tr>
-                <td colspan="4" class="text-center">Không có chiến dịch tuyển dụng nào.</td>
+                <td colspan="4" class="text-center">Không có ứng viên nào.</td>
               </tr>
             {% endif %}
-          </tbody>
-        </table>
-
-        <!-- Phân trang -->
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            {% if recruitments.has_previous %}
-              <li class="page-item">
-                <a class="page-link" href="?page=1" aria-label="First">
-                  <span aria-hidden="true">&laquo;&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="?page={{ recruitments.previous_page_number }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-            {% endif %}
-
-            <li class="page-item disabled">
-              <span class="page-link">
-                Trang {{ recruitments.number }} / {{ recruitments.paginator.num_pages }}
-              </span>
-            </li>
-
-            {% if recruitments.has_next %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ recruitments.next_page_number }}" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="?page={{ recruitments.paginator.num_pages }}" aria-label="Last">
-                  <span aria-hidden="true">&raquo;&raquo;</span>
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <!-- Phần Quản lý Ứng viên -->
-    <div class="card">
-      <div class="card-header">
-          <h5 class="card-title">Quản lý Ứng viên</h5>
-      </div>
-      <div class="card-body">
-        <!-- Form tìm kiếm và lọc ứng viên -->
-        <form method="get" action="{% url 'quanlituyendung' %}">
-          <div class="mb-3">
-              <label for="candidateSearch" class="form-label">Tìm kiếm Ứng viên</label>
-              <input type="text" class="form-control" id="candidateSearch" name="candidateSearch" placeholder="Nhập tên hoặc email ứng viên" value="{{ candidate_search }}">
-          </div>
-          <div class="mb-3">
-              <label for="candidateFilter" class="form-label">Lọc Ứng viên</label>
-              <select class="form-select" id="candidateFilter" name="candidateFilter">
-                  <option value="all" {% if candidate_filter == 'all' %}selected{% endif %}>Tất cả</option>
-                  <option value="new" {% if candidate_filter == 'new' %}selected{% endif %}>Ứng viên Mới</option>
-                  <option value="interviewed" {% if candidate_filter == 'interviewed' %}selected{% endif %}>Đã Phỏng vấn</option>
-              </select>
-          </div>
-          <button type="submit" class="btn btn-success">Tìm kiếm</button>
-        </form>
-
-        <!-- Hiển thị danh sách ứng viên -->
-        <table class="table table-striped mt-4">
-          <thead>
-              <tr>
-                  <th>Tên ứng viên</th>
-                  <th>Email</th>
-                  <th>Trạng thái</th>
-                  <th>Ngày ứng tuyển</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% if candidates %}
-                  {% for candidate in candidates %}
-                      <tr>
-                          <td>{{ candidate.name }}</td>
-                          <td>{{ candidate.email }}</td>
-                          <td>
-                              <span class="badge {% if candidate.status == 'new' %}bg-primary{% else %}bg-success{% endif %}">
-                                  {{ candidate.get_status_display }}
-                              </span>
-                          </td>
-                          <td>{{ candidate.applied_date|date:"d/m/Y" }}</td>
-                      </tr>
-                  {% endfor %}
-              {% else %}
-                  <tr>
-                      <td colspan="4" class="text-center">Không có ứng viên nào.</td>
-                  </tr>
-              {% endif %}
           </tbody>
         </table>
 
         <!-- Phân trang danh sách ứng viên -->
         <nav aria-label="Page navigation">
           <ul class="pagination">
-              {% if candidates.has_previous %}
-                  <li class="page-item">
-                      <a class="page-link" href="?candidate_page={{ candidates.previous_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                      </a>
-                  </li>
-              {% endif %}
-
-              <li class="page-item disabled">
-                  <span class="page-link">
-                      Trang {{ candidates.number }} / {{ candidates.paginator.num_pages }}
-                  </span>
+            {% if candidates.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?candidate_page={{ candidates.previous_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
               </li>
-
-              {% if candidates.has_next %}
-                  <li class="page-item">
-                      <a class="page-link" href="?candidate_page={{ candidates.next_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                      </a>
-                  </li>
-              {% endif %}
+            {% endif %}
+            <li class="page-item disabled">
+              <span class="page-link">Trang {{ candidates.number }} / {{ candidates.paginator.num_pages }}</span>
+            </li>
+            {% if candidates.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?candidate_page={{ candidates.next_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% endif %}
           </ul>
         </nav>
       </div>
     </div>
+  </div>
+</div>
 
     <!-- Lịch Phỏng vấn -->
     <div class="card">
