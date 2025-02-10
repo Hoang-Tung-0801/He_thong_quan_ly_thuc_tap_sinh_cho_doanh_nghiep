@@ -22,6 +22,10 @@ from .utils import get_user_groups_context
 from .forms import RecruitmentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import InterviewForm
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 
 logger = logging.getLogger(__name__)
 
@@ -920,3 +924,84 @@ def delete_interview(request, pk):
         'interview': interview,
     }
     return render(request, 'Lichphongvan/delete_interview.html', context)
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def performance_api(request):
+    if request.method == 'GET':
+        performances = Performance.objects.filter(evaluator=request.user).select_related('intern')
+        data = [{
+            "id": p.id,
+            "intern_id": p.intern.id,
+            "intern_name": p.intern.full_name,
+            "metric": p.evaluation_period,
+            "score": float(p.score),
+            "feedback": p.comments
+        } for p in performances]
+        return JsonResponse(data, safe=False)
+    
+    elif request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            intern_id = data.get('intern_id')
+            score = data.get('score')
+            comments = data.get('comments')
+            
+            intern = Intern.objects.get(id=intern_id)
+            performance = Performance.objects.create(
+                intern=intern,
+                evaluator=request.user,
+                score=score,
+                comments=comments,
+                evaluation_period="Hàng tuần"  # Có thể điều chỉnh theo logic
+            )
+            return JsonResponse({"status": "success", "id": performance.id}, status=201)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+@login_required
+@require_http_methods(["PUT", "DELETE"])
+def performance_detail_api(request, pk):
+    try:
+        performance = Performance.objects.get(pk=pk, evaluator=request.user)
+    except Performance.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Not found"}, status=404)
+    
+    if request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+            new_intern_id = data.get('intern_id')
+            new_period = data.get('evaluation_period')
+            
+            # Kiểm tra trùng lặp với intern và period mới
+            if Performance.objects.filter(
+                intern_id=new_intern_id,
+                evaluator=request.user,
+                evaluation_period=new_period
+            ).exclude(pk=pk).exists():
+                return JsonResponse(
+                    {"status": "error", "message": "Đánh giá này đã tồn tại"},
+                    status=400
+                )
+            
+            # Cập nhật dữ liệu
+            performance.intern_id = new_intern_id
+            performance.score = data.get('score')
+            performance.comments = data.get('comments')
+            performance.evaluation_period = new_period
+            performance.save()
+            
+            return JsonResponse({"status": "success"})
+        
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    
+    elif request.method == "DELETE":
+        performance.delete()
+        return JsonResponse({"status": "success"})
+
+@login_required
+def get_active_interns(request):
+    interns = Intern.objects.filter(is_active=True)
+    data = [{"id": i.id, "name": i.full_name} for i in interns]
+    return JsonResponse(data, safe=False)

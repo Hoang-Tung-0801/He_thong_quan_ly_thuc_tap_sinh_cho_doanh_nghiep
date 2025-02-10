@@ -92,6 +92,11 @@ urlpatterns = [
     path('lichphongvan/schedule/', views.schedule_interview, name='schedule_interview'),
     path('lichphongvan/edit/<int:pk>/', views.edit_interview, name='edit_interview'),
     path('lichphongvan/delete/<int:pk>/', views.delete_interview, name='delete_interview'),
+    
+    #theo dõi hiệu suất
+    path('api/performances/', views.performance_api, name='performance_api'),
+    path('api/performances/<int:pk>/', views.performance_detail_api, name='performance_detail_api'),
+    path('api/active-interns/', views.get_active_interns, name='active_interns'),
 ]
 
 # Phục vụ file media trong môi trường DEBUG

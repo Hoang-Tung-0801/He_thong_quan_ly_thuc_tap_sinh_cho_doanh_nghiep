@@ -215,10 +215,10 @@ class Performance(models.Model):
         return self.intern.performances.aggregate(models.Avg('score'))['score__avg']
 
     class Meta:
+        unique_together = ['intern', 'evaluator', 'evaluation_period']  # Thêm dòng này
         verbose_name = "Đánh giá hiệu suất"
         verbose_name_plural = "Đánh giá hiệu suất"
         ordering = ['-evaluation_date']
-
 
 class Feedback(models.Model):
     # Phản hồi từ thực tập sinh
@@ -493,3 +493,33 @@ class InternshipOffer(models.Model):
     sent_by = models.ForeignKey(User, on_delete=models.CASCADE)
     sent_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending')
+
+class Communication(models.Model):
+    FEEDBACK_CHOICES = [
+        ('positive', 'Tích cực'),
+        ('negative', 'Tiêu cực'),
+        ('neutral', 'Trung lập'),
+    ]
+    
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='sent_messages'
+    )
+    receiver = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='received_messages'
+    )
+    message = models.TextField()
+    feedback_type = models.CharField(
+        max_length=10,
+        choices=FEEDBACK_CHOICES
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.sender} -> {self.receiver} ({self.get_feedback_type_display()})"

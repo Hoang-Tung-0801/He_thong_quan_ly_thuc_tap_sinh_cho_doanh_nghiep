@@ -126,179 +126,222 @@
 </head>
 <body>
   <div class="container mt-5">
-    <!-- Theo dõi Hiệu suất -->
     <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Theo dõi Hiệu suất</h5>
-      </div>
-      <div class="card-body">
-        <form id="performanceTrackingForm">
-          <div class="mb-3">
-            <label for="internName" class="form-label">Tên thực tập sinh</label>
-            <input type="text" class="form-control" id="internName" placeholder="Nhập tên thực tập sinh" required>
-          </div>
-          <div class="mb-3">
-            <label for="performanceMetric" class="form-label">Chỉ số hiệu suất</label>
-            <select class="form-select" id="performanceMetric" required>
-              <option value="">Chọn chỉ số</option>
-              <option value="taskCompletion">Hoàn thành công việc</option>
-              <option value="qualityOfWork">Chất lượng công việc</option>
-              <option value="teamwork">Làm việc nhóm</option>
-              <option value="initiative">Tính chủ động</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="performanceScore" class="form-label">Điểm hiệu suất</label>
-            <input type="number" class="form-control" id="performanceScore" min="1" max="10" placeholder="Nhập điểm (1-10)" required>
-          </div>
-          <div class="mb-3">
-            <label for="performanceFeedback" class="form-label">Phản hồi</label>
-            <textarea class="form-control" id="performanceFeedback" rows="3" placeholder="Nhập phản hồi"></textarea>
-          </div>
-          <button type="submit" class="btn btn-success">Lưu</button>
-          <button type="button" class="btn btn-warning" onclick="clearPerformanceTrackingForm()">Hủy</button>
-        </form>
-
-        <!-- Danh sách Hiệu suất -->
-        <div class="mt-4">
-          <h6>Danh sách Hiệu suất</h6>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Tên thực tập sinh</th>
-                <th>Chỉ số hiệu suất</th>
-                <th>Điểm</th>
-                <th>Phản hồi</th>
-                <th>Hành động</th>
-              </tr>
-            </thead>
-            <tbody id="performanceList">
-              <!-- Dữ liệu mẫu -->
-              <tr>
-                <td>Nguyễn Văn A</td>
-                <td>Hoàn thành công việc</td>
-                <td>8</td>
-                <td>Thực hiện tốt các nhiệm vụ được giao.</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" onclick="editPerformance(0)">Sửa</button>
-                  <button class="btn btn-sm btn-danger" onclick="deletePerformance(0)">Xóa</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Trần Thị B</td>
-                <td>Làm việc nhóm</td>
-                <td>9</td>
-                <td>Hợp tác tốt với các thành viên trong nhóm.</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" onclick="editPerformance(1)">Sửa</button>
-                  <button class="btn btn-sm btn-danger" onclick="deletePerformance(1)">Xóa</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="card-header">
+            <h5 class="card-title">Theo dõi Hiệu suất</h5>
         </div>
-      </div>
+        <div class="card-body">
+            <form id="performanceTrackingForm">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="internSelect" class="form-label">Thực tập sinh</label>
+                    <select class="form-select" id="internSelect" required>
+                        <option value="">Chọn thực tập sinh...</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="performanceMetric" class="form-label">Chỉ số hiệu suất</label>
+                    <select class="form-select" id="performanceMetric" required>
+                        <option value="Hàng tuần">Đánh giá hàng tuần</option>
+                        <option value="Giữa kỳ">Đánh giá giữa kỳ</option>
+                        <option value="Cuối kỳ">Đánh giá cuối kỳ</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="performanceScore" class="form-label">Điểm hiệu suất</label>
+                    <input type="number" class="form-control" id="performanceScore" 
+                           min="0" max="100" step="0.1" 
+                           placeholder="Nhập điểm (0-100)" required>
+                </div>
+                <div class="mb-3">
+                    <label for="performanceFeedback" class="form-label">Nhận xét</label>
+                    <textarea class="form-control" id="performanceFeedback" 
+                              rows="3" placeholder="Nhập nhận xét chi tiết"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Lưu</button>
+                <button type="button" class="btn btn-warning" 
+                        onclick="clearPerformanceForm()">Hủy</button>
+            </form>
+
+            <div class="mt-4">
+                <h6>Danh sách Đánh giá</h6>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Thực tập sinh</th>
+                            <th>Kỳ đánh giá</th>
+                            <th>Điểm</th>
+                            <th>Nhận xét</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="performanceList">
+                        <!-- Dữ liệu sẽ được load bằng JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script>
-    // Mảng lưu trữ hiệu suất
-    let performances = [
-      {
-        internName: "Nguyễn Văn A",
-        performanceMetric: "Hoàn thành công việc",
-        performanceScore: 8,
-        performanceFeedback: "Thực hiện tốt các nhiệm vụ được giao."
-      },
-      {
-        internName: "Trần Thị B",
-        performanceMetric: "Làm việc nhóm",
-        performanceScore: 9,
-        performanceFeedback: "Hợp tác tốt với các thành viên trong nhóm."
-      }
-    ];
-
-    // Hàm thêm hiệu suất
-    document.getElementById('performanceTrackingForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      // Lấy giá trị từ form
-      const internName = document.getElementById('internName').value;
-      const performanceMetric = document.getElementById('performanceMetric').value;
-      const performanceScore = document.getElementById('performanceScore').value;
-      const performanceFeedback = document.getElementById('performanceFeedback').value;
-
-      // Thêm hiệu suất vào mảng
-      performances.push({
-        internName: internName,
-        performanceMetric: performanceMetric,
-        performanceScore: performanceScore,
-        performanceFeedback: performanceFeedback
-      });
-
-      // Cập nhật danh sách hiệu suất
-      updatePerformanceList();
-
-      // Thông báo thành công
-      alert('Hiệu suất đã được lưu thành công!');
-
-      // Xóa form sau khi thêm
-      clearPerformanceTrackingForm();
+    let originalSubmitHandler = null;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      originalSubmitHandler = document.getElementById('performanceTrackingForm').onsubmit;
+      loadInterns();
+      loadPerformances();
     });
-
-    // Hàm cập nhật danh sách hiệu suất
-    function updatePerformanceList() {
-      const performanceList = document.getElementById('performanceList');
-      performanceList.innerHTML = ''; // Xóa nội dung cũ
-
-      performances.forEach((performance, index) => {
-        const row = `
-          <tr>
-            <td>${performance.internName}</td>
-            <td>${performance.performanceMetric}</td>
-            <td>${performance.performanceScore}</td>
-            <td>${performance.performanceFeedback}</td>
-            <td>
-              <button class="btn btn-sm btn-primary" onclick="editPerformance(${index})">Sửa</button>
-              <button class="btn btn-sm btn-danger" onclick="deletePerformance(${index})">Xóa</button>
-            </td>
-          </tr>
-        `;
-        performanceList.innerHTML += row;
-      });
-    }
-
-    // Hàm xóa hiệu suất
-    function deletePerformance(index) {
-      if (confirm('Bạn có chắc chắn muốn xóa hiệu suất này không?')) {
-        performances.splice(index, 1); // Xóa hiệu suất khỏi mảng
-        updatePerformanceList(); // Cập nhật danh sách
+  
+  
+  // Load danh sách thực tập sinh
+    async function loadInterns() {
+        const response = await fetch('/api/active-interns/');
+        const interns = await response.json();
+        const select = document.getElementById('internSelect');
+        
+        interns.forEach(intern => {
+            const option = document.createElement('option');
+            option.value = intern.id;
+            option.textContent = intern.name;
+            select.appendChild(option);
+        });
       }
+    
+    // Load danh sách đánh giá
+    async function loadPerformances() {
+        const response = await fetch('/api/performances/');
+        const performances = await response.json();
+        const tbody = document.getElementById('performanceList');
+        tbody.innerHTML = '';
+    
+        performances.forEach(perf => {
+            const row = `
+                <tr data-id="${perf.id}" data-intern-id="${perf.intern_id}">
+                    <td>${perf.intern_name}</td>
+                    <td>${perf.metric}</td>
+                    <td>${perf.score}</td>
+                    <td>${perf.feedback}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary"
+                                onclick="editPerformance(${perf.id})">Sửa</button>
+                        <button class="btn btn-sm btn-danger" 
+                                onclick="deletePerformance(${perf.id})">Xóa</button>
+                    </td>
+                </tr>
+            `   ;
+            tbody.innerHTML += row;
+          });
+      }
+    
+    // Xử lý submit form
+    document.getElementById('performanceTrackingForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = {
+            intern_id: document.getElementById('internSelect').value,
+            score: document.getElementById('performanceScore').value,
+            comments: document.getElementById('performanceFeedback').value
+        };
+    
+        try {
+            const response = await fetch('/api/performances/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(formData)
+            });
+    
+            if (response.ok) {
+                alert('Lưu thành công!');
+                clearPerformanceForm();
+                loadPerformances();
+            } else {
+                const error = await response.json();
+                alert('Lỗi: ' + error.message);
+            }
+        } catch (error) {
+            alert('Lỗi kết nối: ' + error.message);
+        }
+    });
+    
+    // Xóa form
+    function clearPerformanceForm() {
+        document.getElementById('performanceTrackingForm').reset();
     }
-
-    // Hàm chỉnh sửa hiệu suất
-    function editPerformance(index) {
-      const performance = performances[index];
-      document.getElementById('internName').value = performance.internName;
-      document.getElementById('performanceMetric').value = performance.performanceMetric;
-      document.getElementById('performanceScore').value = performance.performanceScore;
-      document.getElementById('performanceFeedback').value = performance.performanceFeedback;
-
-      // Xóa hiệu suất cũ khỏi mảng
-      performances.splice(index, 1);
-      updatePerformanceList();
+    
+    // Xóa đánh giá
+    async function deletePerformance(id) {
+        if (!confirm('Bạn chắc chắn muốn xóa?')) return;
+        
+        try {
+            const response = await fetch(`/api/performances/${id}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            });
+            
+            if (response.ok) {
+                loadPerformances();
+            }
+        } catch (error) {
+            alert('Lỗi: ' + error.message);
+        }
     }
-
-    // Hàm xóa form
-    function clearPerformanceTrackingForm() {
-      document.getElementById('performanceTrackingForm').reset();
+    
+    // Sửa đánh giá
+    async function editPerformance(id) {
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      const internId = row.dataset.internId;
+      const metric = row.cells[1].textContent;
+      
+      // Điền dữ liệu vào form
+      document.getElementById('internSelect').value = internId;
+      document.getElementById('performanceMetric').value = metric;
+      document.getElementById('performanceScore').value = row.cells[2].textContent;
+      document.getElementById('performanceFeedback').value = row.cells[3].textContent;
+  
+      // Thay đổi handler submit
+      const form = document.getElementById('performanceTrackingForm');
+      form.onsubmit = async (e) => {
+          e.preventDefault();
+          
+          const formData = {
+              intern_id: document.getElementById('internSelect').value,
+              score: document.getElementById('performanceScore').value,
+              comments: document.getElementById('performanceFeedback').value,
+              evaluation_period: document.getElementById('performanceMetric').value
+          };
+  
+          try {
+              const response = await fetch(`/api/performances/${id}/`, {
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': '{{ csrf_token }}'
+                  },
+                  body: JSON.stringify(formData)
+              });
+  
+              if (response.ok) {
+                  alert('Cập nhật thành công!');
+                  clearPerformanceForm();
+                  loadPerformances(); // Tải lại danh sách đánh giá
+              } else {
+                  const error = await response.json();
+                  alert('Lỗi: ' + error.message);
+              }
+            } catch (error) {
+              alert('Lỗi: ' + error.message);
+            }
+        };
     }
-
-    // Cập nhật danh sách hiệu suất khi trang được tải
-    updatePerformanceList();
   </script>
 </body>
 </html>
