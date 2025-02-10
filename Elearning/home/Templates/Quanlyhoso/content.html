@@ -134,8 +134,25 @@
       <div class="card-body">
         <form id="profileManagementForm">
           <div class="mb-3">
+            <label for="id" class="form-label">Mã nhân viên</label>
+            <input type="text" class="form-control" id="id" placeholder="Nhập mã nhân viên" required>
+          </div>
+          <div class="mb-3">
             <label for="fullName" class="form-label">Họ và tên</label>
             <input type="text" class="form-control" id="fullName" placeholder="Nhập họ và tên" required>
+          </div>
+          <div class="mb-3">
+            <label for="dob" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="dob" placeholder="Nhập họ và tên" required>
+          </div>
+          <div class="mb-3">
+            <label for="gender" class="form-label">Giới tính</label>
+            <select class="form-control" id="gender" required>
+              <option value="" disabled selected>Chọn giới tính</option>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+              <option value="Khác">Khác</option>
+            </select>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -166,13 +183,41 @@
         </form>
 
 
+        <div class="mt-4">
+          <h6>Tìm kiếm</h6>
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <input type="text" id="searchID" class="form-control" placeholder="Tìm theo ID">
+            </div>
+            <div class="col-md-3 mb-3">
+              <input type="text" id="searchName" class="form-control" placeholder="Tìm theo Họ và tên">
+            </div>
+            <div class="col-md-3 mb-3">
+              <input type="date" id="searchDOB" class="form-control" placeholder="Tìm theo ngày sinh">
+            </div>
+            <div class="col-md-2 mb-3">
+              <select id="searchGender" class="form-select">
+                <option value="">Tìm theo Giới tính</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+            </div>
+            <div class="col-md-3" id="searchButtonWrapper">
+              <button class="btn btn-success" onclick="filterProfiles()">Tìm kiếm</button>
+            </div>
+          </div>
+        </div>
+        
         <!-- Danh sách Hồ sơ -->
         <div class="mt-4">
           <h6>Danh sách Hồ sơ</h6>
           <table class="table table-bordered">
             <thead>
               <tr>
+                <th>Mã nhân viên</th>
                 <th>Họ và tên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
                 <th>Email</th>
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
@@ -184,7 +229,10 @@
             <tbody id="profileList">
               <!-- Dữ liệu mẫu -->
               <tr>
+                <th>T01</th>
                 <td>Nguyễn Văn A</td>
+                <td>20/12/2000</td>
+                <td>Nam</td>
                 <td>nguyenvana@example.com</td>
                 <td>0123456789</td>
                 <td>Hà Nội</td>
@@ -196,7 +244,10 @@
                 </td>
               </tr>
               <tr>
+                <th>T02</th>
                 <td>Trần Thị B</td>
+                <td>16/02/2000</td>
+                <td>Nữ</td>
                 <td>tranthib@example.com</td>
                 <td>0987654321</td>
                 <td>TP.HCM</td>
@@ -221,7 +272,10 @@
     // Mảng lưu trữ hồ sơ
     let profiles = [
       {
+        id: "T01",
         fullName: "Nguyễn Văn A",
+        dob: "20/12/2000",
+        gender: "Nam",
         email: "nguyenvana@example.com",
         phone: "0123456789",
         address: "Hà Nội",
@@ -230,7 +284,10 @@
         documents: []
       },
       {
+        id: "T02",
         fullName: "Trần Thị B",
+        dob: "16/02/2000",
+        gender: "Nữ",
         email: "tranthib@example.com",
         phone: "0987654321",
         address: "TP.HCM",
@@ -245,7 +302,10 @@
       event.preventDefault();
 
       // Lấy giá trị từ form
+      const id = document.getElementById('id').value;
       const fullName = document.getElementById('fullName').value;
+      const dob = document.getElementById('dob').value;
+      const gender = document.getElementById('gender').value;
       const email = document.getElementById('email').value;
       const phone = document.getElementById('phone').value;
       const address = document.getElementById('address').value;
@@ -255,7 +315,10 @@
 
       // Thêm hồ sơ vào mảng
       profiles.push({
+        id: id,
         fullName: fullName,
+        dob: dob,
+        gender: gender,
         email: email,
         phone: phone,
         address: address,
@@ -264,6 +327,7 @@
         documents: documents
       });
 
+      localStorage.setItem('profiles', JSON.stringify(profiles));
       // Cập nhật danh sách hồ sơ
       updateProfileList();
 
@@ -282,7 +346,10 @@
       profiles.forEach((profile, index) => {
         const row = `
           <tr>
+            <td>${profile.id}</td>
             <td>${profile.fullName}</td>
+            <td>${profile.dob}</td>
+            <td>${profile.gender}</td>
             <td>${profile.email}</td>
             <td>${profile.phone}</td>
             <td>${profile.address}</td>
@@ -309,7 +376,10 @@
     // Hàm chỉnh sửa hồ sơ
     function editProfile(index) {
       const profile = profiles[index];
+      document.getElementById('id').value = profile.id;
       document.getElementById('fullName').value = profile.fullName;
+      document.getElementById('dob').value = profile.dob;
+      document.getElementById('gender').value = profile.gender;
       document.getElementById('email').value = profile.email;
       document.getElementById('phone').value = profile.phone;
       document.getElementById('address').value = profile.address;
@@ -328,6 +398,54 @@
 
     // Cập nhật danh sách hồ sơ khi trang được tải
     updateProfileList();
+   
+    
+  </script>
+  <script>
+    // Lắng nghe sự kiện tìm kiếm
+    function filterProfiles() {
+      const searchID = document.getElementById('searchID').value;
+      const searchName = document.getElementById('searchName').value.toLowerCase();
+      const searchDOB = document.getElementById('searchDOB').value;
+      const searchGender = document.getElementById('searchGender').value;
+    
+      const filteredProfiles = profiles.filter(profile => {
+        const matchesID = !searchID || profile.id === searchID;
+        const matchesName = !searchName || profile.fullName.toLowerCase().includes(searchName);
+        const matchesDOB = !searchDOB || profile.dob === searchDOB;
+        const matchesGender = !searchGender || profile.gender === searchGender;
+        return matchesID && matchesName && matchesDOB && matchesGender;
+      });
+    
+      displayFilteredProfiles(filteredProfiles);
+    }
+    
+    function displayFilteredProfiles(filteredProfiles) {
+      const profileList = document.getElementById('profileList');
+      profileList.innerHTML = ''; // Xóa nội dung cũ
+    
+      filteredProfiles.forEach((profile, index) => {
+        const row = `
+          <tr>
+            <td>${profile.id}</td>
+            <td>${profile.fullName}</td>
+            <td>${profile.dob}</td>
+            <td>${profile.gender}</td>
+            <td>${profile.email}</td>
+            <td>${profile.phone}</td>
+            <td>${profile.address}</td>
+            <td>${profile.education}</td>
+            <td>${profile.workExperience}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editProfile(${index})">Sửa</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteProfile(${index})">Xóa</button>
+            </td>
+          </tr>
+        `;
+        profileList.innerHTML += row;
+      });
+    }
+    
   </script>
 </body>
 </html>
