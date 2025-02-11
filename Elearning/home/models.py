@@ -221,20 +221,21 @@ class Performance(models.Model):
         ordering = ['-evaluation_date']
 
 class Feedback(models.Model):
-    FEEDBACK_TYPES = [
-        ('positive', 'Tích cực'),
-        ('negative', 'Tiêu cực'),
-        ('neutral', 'Trung lập'),
-    ]
-
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_feedbacks')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_feedbacks')
-    content = models.TextField()
-    feedback_type = models.CharField(max_length=10, choices=FEEDBACK_TYPES)
-    sent_date = models.DateTimeField(auto_now_add=True)
+    # Phản hồi từ thực tập sinh
+    intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="feedbacks")
+    feedback_date = models.DateField(auto_now_add=True, verbose_name="Ngày phản hồi", editable=False)
+    content = models.TextField(verbose_name="Nội dung phản hồi")
+    response = models.TextField(blank=True, null=True, verbose_name="Phản hồi từ quản lý")
+    response_date = models.DateField(blank=True, null=True, verbose_name="Ngày phản hồi")
+    is_resolved = models.BooleanField(default=False, verbose_name="Đã giải quyết", db_index=True)
 
     def __str__(self):
-        return f"Phản hồi từ {self.sender} đến {self.receiver}"
+        return f"Phản hồi từ {self.intern}"
+
+    class Meta:
+        verbose_name = "Phản hồi"
+        verbose_name_plural = "Phản hồi"
+        ordering = ['-feedback_date']
 
 
 class Task(models.Model):
