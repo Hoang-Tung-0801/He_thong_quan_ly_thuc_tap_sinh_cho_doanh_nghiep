@@ -19,7 +19,7 @@ import logging
 from .models import Intern, TrainingProgram, Task, Notification, Performance, Feedback, Department, Project, Attendance, Report, Event,Recruitment,JobPost,Candidate,Interview,CandidateEvaluation,UserPermission,Integration,Report
 from django import forms
 from .utils import get_user_groups_context
-from .forms import RecruitmentForm, InterviewForm, FeedbackForm
+from .forms import RecruitmentForm, InterviewForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -177,26 +177,7 @@ def theodoihieusuat(request):
 
 # Trang giao tiếp và phản hồi (Tất cả người dùng)
 def giaotiepvaphanhoi(request):
-    if request.method == 'POST':
-        form = FeedbackForm(request.POST, user=request.user)
-        if form.is_valid():
-            feedback = form.save(commit=False)
-            feedback.sender = request.user
-            feedback.save()
-            messages.success(request, '✅ Phản hồi đã được gửi thành công!')
-            return redirect('giaotiepvaphanhoi')
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"🚨 {field}: {error}")
-    else:
-        form = FeedbackForm(user=request.user)
-
-    feedbacks = Feedback.objects.all().order_by('-sent_date')
-    context = {
-        'form': form,
-        'feedbacks': feedbacks,
-    }
+    context = get_user_groups_context(request.user)
     return render(request, 'Giaotiepvaphanhoi/giaotiepvaphanhoi.html', context)
 
 # Trang quản lý hồ sơ (chỉ HR, Admin, và Internship Coordinators)
