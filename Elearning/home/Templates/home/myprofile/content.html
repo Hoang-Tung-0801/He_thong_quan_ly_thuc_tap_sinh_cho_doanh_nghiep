@@ -126,7 +126,6 @@
 </head>
 <body>
   <div class="container mt-5">
-    <!-- My Profile -->
     <div class="card">
       <div class="card-header">
         <h5 class="card-title">My Profile</h5>
@@ -136,6 +135,10 @@
           <div class="mb-3">
             <label for="fullName" class="form-label">Họ và tên</label>
             <input type="text" class="form-control" id="fullName" placeholder="Nhập họ và tên" required>
+          </div>
+          <div class="mb-3">
+            <label for="date_of_birth" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="date_of_birth" required>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -153,47 +156,32 @@
             <label for="bio" class="form-label">Giới thiệu bản thân</label>
             <textarea class="form-control" id="bio" rows="3" placeholder="Nhập giới thiệu bản thân"></textarea>
           </div>
-          <div class="mb-3">
-            <label for="avatar" class="form-label">Ảnh đại diện</label>
-            <input type="file" class="form-control" id="avatar">
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Mật khẩu mới</label>
-            <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu mới">
-          </div>
-          <div class="mb-3">
-            <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="Xác nhận mật khẩu">
-          </div>
           <button type="submit" class="btn btn-success">Cập nhật</button>
-          <button type="button" class="btn btn-warning" onclick="clearProfileForm()">Hủy</button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script>
-    // Dữ liệu mẫu cho hồ sơ cá nhân
-    let profile = {
-      fullName: "Nguyễn Văn A",
-      email: "nguyenvana@example.com",
-      phone: "0123456789",
-      address: "Hà Nội",
-      bio: "Xin chào, tôi là Nguyễn Văn A.",
-      avatar: "",
-      password: ""
-    };
-
-    // Hàm điền dữ liệu vào form
-    function fillProfileForm() {
-      document.getElementById('fullName').value = profile.fullName;
-      document.getElementById('email').value = profile.email;
-      document.getElementById('phone').value = profile.phone;
-      document.getElementById('address').value = profile.address;
-      document.getElementById('bio').value = profile.bio;
+    // Hàm lấy thông tin hồ sơ
+    function fetchProfile() {
+      fetch('/get-profile/')
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            document.getElementById('fullName').value = data.data.fullName;
+            document.getElementById('email').value = data.data.email;
+            document.getElementById('phone').value = data.data.phone;
+            document.getElementById('address').value = data.data.address;
+            document.getElementById('date_of_birth').value = data.data.date_of_birth;  // Điền ngày sinh
+            document.getElementById('bio').value = data.data.bio;
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     }
 
     // Hàm cập nhật hồ sơ
@@ -201,40 +189,40 @@
       event.preventDefault();
 
       // Lấy giá trị từ form
-      profile.fullName = document.getElementById('fullName').value;
-      profile.email = document.getElementById('email').value;
-      profile.phone = document.getElementById('phone').value;
-      profile.address = document.getElementById('address').value;
-      profile.bio = document.getElementById('bio').value;
-      profile.avatar = document.getElementById('avatar').files[0];
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
+      const formData = {
+        fullName: document.getElementById('fullName').value,
+        date_of_birth: document.getElementById('date_of_birth').value,  // Lấy ngày sinh
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        bio: document.getElementById('bio').value,
+      };
 
-      // Kiểm tra mật khẩu
-      if (password && password !== confirmPassword) {
-        alert('Mật khẩu xác nhận không khớp!');
-        return;
-      }
-
-      if (password) {
-        profile.password = password;
-      }
-
-      // Thông báo thành công
-      alert('Hồ sơ đã được cập nhật thành công!');
-
-      // Xóa form sau khi cập nhật
-      clearProfileForm();
+      // Gửi dữ liệu đến server
+      fetch('/update-profile/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}' 
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert(data.message);
+          fetchProfile();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     });
 
-    // Hàm xóa form
-    function clearProfileForm() {
-      document.getElementById('profileForm').reset();
-      fillProfileForm(); // Điền lại dữ liệu sau khi xóa
-    }
-
-    // Điền dữ liệu vào form khi trang được tải
-    fillProfileForm();
+    // Gọi hàm fetchProfile khi trang được tải
+    document.addEventListener('DOMContentLoaded', fetchProfile);
   </script>
 </body>
 </html>

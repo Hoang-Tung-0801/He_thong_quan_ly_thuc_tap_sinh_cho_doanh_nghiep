@@ -16,15 +16,17 @@ from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.password_validation import validate_password
 import logging
-from .models import Intern, TrainingProgram, Task, Notification, Performance, Feedback, Department, Project, Attendance, Report, Event,Recruitment,JobPost,Candidate,Interview,CandidateEvaluation,UserPermission,Integration,Report
+from .models import Intern, TrainingProgram, Task, Notification, Performance, Feedback, Department, Project, Attendance, Report, Event,Recruitment,JobPost,Candidate,Interview,CandidateEvaluation,UserPermission,Integration,Report,Communication
 from django import forms
 from .utils import get_user_groups_context
-from .forms import RecruitmentForm, InterviewForm
+from .forms import RecruitmentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .forms import InterviewForm, CommunicationForm
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.db import models
 
 logger = logging.getLogger(__name__)
 
@@ -499,39 +501,41 @@ def feedback_create(request):
 # Quản lý hồ sơ cá nhân
 @login_required
 def update_profile(request):
-    intern = Intern.objects.get(user=request.user)
-    class InternForm(forms.Form):  # Tạo form trực tiếp trong view
-        first_name = forms.CharField(max_length=100, initial=intern.first_name)
-        last_name = forms.CharField(max_length=100, initial=intern.last_name)
-        email = forms.EmailField(initial=intern.email)
-        phone = forms.CharField(max_length=15, initial=intern.phone)
-        address = forms.CharField(widget=forms.Textarea, initial=intern.address)
-        date_of_birth = forms.DateField(initial=intern.date_of_birth)
-        university = forms.CharField(max_length=200, initial=intern.university)
-        major = forms.CharField(max_length=200, initial=intern.major)
-        avatar = forms.ImageField(required=False)
-
     if request.method == 'POST':
-        form = InternForm(request.POST, request.FILES)
-        if form.is_valid():
-            intern.first_name = form.cleaned_data['first_name']
-            intern.last_name = form.cleaned_data['last_name']
-            intern.email = form.cleaned_data['email']
-            intern.phone = form.cleaned_data['phone']
-            intern.address = form.cleaned_data['address']
-            intern.date_of_birth = form.cleaned_data['date_of_birth']
-            intern.university = form.cleaned_data['university']
-            intern.major = form.cleaned_data['major']
-            if form.cleaned_data['avatar']:
-                intern.avatar = form.cleaned_data['avatar']
+        try:
+            data = json.loads(request.body)
+            full_name = data.get('fullName')
+            email = data.get('email')
+            phone = data.get('phone')
+            address = data.get('address')
+            date_of_birth = data.get('date_of_birth')  # Lấy ngày sinh
+            bio = data.get('bio')
+
+            # Validate email
+            try:
+                validate_email(email)
+            except ValidationError:
+                return JsonResponse({'status': 'error', 'message': 'Email không hợp lệ.'}, status=400)
+
+            # Get the intern profile
+            intern = Intern.objects.get(user=request.user)
+
+            # Update profile fields
+            intern.first_name, intern.last_name = full_name.split(' ', 1) if ' ' in full_name else (full_name, '')
+            intern.email = email
+            intern.phone = phone
+            intern.address = address
+            intern.date_of_birth = date_of_birth  # Cập nhật ngày sinh
+            intern.bio = bio
+
             intern.save()
-            messages.success(request, 'Hồ sơ của bạn đã được cập nhật thành công.')
-            return redirect('myprofile')
-    else:
-        form = InternForm()
-    context = get_user_groups_context(request.user)
-    context['form'] = form
-    return render(request, 'home/update_profile.html', context)
+
+            return JsonResponse({'status': 'success', 'message': 'Hồ sơ đã được cập nhật thành công!'})
+
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
 
 @login_required
 def view_badges(request):
@@ -1004,3 +1008,89 @@ def get_active_interns(request):
     interns = Intern.objects.filter(is_active=True)
     data = [{"id": i.id, "name": i.full_name} for i in interns]
     return JsonResponse(data, safe=False)
+
+@login_required
+def communication_feedback(request):
+    # Xử lý form tạo mới
+    if request.method == 'POST':
+        form = CommunicationForm(request.POST)
+        if form.is_valid():
+            communication = form.save(commit=False)
+            communication.sender = request.user
+            communication.save()
+            return JsonResponse({
+                'status': 'success',
+                'data': {
+                    'id': communication.id,
+                    'sender': communication.sender.get_full_name(),
+                    'receiver': communication.receiver.get_full_name(),
+                    'message': communication.message,
+                    'feedback_type': communication.get_feedback_type_display(),
+                    'created_at': communication.created_at.strftime("%Y-%m-%d %H:%M")
+                }
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+
+    # Hiển thị danh sách
+    communications = Communication.objects.filter(
+        models.Q(sender=request.user) | 
+        models.Q(receiver=request.user)
+    ).select_related('sender', 'receiver').order_by('-created_at')
+    
+    return render(request, 'content.html', {
+        'communications': communications,
+        **get_user_groups_context(request.user)
+    })
+
+@login_required
+@require_http_methods(["DELETE"])
+def delete_communication(request, pk):
+    try:
+        communication = Communication.objects.get(
+            pk=pk, 
+            sender=request.user  # Chỉ người gửi mới được xóa
+        )
+        communication.delete()
+        return JsonResponse({'status': 'success'})
+    except Communication.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Không tìm thấy thông tin'}, status=404)
+
+@login_required
+@require_http_methods(["PUT"])
+def update_communication(request, pk):
+    try:
+        communication = Communication.objects.get(pk=pk, sender=request.user)
+        data = json.loads(request.body)
+        form = CommunicationForm(data, instance=communication)
+        
+        if form.is_valid():
+            form.save()
+            return JsonResponse({
+                'status': 'success',
+                'data': {
+                    'id': communication.id,
+                    'receiver': communication.receiver.get_full_name(),
+                    'message': communication.message,
+                    'feedback_type': communication.get_feedback_type_display()
+                }
+            })
+        return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+    except Communication.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Không tìm thấy thông tin'}, status=404)
+    
+@login_required
+def get_profile(request):
+    try:
+        intern = Intern.objects.get(user=request.user)
+        profile_data = {
+            'fullName': f"{intern.first_name} {intern.last_name}",
+            'email': intern.email,
+            'phone': intern.phone,
+            'address': intern.address,
+            'date_of_birth': intern.date_of_birth.strftime('%Y-%m-%d'),  # Định dạng ngày
+            'bio': intern.bio,
+        }
+        return JsonResponse({'status': 'success', 'data': profile_data})
+    except Intern.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Profile not found.'}, status=404)

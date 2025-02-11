@@ -65,6 +65,7 @@ urlpatterns = [
 
     # Quản lý hồ sơ cá nhân
     path('update-profile/', views.update_profile, name='update_profile'),
+    path('get-profile/', views.get_profile, name='get_profile'),
 
     # Quản lý điểm danh
     path('attendances/', views.attendance_list, name='attendance_list'),

@@ -1,7 +1,6 @@
 from django import forms
-from .models import Recruitment,Interview
+from .models import Recruitment,Interview,Communication
 from django.utils import timezone
-from django.contrib.auth.models import User
 
 class RecruitmentForm(forms.ModelForm):
     class Meta:
@@ -21,4 +20,12 @@ class InterviewForm(forms.ModelForm):
         widgets = {
             'interview_date': forms.DateInput(attrs={'type': 'date'}),
             'interview_time': forms.TimeInput(attrs={'type': 'time'}),
+        }
+
+class CommunicationForm(forms.ModelForm):
+    class Meta:
+        model = Communication
+        fields = ['receiver', 'message', 'feedback_type']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
         }
