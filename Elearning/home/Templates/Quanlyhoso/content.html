@@ -227,7 +227,7 @@
               </tr>
             </thead>
             <tbody id="profileList">
-              <!-- Dữ liệu mẫu -->
+             <!-- Dữ liệu mẫu -->
               <tr>
                 <th>T01</th>
                 <td>Nguyễn Văn A</td>
@@ -241,6 +241,7 @@
                 <td>
                   <button class="btn btn-sm btn-primary" onclick="editProfile(0)">Sửa</button>
                   <button class="btn btn-sm btn-danger" onclick="deleteProfile(0)">Xóa</button>
+                  <button class="btn btn-sm btn-info" onclick="viewProfile(0)">Xem chi tiết</button>
                 </td>
               </tr>
               <tr>
@@ -256,10 +257,42 @@
                 <td>
                   <button class="btn btn-sm btn-primary" onclick="editProfile(1)">Sửa</button>
                   <button class="btn btn-sm btn-danger" onclick="deleteProfile(1)">Xóa</button>
+                  <button class="btn btn-sm btn-info" onclick="viewProfile(1)">Xem chi tiết</button>
                 </td>
               </tr>
             </tbody>
           </table>
+         <!-- Modal Xem chi tiết hồ sơ -->
+          <div class="modal fade" id="profileDetailModal" tabindex="-1" aria-labelledby="profileDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="profileDetailModalLabel">Chi tiết hồ sơ</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <p><strong>Mã nhân viên:</strong> <span id="detailId"></span></p>
+                      <p><strong>Họ và tên:</strong> <span id="detailFullName"></span></p>
+                      <p><strong>Ngày sinh:</strong> <span id="detailDOB"></span></p>
+                      <p><strong>Giới tính:</strong> <span id="detailGender"></span></p>
+                      <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                      <p><strong>Số điện thoại:</strong> <span id="detailPhone"></span></p>
+                      <p><strong>Địa chỉ:</strong> <span id="detailAddress"></span></p>
+                      <p><strong>Trình độ học vấn:</strong> <span id="detailEducation"></span></p>
+                      <p><strong>Kinh nghiệm làm việc:</strong> <span id="detailWorkExperience"></span></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -268,6 +301,8 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
     // Mảng lưu trữ hồ sơ
     let profiles = [
@@ -358,6 +393,7 @@
             <td>
               <button class="btn btn-sm btn-primary" onclick="editProfile(${index})">Sửa</button>
               <button class="btn btn-sm btn-danger" onclick="deleteProfile(${index})">Xóa</button>
+              <button class="btn btn-sm btn-info" onclick="viewProfile(${index})">Xem chi tiết</button>
             </td>
           </tr>
         `;
@@ -439,13 +475,33 @@
             <td>
               <button class="btn btn-sm btn-primary" onclick="editProfile(${index})">Sửa</button>
               <button class="btn btn-sm btn-danger" onclick="deleteProfile(${index})">Xóa</button>
+              <button class="btn btn-sm btn-info" onclick="viewProfile(${index})">Xem chi tiết</button>
             </td>
           </tr>
         `;
         profileList.innerHTML += row;
       });
     }
-    
+
+    // Hàm xem chi tiết hồ sơ
+    function viewProfile(index) {
+      const profile = profiles[index]; // Sử dụng mảng profiles toàn cục
+
+      // Điền thông tin vào modal
+      document.getElementById('detailId').textContent = profile.id;
+      document.getElementById('detailFullName').textContent = profile.fullName;
+      document.getElementById('detailDOB').textContent = profile.dob;
+      document.getElementById('detailGender').textContent = profile.gender;
+      document.getElementById('detailEmail').textContent = profile.email;
+      document.getElementById('detailPhone').textContent = profile.phone;
+      document.getElementById('detailAddress').textContent = profile.address;
+      document.getElementById('detailEducation').textContent = profile.education;
+      document.getElementById('detailWorkExperience').textContent = profile.workExperience;
+
+      // Hiển thị modal
+      const profileDetailModal = new bootstrap.Modal(document.getElementById('profileDetailModal'));
+      profileDetailModal.show();
+    }
   </script>
 </body>
 </html>
