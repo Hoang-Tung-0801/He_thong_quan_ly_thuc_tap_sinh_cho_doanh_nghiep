@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recruitment,Interview,Feedback
+from .models import Recruitment,Interview
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -22,17 +22,3 @@ class InterviewForm(forms.ModelForm):
             'interview_date': forms.DateInput(attrs={'type': 'date'}),
             'interview_time': forms.TimeInput(attrs={'type': 'time'}),
         }
-class FeedbackForm(forms.ModelForm):
-    class Meta:
-        model = Feedback
-        fields = ['receiver', 'content', 'feedback_type']
-        widgets = {
-            'content': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
-            'feedback_type': forms.Select(choices=Feedback.FEEDBACK_TYPES),
-        }
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super(FeedbackForm, self).__init__(*args, **kwargs)
-        if user:
-            self.fields['receiver'].queryset = User.objects.exclude(id=user.id)
