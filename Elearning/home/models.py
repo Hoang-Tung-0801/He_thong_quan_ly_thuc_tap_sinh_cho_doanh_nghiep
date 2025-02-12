@@ -556,3 +556,6 @@ class Communication(models.Model):
 
     def __str__(self):
         return f"{self.sender} -> {self.receiver} ({self.get_feedback_type_display()})"
+    
+
+
