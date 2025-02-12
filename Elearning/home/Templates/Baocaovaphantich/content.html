@@ -191,6 +191,24 @@
             </tbody>
           </table>
         </div>
+        <!-- Modal -->
+          <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="detailModalLabel">Chi tiết Phân tích</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p id="detailContent"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="container mt-5">
@@ -215,73 +233,74 @@
             </li>
           </ul>
           <div class="tab-content mt-4">
-
-             <!-- Phân tích Kỹ năng -->
-          <div class="tab-pane fade show active" id="skills" role="tabpanel">
-            <form id="skillsForm">
-              <div class="mb-3">
-                <label for="internNameSkills" class="form-label">Tên Intern</label>
-                <input type="text" class="form-control" id="internNameSkills" placeholder="Nhập tên Intern" required>
-              </div>
-              <div class="mb-3">
-                <label for="skillsAcquired" class="form-label">Kỹ năng đã đạt được</label>
-                <textarea class="form-control" id="skillsAcquired" rows="3" placeholder="Nhập danh sách kỹ năng" required></textarea>
-              </div>
-              <button type="submit" class="btn btn-success">Phân tích Kỹ năng</button>
-            </form>
-          </div>
-
-          <!-- Phân tích Mức độ Tham gia -->
-          <div class="tab-pane fade" id="student-participation" role="tabpanel">
-            <form id="studentParticipationForm">
-              <div class="mb-3">
-                <label for="studentName" class="form-label">Tên Intern</label>
-                <input type="text" class="form-control" id="studentName" placeholder="Nhập tên Intern" required>
-              </div>
-              <div class="mb-3">
-                <label for="participationSessions" class="form-label">Số buổi tham gia</label>
-                <input type="number" class="form-control" id="participationSessions" placeholder="Nhập số buổi" required min="0">
-              </div>
-              <div class="mb-3">
-                <label for="totalSessions" class="form-label">Tổng số buổi</label>
-                <input type="number" class="form-control" id="totalSessions" placeholder="Nhập tổng số buổi" required min="1">
-              </div>
-              <button type="submit" class="btn btn-success">Phân tích mức độ chuyên cần</button>
-            </form>
-          </div>
-
-           <!-- Phân tích Hiệu suất Intern -->
-           <div class="tab-pane fade" id="intern-performance" role="tabpanel">
-            <form id="internPerformanceForm">
-              <div class="mb-3">
-                <label for="internName" class="form-label">Tên Intern</label>
-                <input type="text" class="form-control" id="internName" placeholder="Nhập tên Intern" required>
-              </div>
-              <div class="mb-3">
-                <label for="assignedTasks" class="form-label">Số công việc được giao</label>
-                <input type="number" class="form-control" id="assignedTasks" placeholder="Nhập số công việc" required min="1">
-              </div>
-              <div class="mb-3">
-                <label for="completedTasks" class="form-label">Số công việc đã hoàn thành</label>
-                <input type="number" class="form-control" id="completedTasks" placeholder="Nhập số công việc hoàn thành" required min="0">
-              </div>
-              <button type="submit" class="btn btn-success">Phân tích Hiệu suất</button>
-            </form>
-          </div>
-
-          <!-- Phản hồi Từ Intern -->
-          <div class="tab-pane fade" id="intern-feedback" role="tabpanel">
-            <form id="internFeedbackForm">
-              <div class="mb-3">
-                <label for="internNameFeedback" class="form-label">Tên Intern</label>
-                <input type="text" class="form-control" id="internNameFeedback" placeholder="Nhập tên Intern" required>
-              </div>
-              <div class="mb-3">
-                <label for="internComments" class="form-label">Phản hồi của Intern</label>
-                <textarea class="form-control" id="internComments" rows="3" placeholder="Nhập phản hồi" required></textarea>
-              </div>
-              <button type="submit" class="btn btn-success">Phân tích Phản hồi</button>
-            </form>
+        
+            <!-- Phân tích Kỹ năng -->
+            <div class="tab-pane fade show active" id="skills" role="tabpanel">
+              <form id="skillsForm">
+                <div class="mb-3">
+                  <label for="internNameSkills" class="form-label">Tên Intern</label>
+                  <input type="text" class="form-control" id="internNameSkills" placeholder="Nhập tên Intern" required>
+                </div>
+                <div class="mb-3">
+                  <label for="skillsAcquired" class="form-label">Kỹ năng đã đạt được</label>
+                  <textarea class="form-control" id="skillsAcquired" rows="3" placeholder="Nhập danh sách kỹ năng" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Phân tích Kỹ năng</button>
+              </form>
+            </div>
+        
+            <!-- Phân tích Mức độ Tham gia -->
+            <div class="tab-pane fade" id="student-participation" role="tabpanel">
+              <form id="studentParticipationForm">
+                <div class="mb-3">
+                  <label for="studentName" class="form-label">Tên Intern</label>
+                  <input type="text" class="form-control" id="studentName" placeholder="Nhập tên Intern" required>
+                </div>
+                <div class="mb-3">
+                  <label for="participationSessions" class="form-label">Số buổi tham gia</label>
+                  <input type="number" class="form-control" id="participationSessions" placeholder="Nhập số buổi" required min="0">
+                </div>
+                <div class="mb-3">
+                  <label for="totalSessions" class="form-label">Tổng số buổi</label>
+                  <input type="number" class="form-control" id="totalSessions" placeholder="Nhập tổng số buổi" required min="1">
+                </div>
+                <button type="submit" class="btn btn-success">Phân tích mức độ chuyên cần</button>
+              </form>
+            </div>
+        
+            <!-- Phân tích Hiệu suất Intern -->
+            <div class="tab-pane fade" id="intern-performance" role="tabpanel">
+              <form id="internPerformanceForm">
+                <div class="mb-3">
+                  <label for="internName" class="form-label">Tên Intern</label>
+                  <input type="text" class="form-control" id="internName" placeholder="Nhập tên Intern" required>
+                </div>
+                <div class="mb-3">
+                  <label for="assignedTasks" class="form-label">Số công việc được giao</label>
+                  <input type="number" class="form-control" id="assignedTasks" placeholder="Nhập số công việc" required min="1">
+                </div>
+                <div class="mb-3">
+                  <label for="completedTasks" class="form-label">Số công việc đã hoàn thành</label>
+                  <input type="number" class="form-control" id="completedTasks" placeholder="Nhập số công việc hoàn thành" required min="0">
+                </div>
+                <button type="submit" class="btn btn-success">Phân tích Hiệu suất</button>
+              </form>
+            </div>
+        
+            <!-- Phản hồi Từ Intern -->
+            <div class="tab-pane fade" id="intern-feedback" role="tabpanel">
+              <form id="internFeedbackForm">
+                <div class="mb-3">
+                  <label for="internNameFeedback" class="form-label">Tên Intern</label>
+                  <input type="text" class="form-control" id="internNameFeedback" placeholder="Nhập tên Intern" required>
+                </div>
+                <div class="mb-3">
+                  <label for="internComments" class="form-label">Phản hồi của Intern</label>
+                  <textarea class="form-control" id="internComments" rows="3" placeholder="Nhập phản hồi" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Phân tích Phản hồi</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -405,6 +424,44 @@
 
     function clearReportAnalysisForm() {
       document.getElementById('reportAnalysisForm').reset();
+    }
+
+    function updateReportAnalysisList() {
+      const reportAnalysisList = document.getElementById('reportAnalysisList');
+      reportAnalysisList.innerHTML = ''; // Xóa nội dung cũ
+    
+      reports.forEach((report, index) => {
+        const row = `
+          <tr>
+            <td>${report.reportType}</td>
+            <td>${report.reportPeriod}</td>
+            <td>${report.reportDetails}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editReportAnalysis(${index})">Sửa</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteReportAnalysis(${index})">Xóa</button>
+              <button class="btn btn-sm btn-info" onclick="viewReportDetails(${index})">Xem Chi tiết</button>
+            </td>
+          </tr>
+        `;
+        reportAnalysisList.innerHTML += row;
+      });
+    
+      // Gọi hàm để vẽ biểu đồ
+      drawReportChart();
+    }
+
+    function viewReportDetails(index) {
+      const report = reports[index];
+      const detailContent = `
+        <strong>Loại báo cáo:</strong> ${report.reportType}<br>
+        <strong>Kỳ báo cáo:</strong> ${report.reportPeriod}<br>
+        <strong>Chi tiết:</strong> ${report.reportDetails}
+      `;
+      document.getElementById('detailContent').innerHTML = detailContent;
+    
+      // Hiển thị modal
+      const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+      modal.show();
     }
   </script>
 
