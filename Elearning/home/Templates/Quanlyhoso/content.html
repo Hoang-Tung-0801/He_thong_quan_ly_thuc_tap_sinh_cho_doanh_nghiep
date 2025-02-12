@@ -10,6 +10,7 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <!-- Custom CSS -->
+  
   <style>
     /* Dark Mode Placeholder Styles */
     .dark-mode ::placeholder {
@@ -123,6 +124,7 @@
         color: #ffffff;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="container mt-5">
@@ -143,7 +145,7 @@
           </div>
           <div class="mb-3">
             <label for="dob" class="form-label">Ngày sinh</label>
-            <input type="date" class="form-control" id="dob" placeholder="Nhập họ và tên" required>
+            <input type="date" class="form-control" id="dob" placeholder="Nhập ngày sinh" required>
           </div>
           <div class="mb-3">
             <label for="gender" class="form-label">Giới tính</label>
@@ -241,7 +243,6 @@
                 <td>
                   <button class="btn btn-sm btn-primary" onclick="editProfile(0)">Sửa</button>
                   <button class="btn btn-sm btn-danger" onclick="deleteProfile(0)">Xóa</button>
-                  <button class="btn btn-sm btn-info" onclick="viewProfile(0)">Xem chi tiết</button>
                 </td>
               </tr>
               <tr>
@@ -257,41 +258,12 @@
                 <td>
                   <button class="btn btn-sm btn-primary" onclick="editProfile(1)">Sửa</button>
                   <button class="btn btn-sm btn-danger" onclick="deleteProfile(1)">Xóa</button>
-                  <button class="btn btn-sm btn-info" onclick="viewProfile(1)">Xem chi tiết</button>
                 </td>
               </tr>
             </tbody>
           </table>
-         <!-- Modal Xem chi tiết hồ sơ -->
-          <div class="modal fade" id="profileDetailModal" tabindex="-1" aria-labelledby="profileDetailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="profileDetailModalLabel">Chi tiết hồ sơ</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <p><strong>Mã nhân viên:</strong> <span id="detailId"></span></p>
-                      <p><strong>Họ và tên:</strong> <span id="detailFullName"></span></p>
-                      <p><strong>Ngày sinh:</strong> <span id="detailDOB"></span></p>
-                      <p><strong>Giới tính:</strong> <span id="detailGender"></span></p>
-                      <p><strong>Email:</strong> <span id="detailEmail"></span></p>
-                    </div>
-                    <div class="col-md-6">
-                      <p><strong>Số điện thoại:</strong> <span id="detailPhone"></span></p>
-                      <p><strong>Địa chỉ:</strong> <span id="detailAddress"></span></p>
-                      <p><strong>Trình độ học vấn:</strong> <span id="detailEducation"></span></p>
-                      <p><strong>Kinh nghiệm làm việc:</strong> <span id="detailWorkExperience"></span></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>
-              </div>
-            </div>
+          <div class="mt-4">
+            <button class="btn btn-primary" onclick="exportToExcel()">Xuất danh sách ra Excel</button>
           </div>
         </div>
       </div>
@@ -301,7 +273,6 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     // Mảng lưu trữ hồ sơ
@@ -332,6 +303,12 @@
       }
     ];
 
+    // Hàm định dạng ngày
+    function formatDate(dateString) {
+      const dateParts = dateString.split('-'); // Tách chuỗi ngày
+      return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`; // Trả về định dạng dd/mm/yyyy
+    }
+
     // Hàm thêm hồ sơ
     document.getElementById('profileManagementForm').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -339,7 +316,7 @@
       // Lấy giá trị từ form
       const id = document.getElementById('id').value;
       const fullName = document.getElementById('fullName').value;
-      const dob = document.getElementById('dob').value;
+      const dob = document.getElementById('dob').value; // Ngày sinh ở định dạng yyyy-mm-dd
       const gender = document.getElementById('gender').value;
       const email = document.getElementById('email').value;
       const phone = document.getElementById('phone').value;
@@ -348,11 +325,14 @@
       const workExperience = document.getElementById('workExperience').value;
       const documents = document.getElementById('documents').files;
 
+      // Định dạng ngày sinh trước khi lưu vào mảng
+      const formattedDob = formatDate(dob); // Định dạng ngày sinh
+
       // Thêm hồ sơ vào mảng
       profiles.push({
         id: id,
         fullName: fullName,
-        dob: dob,
+        dob: formattedDob, // Lưu ngày đã định dạng
         gender: gender,
         email: email,
         phone: phone,
@@ -383,7 +363,7 @@
           <tr>
             <td>${profile.id}</td>
             <td>${profile.fullName}</td>
-            <td>${profile.dob}</td>
+            <td>${profile.dob}</td> <!-- Ngày sinh đã được định dạng -->
             <td>${profile.gender}</td>
             <td>${profile.email}</td>
             <td>${profile.phone}</td>
@@ -393,13 +373,15 @@
             <td>
               <button class="btn btn-sm btn-primary" onclick="editProfile(${index})">Sửa</button>
               <button class="btn btn-sm btn-danger" onclick="deleteProfile(${index})">Xóa</button>
-              <button class="btn btn-sm btn-info" onclick="viewProfile(${index})">Xem chi tiết</button>
             </td>
           </tr>
         `;
         profileList.innerHTML += row;
       });
     }
+
+    // Cập nhật danh sách hồ sơ khi trang được tải
+    updateProfileList();
 
     // Hàm xóa hồ sơ
     function deleteProfile(index) {
@@ -475,7 +457,6 @@
             <td>
               <button class="btn btn-sm btn-primary" onclick="editProfile(${index})">Sửa</button>
               <button class="btn btn-sm btn-danger" onclick="deleteProfile(${index})">Xóa</button>
-              <button class="btn btn-sm btn-info" onclick="viewProfile(${index})">Xem chi tiết</button>
             </td>
           </tr>
         `;
@@ -483,25 +464,37 @@
       });
     }
 
-    // Hàm xem chi tiết hồ sơ
-    function viewProfile(index) {
-      const profile = profiles[index]; // Sử dụng mảng profiles toàn cục
-
-      // Điền thông tin vào modal
-      document.getElementById('detailId').textContent = profile.id;
-      document.getElementById('detailFullName').textContent = profile.fullName;
-      document.getElementById('detailDOB').textContent = profile.dob;
-      document.getElementById('detailGender').textContent = profile.gender;
-      document.getElementById('detailEmail').textContent = profile.email;
-      document.getElementById('detailPhone').textContent = profile.phone;
-      document.getElementById('detailAddress').textContent = profile.address;
-      document.getElementById('detailEducation').textContent = profile.education;
-      document.getElementById('detailWorkExperience').textContent = profile.workExperience;
-
-      // Hiển thị modal
-      const profileDetailModal = new bootstrap.Modal(document.getElementById('profileDetailModal'));
-      profileDetailModal.show();
+    function exportToExcel() {
+      // Tạo một workbook mới
+      const wb = XLSX.utils.book_new();
+      
+      // Chuyển đổi dữ liệu hồ sơ thành định dạng sheet
+      const wsData = profiles.map(profile => [
+        profile.id,
+        profile.fullName,
+        profile.dob,
+        profile.gender,
+        profile.email,
+        profile.phone,
+        profile.address,
+        profile.education,
+        profile.workExperience
+      ]);
+    
+      // Thêm tiêu đề cho sheet
+      wsData.unshift(["Mã nhân viên", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Số điện thoại", "Địa chỉ", "Trình độ học vấn", "Kinh nghiệm làm việc"]);
+    
+      // Tạo sheet từ dữ liệu
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+    
+      // Thêm sheet vào workbook
+      XLSX.utils.book_append_sheet(wb, ws, "Hồ sơ");
+    
+      // Xuất file Excel
+      XLSX.writeFile(wb, "ho_so.xlsx");
     }
+
+    updateProfileList();
   </script>
 </body>
 </html>
