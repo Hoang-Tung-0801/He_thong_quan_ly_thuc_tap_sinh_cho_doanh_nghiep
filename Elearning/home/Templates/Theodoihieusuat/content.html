@@ -80,6 +80,16 @@
                     <label for="performanceFeedback" class="form-label">Nhận xét</label>
                     <textarea class="form-control" id="performanceFeedback" rows="3" placeholder="Nhập nhận xét chi tiết"></textarea>
                 </div>
+                <div class="mb-3">
+                  <label for="performanceRating" class="form-label">Đánh giá</label>
+                  <select class="form-select" id="performanceRating" required>
+                      <option value="1">Rất kém</option>
+                      <option value="2">Kém</option>
+                      <option value="3" selected>Trung bình</option>
+                      <option value="4">Tốt</option>
+                      <option value="5">Xuất sắc</option>
+                  </select>
+              </div>
                 <button type="submit" class="btn btn-success">Lưu</button>
                 <button type="button" class="btn btn-warning" onclick="clearPerformanceForm()">Hủy</button>
             </form>
@@ -92,6 +102,7 @@
                             <th>Kỳ đánh giá</th>
                             <th>Điểm</th>
                             <th>Nhận xét</th>
+                            <th>Đánh giá</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
@@ -119,21 +130,82 @@
         });
     }
 
+    async function deletePerformance(id) {
+      if (confirm('Bạn có chắc chắn muốn xóa đánh giá này không?')) {
+          try {
+              const response = await fetch(`/api/performances/${id}/`, {
+                  method: 'DELETE',
+                  headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                });
+                if (response.ok) {
+                  alert('Đánh giá đã được xóa thành công!');
+                  loadPerformances(); // Tải lại danh sách đánh giá
+                } else {
+                  alert('Lỗi khi xóa đánh giá.');
+                }
+            } catch (error) {
+              alert('Lỗi: ' + error.message);
+            }
+        }
+    }
+
+    async function editPerformance(id) {
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      const internId = row.getAttribute('data-intern-id');
+      const score = row.cells[2].textContent;
+      const feedback = row.cells[3].textContent;
+  
+      // Điền thông tin vào form
+      document.getElementById('internSelect').value = internId;
+      document.getElementById('performanceScore').value = score;
+      document.getElementById('performanceFeedback').value = feedback;
+  
+      // Thay đổi hành động của form thành PUT
+      document.getElementById('performanceTrackingForm').onsubmit = async (e) => {
+          e.preventDefault();
+          const formData = {
+              intern_id: internId,
+              score: document.getElementById('performanceScore').value,
+              comments: document.getElementById('performanceFeedback').value,
+              rating: document.getElementById('performanceRating').value, // Lấy giá trị đánh giá
+              evaluation_period: "Hàng tuần" // Hoặc giá trị bạn muốn
+          };
+          try {
+              const response = await fetch(`/api/performances/${id}/`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                  body: JSON.stringify(formData)
+              });
+              if (response.ok) {
+                  alert('Cập nhật thành công!');
+                  clearPerformanceForm();
+                  loadPerformances(); // Tải lại danh sách đánh giá
+              } else {
+                  alert('Lỗi khi cập nhật đánh giá.');
+              }
+          } catch (error) {
+              alert('Lỗi: ' + error.message);
+          }
+      };
+    }
+
+
     async function loadPerformances() {
-        const response = await fetch('/api/performances/');
-        const performances = await response.json();
-        const tbody = document.getElementById('performanceList');
-        tbody.innerHTML = performances.map(perf => `
-            <tr data-id="${perf.id}" data-intern-id="${perf.intern_id}">
-                <td>${perf.intern_name}</td>
-                <td>${perf.metric}</td>
-                <td>${perf.score}</td>
-                <td>${perf.feedback}</td>
-                <td>
-                    <button class="btn btn-sm btn-primary" onclick="editPerformance(${perf.id})">Sửa</button>
-                    <button class="btn btn-sm btn-danger" onclick="deletePerformance(${perf.id})">Xóa</button>
-                </td>
-            </tr>`).join('');
+      const response = await fetch('/api/performances/');
+      const performances = await response.json();
+      const tbody = document.getElementById('performanceList');
+      tbody.innerHTML = performances.map(perf => `
+          <tr data-id="${perf.id}" data-intern-id="${perf.intern_id}">
+              <td>${perf.intern_name}</td>
+              <td>${perf.metric}</td>
+              <td>${perf.score}</td>
+              <td>${perf.feedback}</td>
+              <td>${perf.rating_text}</td> <!-- Hiển thị đánh giá dưới dạng văn bản -->
+              <td>
+                  <button class="btn btn-sm btn-primary" onclick="editPerformance(${perf.id})">Sửa</button>
+                  <button class="btn btn-sm btn-danger" onclick="deletePerformance(${perf.id})">Xóa</button>
+              </td>
+          </tr>`).join('');
     }
 
     document.getElementById('performanceTrackingForm').addEventListener('submit', async (e) => {

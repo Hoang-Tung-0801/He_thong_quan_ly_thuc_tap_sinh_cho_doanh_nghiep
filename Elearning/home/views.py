@@ -939,7 +939,9 @@ def performance_api(request):
             "intern_name": p.intern.full_name,
             "metric": p.evaluation_period,
             "score": float(p.score),
-            "feedback": p.comments
+            "feedback": p.comments,
+            "rating": p.rating,
+            "rating_text": get_rating_text(p.rating)
         } for p in performances]
         return JsonResponse(data, safe=False)
     
@@ -962,6 +964,16 @@ def performance_api(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
+def get_rating_text(rating):
+    rating_dict = {
+        1: 'Rất kém',
+        2: 'Kém',
+        3: 'Trung bình',
+        4: 'Tốt',
+        5: 'Xuất sắc'
+    }
+    return rating_dict.get(rating, 'Chưa đánh giá')
+
 @login_required
 @require_http_methods(["PUT", "DELETE"])
 def performance_detail_api(request, pk):
@@ -975,6 +987,7 @@ def performance_detail_api(request, pk):
             data = json.loads(request.body)
             new_intern_id = data.get('intern_id')
             new_period = data.get('evaluation_period')
+            rating = data.get('rating')  # Lấy giá trị đánh giá
             
             # Kiểm tra trùng lặp với intern và period mới
             if Performance.objects.filter(
@@ -992,6 +1005,7 @@ def performance_detail_api(request, pk):
             performance.score = data.get('score')
             performance.comments = data.get('comments')
             performance.evaluation_period = new_period
+            performance.rating = rating  # Cập nhật đánh giá
             performance.save()
             
             return JsonResponse({"status": "success"})
