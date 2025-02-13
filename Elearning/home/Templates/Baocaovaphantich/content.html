@@ -122,6 +122,25 @@
         background-color: #1e1e1e;
         color: #ffffff;
     }
+
+    button {
+      background-color: #4CAF50; /* Màu nền xanh lá cây */
+      color: white; /* Màu chữ trắng */
+      border: none; /* Không có viền */
+      padding: 10px 20px; /* Khoảng cách bên trong */
+      text-align: center; /* Căn giữa chữ */
+      text-decoration: none; /* Không có gạch chân */
+      display: inline-block; /* Hiển thị inline */
+      font-size: 16px; /* Kích thước chữ */
+      margin: 4px 2px; /* Khoảng cách giữa các nút */
+      cursor: pointer; /* Con trỏ chuột khi di chuột qua */
+      border-radius: 5px; /* Bo góc */
+  }
+  
+  button:hover {
+      background-color: #45a049; /* Màu nền khi di chuột qua */
+  }
+    
   </style>
   
 </head>
@@ -190,6 +209,7 @@
               </tr>
             </tbody>
           </table>
+          <button id="exportExcelBtn" class="btn btn-success mt-3">Xuất ra Excel</button>
         </div>
         <!-- Modal -->
           <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -298,6 +318,13 @@
           </div>
         </div>
         <button class="btn btn-info" id="viewAllBtn">Xem tất cả</button>
+        <button id="exportBtn">Xuất file Word</button>
+        <div id="allContent" style="display:none;">
+            <div id="allSkillsContent"></div>
+            <div id="allParticipationContent"></div>
+            <div id="allPerformanceContent"></div>
+            <div id="allFeedbackContent"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -305,6 +332,7 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
   <script>
     // Mảng lưu trữ báo cáo và phân tích
     let reports = [
@@ -506,7 +534,78 @@
     allFeedbackContent.innerHTML = `<strong>Phản hồi của Intern:</strong><br>Phản hồi: ${internComments}`;
 
     allContent.style.display = 'block'; // Hiển thị phần nội dung tất cả
+
   });
+
+    function exportToWord() {
+      const allSkillsContent = document.getElementById('allSkillsContent').innerHTML;
+      const allParticipationContent = document.getElementById('allParticipationContent').innerHTML;
+      const allPerformanceContent = document.getElementById('allPerformanceContent').innerHTML;
+      const allFeedbackContent = document.getElementById('allFeedbackContent').innerHTML;
+
+      const content = `
+          <html>
+              <head>
+                  <meta charset="utf-8">
+                  <title>Intern Report</title>
+              </head>
+              <body>
+                  <h1>Báo cáo Intern</h1>
+                  ${allSkillsContent}
+                  <br>
+                  ${allParticipationContent}
+                  <br>
+                  ${allPerformanceContent}
+                  <br>
+                  ${allFeedbackContent}
+              </body>
+          </html>
+      `;
+
+      const blob = new Blob([content], {
+          type: 'application/msword'
+      });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Phan_tich_chi_tiet_intern.doc';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  }
+
+  // Thêm sự kiện cho nút xuất file
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    exportToWord();
+  });
+
+  document.getElementById('exportExcelBtn').addEventListener('click', function() {
+    // Lấy dữ liệu từ bảng
+    const table = document.getElementById('reportAnalysisList');
+    const rows = Array.from(table.rows);
+    
+    // Tạo một mảng để chứa dữ liệu, bỏ cột cuối cùng (Hành động)
+    const data = rows.map(row => {
+        const cells = Array.from(row.cells);
+        return cells.slice(0, -1).map(cell => cell.innerText); // Bỏ cột cuối cùng
+    });
+
+    // Thêm tiêu đề của bảng (nếu cần)
+    const headers = ["Loại báo cáo", "Kỳ báo cáo", "Chi tiết"];
+    data.unshift(headers);
+
+    // Tạo workbook và worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(data);
+
+    // Thêm worksheet vào workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Báo cáo");
+
+    // Xuất file Excel
+    XLSX.writeFile(wb, "bao_cao.xlsx");
+});
+
   </script>
 
 </body>
