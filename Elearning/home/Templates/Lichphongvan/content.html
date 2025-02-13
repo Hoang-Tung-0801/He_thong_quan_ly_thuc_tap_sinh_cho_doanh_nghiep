@@ -4,32 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý Tuyển dụng</title>
+  <title>Quản lý Lịch Phỏng vấn</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <!-- Custom CSS -->
   <style>
-    /* Dark Mode Placeholder Styles */
-    .dark-mode ::placeholder {
-        color: #a0a0a0;
-        opacity: 1;
-    }
-
-    .dark-mode :-ms-input-placeholder {
-        color: #a0a0a0;
-    }
-
-    .dark-mode ::-ms-input-placeholder {
-        color: #a0a0a0;
-    }
     body {
       background-color: #f8f9fa;
       font-family: 'Arial', sans-serif;
       transition: background-color 0.3s, color 0.3s;
     }
-    body.dark-mode {
+    .dark-mode {
       background-color: #121212;
       color: #ffffff;
     }
@@ -37,48 +24,15 @@
       border: none;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
       transition: background-color 0.3s, color 0.3s;
     }
     .dark-mode .card {
       background-color: #1e1e1e;
-      color: #ffffff;
     }
-    .card-header {
-      background-color: #007bff;
-      color: white;
-      border-radius: 10px 10px 0 0;
-      padding: 15px;
-    }
-    .dark-mode .card-header {
-      background-color: #0d6efd;
-    }
-    .btn-success {
-      background-color: #28a745;
-      border: none;
-      padding: 10px 20px;
+    .form-control, .form-select {
       border-radius: 5px;
-      transition: background-color 0.3s;
     }
-    .btn-success:hover {
-      background-color: #218838;
-    }
-    .btn-warning {
-      background-color: #ffc107;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-    .btn-warning:hover {
-      background-color: #e0a800;
-    }
-    .form-control {
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      padding: 10px;
-    }
-    .dark-mode .form-control {
+    .dark-mode .form-control, .dark-mode .form-select {
       background-color: #2d2d2d;
       border-color: #444;
       color: #ffffff;
@@ -87,60 +41,52 @@
       border-color: #007bff;
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
-    .form-label {
-      font-weight: bold;
-      color: #333;
+    .btn-success:hover {
+      background-color: #218838;
     }
-    .dark-mode .form-label {
-      color: #ffffff;
-    }
-    .form-check-label {
-      color: #555;
-    }
-    .dark-mode .form-check-label {
-      color: #ffffff;
-    }
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    .dropdown-menu {
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Dark Mode Styles for Select Options */
-    .dark-mode .form-select {
-        background-color: #2d2d2d;
-        border-color: #444;
-        color: #ffffff;
-    }
-
-    .dark-mode .form-select option {
-        background-color: #1e1e1e;
-        color: #ffffff;
+    .btn-warning:hover {
+      background-color: #e0a800;
     }
   </style>
 </head>
 <body>
   <div class="container mt-5">
-    <!-- Lịch Phỏng vấn -->
     <div class="card">
-        <div class="card-header">
-            <h5 class="card-title">Lịch Phỏng vấn</h5>
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title">Quản lý Lịch Phỏng vấn</h5>
         </div>
         <div class="card-body">
-            <!-- Form lên lịch phỏng vấn -->
-            <form method="post" action="{% url 'schedule_interview' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-success">Lên Lịch</button>
-                <button type="button" class="btn btn-warning" onclick="clearInterviewForm()">Hủy</button>
-            </form>
-
-            <!-- Danh sách lịch phỏng vấn -->
+          <form id="interviewScheduleForm">
+            <div class="mb-3">
+                <label for="interviewDate" class="form-label">Ngày Phỏng vấn</label>
+                <input type="date" class="form-control" id="interviewDate" required>
+            </div>
+            <div class="mb-3">
+                <label for="interviewTime" class="form-label">Thời gian Phỏng vấn</label>
+                <input type="time" class="form-control" id="interviewTime" required>
+            </div>
+            <div class="mb-3">
+                <label for="interviewCandidate" class="form-label">Ứng viên</label>
+                <select class="form-select" id="interviewCandidate" required>
+                    <option value="">Chọn ứng viên</option>
+                    <!-- Các ứng viên sẽ được tải vào đây -->
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="interviewLocation" class="form-label">Địa điểm</label>
+                <input type="text" class="form-control" id="interviewLocation" placeholder="Nhập địa điểm phỏng vấn" required>
+            </div>
+            <div class="mb-3">
+                <label for="interviewNotes" class="form-label">Ghi chú</label>
+                <textarea class="form-control" id="interviewNotes" rows="3" placeholder="Nhập ghi chú (nếu có)"></textarea>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="sendNotification">
+                <label class="form-check-label" for="sendNotification">Gửi thông báo qua email/SMS</label>
+            </div>     
+            <button type="submit" class="btn btn-success" id="submitButton">Lên Lịch</button>
+            <button type="button" class="btn btn-warning" onclick="clearInterviewForm()">Hủy</button>
+        </form>
             <div class="mt-4">
                 <h6>Danh sách Lịch Phỏng vấn</h6>
                 <table class="table table-bordered">
@@ -151,153 +97,165 @@
                             <th>Ứng viên</th>
                             <th>Người phỏng vấn</th>
                             <th>Địa điểm</th>
-                            <th>Trạng thái</th>
+                            <th>Ghi chú</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {% for interview in interviews %}
-                        <tr>
-                            <td>{{ interview.interview_date }}</td>
-                            <td>{{ interview.interview_time }}</td>
-                            <td>{{ interview.candidate.name }}</td>
-                            <td>{{ interview.interviewer.username }}</td>
-                            <td>{{ interview.location }}</td>
-                            <td>{{ interview.status }}</td>
-                            <td>
-                                <a href="{% url 'edit_interview' interview.pk %}" class="btn btn-sm btn-primary">Sửa</a>
-                                <form action="{% url 'delete_interview' interview.pk %}" method="post" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  <!-- Bootstrap JS and dependencies -->
+                    <tbody id="interviewList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script>
-    // Mảng lưu trữ lịch phỏng vấn
-    let interviews = [
-      {
-        date: "2023-10-15",
-        time: "10:00",
-        candidate: "Nguyễn Văn A",
-        interviewer: "Trần Thị B",
-        location: "Phòng họp A",
-        notes: "",
-        status: "Đã lên lịch",
-        notification: "Chưa gửi"
-      },
-      {
-        date: "2023-10-16",
-        time: "14:00",
-        candidate: "Lê Văn C",
-        interviewer: "Phạm Thị D",
-        location: "Phòng họp B",
-        notes: "",
-        status: "Đã lên lịch",
-        notification: "Chưa gửi"
-      }
-    ];
-
-    // Hàm thêm lịch phỏng vấn
-    document.getElementById('interviewScheduleForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      // Lấy giá trị từ form
-      const interviewDate = document.getElementById('interviewDate').value;
-      const interviewTime = document.getElementById('interviewTime').value;
-      const interviewCandidate = document.getElementById('interviewCandidate').value;
-      const interviewer = document.getElementById('interviewer').value;
-      const interviewLocation = document.getElementById('interviewLocation').value;
-      const interviewNotes = document.getElementById('interviewNotes').value;
-      const sendNotification = document.getElementById('sendNotification').checked;
-
-      // Thêm lịch phỏng vấn vào mảng
-      interviews.push({
-        date: interviewDate,
-        time: interviewTime,
-        candidate: interviewCandidate,
-        interviewer: interviewer,
-        location: interviewLocation,
-        notes: interviewNotes,
-        status: "Đã lên lịch",
-        notification: sendNotification ? "Đã gửi" : "Chưa gửi"
-      });
-
-      // Cập nhật danh sách lịch phỏng vấn
-      updateInterviewList();
-
-      // Thông báo thành công
-      alert('Lịch phỏng vấn đã được lên thành công!');
-
-      // Xóa form sau khi thêm
-      clearInterviewForm();
+    let isEditMode = false;
+    let currentEditId = null;
+    document.addEventListener('DOMContentLoaded', function() {
+      loadCandidates(); // Tải danh sách ứng viên
+      loadInterviews(); // Tải danh sách lịch phỏng vấn
+  });
+  
+  async function loadCandidates() {
+    const response = await fetch('/api/get-candidates/');
+    const candidates = await response.json();
+    const select = document.getElementById('interviewCandidate');
+    select.innerHTML = '<option value="">Chọn ứng viên</option>';
+    candidates.forEach(candidate => {
+        const option = document.createElement('option');
+        option.value = candidate.id;
+        option.textContent = candidate.name;
+        select.appendChild(option);
     });
-
-    // Hàm cập nhật danh sách lịch phỏng vấn
-    function updateInterviewList() {
-      const interviewList = document.getElementById('interviewList');
-      interviewList.innerHTML = ''; // Xóa nội dung cũ
-
-      interviews.forEach((interview, index) => {
-        const row = `
-          <tr>
-            <td>${interview.date}</td>
-            <td>${interview.time}</td>
-            <td>${interview.candidate}</td>
-            <td>${interview.interviewer}</td>
-            <td>${interview.location}</td>
-            <td>${interview.status}</td>
-            <td>
-              <button class="btn btn-sm btn-primary" onclick="editInterview(${index})">Sửa</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteInterview(${index})">Xóa</button>
-            </td>
-          </tr>
-        `;
-        interviewList.innerHTML += row;
-      });
+  }
+  
+    async function loadInterviews() {
+      const response = await fetch('/api/get-interviews/');
+      const interviews = await response.json();
+      const tbody = document.getElementById('interviewList');
+      tbody.innerHTML = interviews.map(interview => `
+         <tr data-id="${interview.id}" data-candidate-id="${interview.candidate_id}">
+              <td>${interview.interview_date}</td>
+              <td>${interview.interview_time}</td>
+              <td>${interview.candidate_name}</td>
+              <td>${interview.interviewer_name}</td>
+              <td>${interview.location}</td>
+              <td>${interview.notes}</td>
+              <td>
+                  <button class="btn btn-sm btn-primary" onclick="editInterview(${interview.id})">Sửa</button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteInterview(${interview.id})">Xóa</button>
+              </td>
+         </tr>`).join('');
     }
-
-    // Hàm xóa lịch phỏng vấn
-    function deleteInterview(index) {
-      if (confirm('Bạn có chắc chắn muốn xóa lịch phỏng vấn này không?')) {
-        interviews.splice(index, 1); // Xóa lịch phỏng vấn khỏi mảng
-        updateInterviewList(); // Cập nhật danh sách
+  
+    document.getElementById('interviewScheduleForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = {
+          candidate_id: document.getElementById('interviewCandidate').value,
+          interview_date: document.getElementById('interviewDate').value,
+          interview_time: document.getElementById('interviewTime').value,
+          location: document.getElementById('interviewLocation').value,
+          notes: document.getElementById('interviewNotes').value
+      };
+  
+      try {
+          let url = '/api/schedule-interview/';
+          let method = 'POST';
+          
+          if (isEditMode) {
+              url = `/api/update-interview/${currentEditId}/`;
+              method = 'PUT';
+          }
+  
+          const response = await fetch(url, {
+              method: method,
+              headers: { 
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': '{{ csrf_token }}'
+              },
+              body: JSON.stringify(formData)
+          });
+  
+          if (response.ok) {
+              alert(isEditMode ? 'Cập nhật thành công!' : 'Tạo mới thành công!');
+              clearInterviewForm();
+              loadInterviews();
+          } else {
+              const errorData = await response.json();
+              alert('Lỗi: ' + (errorData.message || 'Thao tác thất bại'));
+          }
+      } catch (error) {
+          alert('Lỗi kết nối: ' + error.message);
       }
+    });
+  
+  
+  async function deleteInterview(id) {
+      if (confirm('Bạn có chắc chắn muốn xóa lịch phỏng vấn này không?')) {
+          try {
+              const response = await fetch(`/api/delete-interview/${id}/`, {
+                  method: 'DELETE',
+                  headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+              });
+              if (response.ok) {
+                  alert('Lịch phỏng vấn đã được xóa thành công!');
+                  loadInterviews();
+              } else {
+                  alert('Lỗi khi xóa lịch phỏng vấn.');
+              }
+          } catch (error) {
+              alert('Lỗi: ' + error.message);
+          }
+      }
+  }
+  
+  async function editInterview(id) {
+    try {
+        isEditMode = true;
+        currentEditId = id;
+        
+        const response = await fetch(`/api/get-interviews/${id}/`);
+        const interview = await response.json();
+        
+        // Định dạng lại thời gian nếu cần
+        const [timeHours, timeMinutes] = interview.interview_time.split(':');
+        const formattedTime = `${timeHours.padStart(2, '0')}:${timeMinutes.padStart(2, '0')}`;
+        
+        document.getElementById('interviewCandidate').value = interview.candidate_id;
+        document.getElementById('interviewDate').value = interview.interview_date;
+        document.getElementById('interviewTime').value = formattedTime;
+        document.getElementById('interviewLocation').value = interview.location;
+        document.getElementById('interviewNotes').value = interview.notes;
+        
+        document.querySelector('#submitButton').textContent = 'Cập nhật';
+    } catch (error) {
+        alert('Lỗi tải dữ liệu: ' + error.message);
     }
+  }
 
-    // Hàm chỉnh sửa lịch phỏng vấn
-    function editInterview(index) {
-      const interview = interviews[index];
-      document.getElementById('interviewDate').value = interview.date;
-      document.getElementById('interviewTime').value = interview.time;
-      document.getElementById('interviewCandidate').value = interview.candidate;
-      document.getElementById('interviewer').value = interview.interviewer;
-      document.getElementById('interviewLocation').value = interview.location;
-      document.getElementById('interviewNotes').value = interview.notes;
-      document.getElementById('sendNotification').checked = interview.notification === "Đã gửi";
-
-      // Xóa lịch phỏng vấn cũ khỏi mảng
-      interviews.splice(index, 1);
-      updateInterviewList();
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
-
-    // Hàm xóa form
-    function clearInterviewForm() {
-      document.getElementById('interviewScheduleForm').reset();
-    }
-
-    // Cập nhật danh sách lịch phỏng vấn khi trang được tải
-    updateInterviewList();
+    return cookieValue;
+  }
+  
+  function clearInterviewForm() {
+    document.getElementById('interviewScheduleForm').reset();
+    isEditMode = false;
+    currentEditId = null;
+    document.querySelector('#interviewScheduleForm button[type="submit"]').textContent = 'Lên Lịch';
+  }
   </script>
 </body>
 </html>

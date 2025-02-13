@@ -90,9 +90,12 @@ urlpatterns = [
 
     # Lịch phỏng vấn
     path('lichphongvan/', views.interview_list, name='lichphongvan'),
-    path('lichphongvan/schedule/', views.schedule_interview, name='schedule_interview'),
-    path('lichphongvan/edit/<int:pk>/', views.edit_interview, name='edit_interview'),
-    path('lichphongvan/delete/<int:pk>/', views.delete_interview, name='delete_interview'),
+    path('api/get-candidates/', views.get_candidates_api, name='get_candidates_api'),
+    path('api/schedule-interview/', views.schedule_interview_api, name='schedule_interview_api'),
+    path('api/get-interviews/', views.get_interviews_api, name='get_interviews_api'),
+    path('api/update-interview/<int:pk>/', views.update_interview_api, name='update_interview_api'),
+    path('api/delete-interview/<int:pk>/', views.delete_interview_api, name='delete_interview_api'),
+    path('api/get-interviews/<int:pk>/', views.get_interview_api, name='get_interview_api'),
     
     #theo dõi hiệu suất
     path('api/performances/', views.performance_api, name='performance_api'),
