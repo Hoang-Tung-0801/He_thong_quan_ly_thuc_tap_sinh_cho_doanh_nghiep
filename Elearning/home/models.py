@@ -533,3 +533,17 @@ class Communication(models.Model):
 
     def __str__(self):
         return f"{self.sender} -> {self.receiver} ({self.get_feedback_type_display()})"
+
+class Profile(models.Model):
+    id = models.CharField(max_length=50, primary_key=True, verbose_name="Mã thực tập sinh")
+    full_name = models.CharField(max_length=100, verbose_name="Họ và tên")
+    dob = models.DateField(verbose_name="Ngày sinh")
+    gender = models.CharField(max_length=20, verbose_name="Giới tính")
+    email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
+    address = models.CharField(max_length=200, verbose_name="Địa chỉ")
+    education = models.CharField(max_length=100, verbose_name="Trình độ học vấn")
+    workExperience = models.TextField(blank=True, verbose_name="Kinh nghiệm làm việc")
+
+    def __str__(self):
+        return self.full_name

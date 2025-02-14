@@ -1,6 +1,7 @@
 from django import forms
 from .models import Recruitment,Interview,Communication
 from django.utils import timezone
+from .models import Profile
 
 class RecruitmentForm(forms.ModelForm):
     class Meta:
@@ -28,4 +29,14 @@ class CommunicationForm(forms.ModelForm):
         fields = ['receiver', 'message', 'feedback_type']
         widgets = {
             'message': forms.Textarea(attrs={'rows': 3}),
+        }
+
+
+class InternProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = "__all__"
+        widgets = {
+            "dob": forms.DateInput(attrs={"type": "date"}),  # Input dạng Date
+            "gender": forms.Select(attrs={"class": "form-control"}),
         }

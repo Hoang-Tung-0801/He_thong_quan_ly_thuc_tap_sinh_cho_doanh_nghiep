@@ -136,8 +136,8 @@
       <div class="card-body">
         <form id="profileManagementForm">
           <div class="mb-3">
-            <label for="id" class="form-label">Mã nhân viên</label>
-            <input type="text" class="form-control" id="id" placeholder="Nhập mã nhân viên" required>
+            <label for="id" class="form-label">Mã thực tập sinh</label>
+            <input type="text" class="form-control" id="id" placeholder="Nhập mã thực tập sinh" required>
           </div>
           <div class="mb-3">
             <label for="fullName" class="form-label">Họ và tên</label>
@@ -216,7 +216,7 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Mã nhân viên</th>
+                <th>Mã thực tập sinh</th>
                 <th>Họ và tên</th>
                 <th>Ngày sinh</th>
                 <th>Giới tính</th>
@@ -417,8 +417,11 @@
     // Cập nhật danh sách hồ sơ khi trang được tải
     updateProfileList();
    
+   
     
   </script>
+  
+  
   <script>
     // Lắng nghe sự kiện tìm kiếm
     function filterProfiles() {
@@ -482,7 +485,7 @@
       ]);
     
       // Thêm tiêu đề cho sheet
-      wsData.unshift(["Mã nhân viên", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Số điện thoại", "Địa chỉ", "Trình độ học vấn", "Kinh nghiệm làm việc"]);
+      wsData.unshift(["Mã thực tập sinh", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Số điện thoại", "Địa chỉ", "Trình độ học vấn", "Kinh nghiệm làm việc"]);
     
       // Tạo sheet từ dữ liệu
       const ws = XLSX.utils.aoa_to_sheet(wsData);
@@ -495,6 +498,106 @@
     }
 
     updateProfileList();
+
+
+
+      document.getElementById('profileManagementForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      // Lấy dữ liệu từ form
+      const id = document.getElementById('id').value;
+      const fullName = document.getElementById('fullName').value;
+      const dob = document.getElementById('dob').value; // yyyy-mm-dd
+      const gender = document.getElementById('gender').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const address = document.getElementById('address').value;
+      const education = document.getElementById('education').value;
+      const workExperience = document.getElementById('workExperience').value;
+      // Lấy file nếu cần xử lý riêng
+
+      // Tạo object dữ liệu
+      const profileData = {
+        id: id,
+        fullName: fullName,
+        dob: dob,
+        gender: gender,
+        email: email,
+        phone: phone,
+        address: address,
+        education: education,
+        workExperience: workExperience
+      };
+
+      try {
+        const response = await fetch('/api/add-profile/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Nếu dùng CSRF token, thêm header 'X-CSRFToken': tokenValue
+          },
+          body: JSON.stringify(profileData)
+        });
+        const result = await response.json();
+        if (result.success) {
+          alert(result.message);
+          // Sau khi lưu thành công, bạn có thể cập nhật lại danh sách hồ sơ từ backend (ví dụ: gọi API lấy danh sách)
+          clearProfileManagementForm();
+        } else {
+          alert('Lỗi: ' + result.message);
+        }
+      
+  
+      async function updateProfileList() {
+        try {
+          const response = await fetch('quanlyhoso/');
+          const profiles = await response.json();
+          const profileList = document.getElementById('profileList');
+          profileList.innerHTML = '';
+          profiles.forEach((profile, index) => {
+            profileList.innerHTML += `
+              <tr>
+                <td>${profile.trainee_id}</td>
+                <td>${profile.full_name}</td>
+                <td>${new Date(profile.dob).toLocaleDateString()}</td>
+                <td>${profile.gender}</td>
+                <td>${profile.email}</td>
+                <td>${profile.phone}</td>
+                <td>${profile.address}</td>
+                <td>${profile.education}</td>
+                <td>${profile.work_experience}</td>
+                <td>
+                  <!-- Nút Sửa/Xóa cần được xử lý tương ứng -->
+                  <button class="btn btn-sm btn-primary">Sửa</button>
+                  <button class="btn btn-sm btn-danger">Xóa</button>
+                </td>
+              </tr>
+            `;
+          });
+        } catch (error) {
+          console.error('Error fetching profiles:', error);
+        }
+      }
+      
+      // Gọi hàm này sau khi thêm hồ sơ thành công
+      
+  
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      
   </script>
+  
 </body>
 </html>

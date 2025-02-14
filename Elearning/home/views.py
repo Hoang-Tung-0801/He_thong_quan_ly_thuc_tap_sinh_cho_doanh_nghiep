@@ -30,6 +30,9 @@ from django.db import models
 from django.utils.dateparse import parse_date, parse_time
 from django.views.decorators.http import require_POST
 
+from .models import Profile
+from datetime import datetime
+
 logger = logging.getLogger(__name__)
 
 # Hàm gửi email xác thực tài khoản
@@ -1359,3 +1362,36 @@ def mark_notification_as_read(request, notification_id):
         return JsonResponse({'status': 'success'})
     except Notification.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
+
+@csrf_exempt 
+def add_profile(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            # Chuyển đổi ngày sinh từ string sang kiểu date (giả sử định dạng là "yyyy-mm-dd")
+            dob = datetime.strptime(data.get('dob'), '%Y-%m-%d').date()
+            
+            # Tạo và lưu hồ sơ
+            profile = Profile.objects.create(
+                trainee_id = data.get('id'),
+                full_name = data.get('fullName'),
+                dob = dob,
+                gender = data.get('gender'),
+                email = data.get('email'),
+                phone = data.get('phone'),
+                address = data.get('address'),
+                education = data.get('education'),
+                work_experience = data.get('workExperience'),
+            )
+            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được lưu.'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    return JsonResponse({'success': False, 'message': 'Phương thức không hợp lệ.'})
+
+
+def list_profiles(request):
+    profiles = Profile.objects.all().values(
+        'id', 'full_name', 'dob', 'gender',
+        'email', 'phone', 'address', 'education', 'work_experience'
+    )
+    return JsonResponse(list(profiles), safe=False)
