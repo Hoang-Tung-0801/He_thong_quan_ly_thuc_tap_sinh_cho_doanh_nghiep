@@ -61,8 +61,8 @@ urlpatterns = [
     path('performances/<int:pk>/', views.performance_detail, name='performance_detail'),
 
     # Quản lý chương trình đào tạo
-    path('training-programs/', views.training_program_list, name='training_program_list'),
-    path('training-programs/<int:pk>/', views.training_program_detail, name='training_program_detail'),
+    path('api/training-programs/', views.training_program_api, name='training_program_api'),
+    path('api/training-programs/<int:pk>/', views.training_program_detail_api, name='training_program_detail_api'),
 
     # Quản lý hồ sơ cá nhân
     path('update-profile/', views.update_profile, name='update_profile'),
@@ -100,9 +100,6 @@ urlpatterns = [
     path('api/performances/<int:pk>/', views.performance_detail_api, name='performance_detail_api'),
     path('api/active-interns/', views.get_active_interns, name='active_interns'),
 
-    #theo dõi đào tạo
-    path('api/training-programs/', views.training_program_api, name='training_program_api'),
-    path('api/training-programs/<int:pk>/', views.training_program_detail_api, name='training_program_detail_api'),
 ]
 
 # Phục vụ file media trong môi trường DEBUG
