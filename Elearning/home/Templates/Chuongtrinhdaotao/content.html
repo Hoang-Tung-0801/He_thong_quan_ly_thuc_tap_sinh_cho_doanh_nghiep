@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý Chương trình Đào tạo</title>
+  <title>Quản lý Chương trình đào tạo</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
@@ -24,15 +24,18 @@
     .dark-mode ::-ms-input-placeholder {
         color: #a0a0a0;
     }
+
     body {
       background-color: #f8f9fa;
       font-family: 'Arial', sans-serif;
       transition: background-color 0.3s, color 0.3s;
     }
+
     body.dark-mode {
       background-color: #121212;
       color: #ffffff;
     }
+
     .card {
       border: none;
       border-radius: 10px;
@@ -40,19 +43,23 @@
       margin-bottom: 20px;
       transition: background-color 0.3s, color 0.3s;
     }
+
     .dark-mode .card {
       background-color: #1e1e1e;
       color: #ffffff;
     }
+
     .card-header {
       background-color: #007bff;
       color: white;
       border-radius: 10px 10px 0 0;
       padding: 15px;
     }
+
     .dark-mode .card-header {
       background-color: #0d6efd;
     }
+
     .btn-success {
       background-color: #28a745;
       border: none;
@@ -60,9 +67,11 @@
       border-radius: 5px;
       transition: background-color 0.3s;
     }
+
     .btn-success:hover {
       background-color: #218838;
     }
+
     .btn-warning {
       background-color: #ffc107;
       border: none;
@@ -70,42 +79,53 @@
       border-radius: 5px;
       transition: background-color 0.3s;
     }
+
     .btn-warning:hover {
       background-color: #e0a800;
     }
+
     .form-control {
       border-radius: 5px;
       border: 1px solid #ddd;
       padding: 10px;
+      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     }
+
     .dark-mode .form-control {
       background-color: #2d2d2d;
       border-color: #444;
       color: #ffffff;
     }
+
     .form-control:focus {
       border-color: #007bff;
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
+
     .form-label {
       font-weight: bold;
       color: #333;
     }
+
     .dark-mode .form-label {
       color: #ffffff;
     }
+
     .form-check-label {
       color: #555;
     }
+
     .dark-mode .form-check-label {
       color: #ffffff;
     }
+
     .avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       cursor: pointer;
     }
+
     .dropdown-menu {
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -125,226 +145,223 @@
   </style>
 </head>
 <body>
-  <div class="container mt-5">
-    <!-- Thiết kế Chương trình Đào tạo -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Thiết kế Chương trình Đào tạo</h5>
+<div class="container mt-5">
+  <div class="card">
+      <div class="card-header bg-primary text-white">
+            <h5 class="card-title">Chương trình đào tạo</h5>
       </div>
-      <div class="card-body">
-        <form id="trainingProgramForm">
-          <div class="mb-3">
-            <label for="programName" class="form-label">Tên chương trình</label>
-            <input type="text" class="form-control" id="programName" placeholder="Nhập tên chương trình" required>
-          </div>
-          <div class="mb-3">
-            <label for="programLevel" class="form-label">Cấp độ</label>
-            <select class="form-select" id="programLevel" required>
-              <option value="">Chọn cấp độ</option>
-              <option value="basic">Cơ bản</option>
-              <option value="advanced">Nâng cao</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="programField" class="form-label">Chuyên ngành</label>
-            <input type="text" class="form-control" id="programField" placeholder="Nhập chuyên ngành" required>
-          </div>
-          <button type="submit" class="btn btn-success">Lưu</button>
-          <button type="button" class="btn btn-warning" onclick="clearTrainingProgramForm()">Hủy</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Quản lý Nội dung Đào tạo -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Quản lý Nội dung Đào tạo</h5>
-      </div>
-      <div class="card-body">
-        <form id="trainingContentForm">
-          <div class="mb-3">
-            <label for="moduleName" class="form-label">Tên module</label>
-            <input type="text" class="form-control" id="moduleName" placeholder="Nhập tên module" required>
-          </div>
-          <div class="mb-3">
-            <label for="moduleContent" class="form-label">Nội dung</label>
-            <textarea class="form-control" id="moduleContent" rows="3" placeholder="Nhập nội dung" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="moduleResources" class="form-label">Tài nguyên</label>
-            <input type="file" class="form-control" id="moduleResources" multiple>
-          </div>
-          <button type="submit" class="btn btn-success">Lưu</button>
-          <button type="button" class="btn btn-warning" onclick="clearTrainingContentForm()">Hủy</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Lịch Đào tạo -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Lịch Đào tạo</h5>
-      </div>
-      <div class="card-body">
-        <form id="trainingScheduleForm">
-          <div class="mb-3">
-            <label for="trainingDate" class="form-label">Ngày đào tạo</label>
-            <input type="date" class="form-control" id="trainingDate" required>
-          </div>
-          <div class="mb-3">
-            <label for="trainingTime" class="form-label">Thời gian</label>
-            <input type="time" class="form-control" id="trainingTime" required>
-          </div>
-          <div class="mb-3">
-            <label for="trainingLocation" class="form-label">Địa điểm</label>
-            <input type="text" class="form-control" id="trainingLocation" placeholder="Nhập địa điểm" required>
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="sendNotification">
-            <label class="form-check-label" for="sendNotification">Gửi thông báo qua email/SMS</label>
-          </div>
-          <button type="submit" class="btn btn-success">Lên Lịch</button>
-          <button type="button" class="btn btn-warning" onclick="clearTrainingScheduleForm()">Hủy</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Theo dõi Tiến độ Đào tạo -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Theo dõi Tiến độ Đào tạo</h5>
-      </div>
-      <div class="card-body">
-        <form id="progressTrackingForm">
-          <div class="mb-3">
-            <label for="internName" class="form-label">Tên thực tập sinh</label>
-            <input type="text" class="form-control" id="internName" placeholder="Nhập tên thực tập sinh" required>
-          </div>
-          <div class="mb-3">
-            <label for="progress" class="form-label">Tiến độ</label>
-            <input type="text" class="form-control" id="progress" placeholder="Nhập tiến độ" required>
-          </div>
-          <div class="mb-3">
-            <label for="assessment" class="form-label">Đánh giá</label>
-            <textarea class="form-control" id="assessment" rows="3" placeholder="Nhập đánh giá"></textarea>
-          </div>
-          <button type="submit" class="btn btn-success">Lưu</button>
-          <button type="button" class="btn btn-warning" onclick="clearProgressTrackingForm()">Hủy</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Phản hồi và Đánh giá -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Phản hồi và Đánh giá</h5>
-      </div>
-      <div class="card-body">
-        <form id="feedbackForm">
-          <div class="mb-3">
-            <label for="feedback" class="form-label">Phản hồi từ thực tập sinh</label>
-            <textarea class="form-control" id="feedback" rows="3" placeholder="Nhập phản hồi" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="rating" class="form-label">Đánh giá</label>
-            <input type="number" class="form-control" id="rating" min="1" max="5" placeholder="Nhập đánh giá (1-5)" required>
-          </div>
-          <button type="submit" class="btn btn-success">Lưu</button>
-          <button type="button" class="btn btn-warning" onclick="clearFeedbackForm()">Hủy</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Báo cáo và Phân tích -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Báo cáo và Phân tích</h5>
-      </div>
-      <div class="card-body">
-        <form id="reportForm">
-          <div class="mb-3">
-            <label for="reportType" class="form-label">Loại báo cáo</label>
-            <select class="form-select" id="reportType" required>
-              <option value="">Chọn loại báo cáo</option>
-              <option value="completionRate">Tỷ lệ hoàn thành</option>
-              <option value="performance">Hiệu suất</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="reportPeriod" class="form-label">Kỳ báo cáo</label>
-            <input type="text" class="form-control" id="reportPeriod" placeholder="Nhập kỳ báo cáo" required>
-          </div>
-          <button type="submit" class="btn btn-success">Tạo báo cáo</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Quản lý Quyền Truy cập -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Quản lý Quyền Truy cập</h5>
-      </div>
-      <div class="card-body">
-        <form id="accessControlForm">
-          <div class="mb-3">
-            <label for="userRole" class="form-label">Vai trò</label>
-            <select class="form-select" id="userRole" required>
-              <option value="">Chọn vai trò</option>
-              <option value="hr">HR</option>
-              <option value="manager">Quản lý đào tạo</option>
-              <option value="mentor">Mentor</option>
-              <option value="intern">Thực tập sinh</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="permissions" class="form-label">Quyền truy cập</label>
-            <input type="text" class="form-control" id="permissions" placeholder="Nhập quyền truy cập" required>
-          </div>
-          <button type="submit" class="btn btn-success">Lưu</button>
-          <button type="button" class="btn btn-warning" onclick="clearAccessControlForm()">Hủy</button>
-        </form>
+          <!-- Tạo chương trình đào tạo -->
+    <div class="card-body">
+            <form id = "TrainingProgramForm" method="POST">
+              {% csrf_token %}
+              <div class="mb-3">
+                  <label for="name" class="form-label">Tên chương trình</label>
+                  <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+              <div class="mb-3">
+                  <label for="description" class="form-label">Mô tả</label>
+                  <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+              </div>
+              <div class="mb-3">
+                  <label for="start_date" class="form-label">Ngày bắt đầu</label>
+                  <input type="date" class="form-control" id="start_date" name="start_date" required>
+              </div>
+              <div class="mb-3">
+                  <label for="end_date" class="form-label">Ngày kết thúc</label>
+                  <input type="date" class="form-control" id="end_date" name="end_date" required>
+              </div>
+              <div class="mb-3">
+                  <label for="trainer" class="form-label">Người đào tạo</label>
+                  <input type="text" class="form-control" id="trainer" name="trainer" required>
+              </div>
+              <div class="mb-3">
+                  <label for="max_participants" class="form-label">Số lượng tối đa</label>
+                  <input type="number" class="form-control" id="max_participants" name="max_participants" min="0" required>
+              </div>
+              <div class="mb-3">
+                <label for="internSelect" class="form-label">Thực tập sinh</label>
+                <select class="form-select" id="internSelect" required>
+                    <option value="">Chọn thực tập sinh...</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-success">Đăng ký</button>
+              <button type="button" class="btn btn-warning" onclick="clearTrainingProgramForm()">Hủy</button>
+            </form>
+      <!-- Danh sách chương trình đào tạo -->
+      <div class="mt-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Tên chương trình</th>
+              <th>Mô tả</th>
+              <th>Ngày bắt đầu</th>
+              <th>Ngày kết thúc</th>
+              <th>Người đào tạo</th>
+              <th>Số lượng tối đa</th>
+              <th>Thực tập sinh</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="trainingProgramList">
+                <!-- Danh sách chương trình đào tạo sẽ được tải ở đây -->
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-
-  <!-- Bootstrap JS and dependencies -->
+</div>  
+    <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script>
-    // Hàm xóa form Thiết kế Chương trình Đào tạo
-    function clearTrainingProgramForm() {
-      document.getElementById('trainingProgramForm').reset();
-    }
-
-    // Hàm xóa form Quản lý Nội dung Đào tạo
-    function clearTrainingContentForm() {
-      document.getElementById('trainingContentForm').reset();
-    }
-
-    // Hàm xóa form Lịch Đào tạo
-    function clearTrainingScheduleForm() {
-      document.getElementById('trainingScheduleForm').reset();
-    }
-
-    // Hàm xóa form Theo dõi Tiến độ Đào tạo
-    function clearProgressTrackingForm() {
-      document.getElementById('progressTrackingForm').reset();
-    }
-
-    // Hàm xóa form Phản hồi và Đánh giá
-    function clearFeedbackForm() {
-      document.getElementById('feedbackForm').reset();
-    }
-
-    // Hàm xóa form Báo cáo và Phân tích
-    function clearReportForm() {
-      document.getElementById('reportForm').reset();
-    }
-
-    // Hàm xóa form Quản lý Quyền Truy cập
-    function clearAccessControlForm() {
-      document.getElementById('accessControlForm').reset();
-    }
+    // Dark Mode Toggle
+    document.addEventListener('change', function(event) {
+      if (event.target.matches('#systemTheme')) {
+        const body = document.body;
+        if (event.target.value === 'dark') {
+          body.classList.add('dark-mode');
+        } else {
+          body.classList.remove('dark-mode');
+        }
+      }
+    });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      loadInterns();
+      loadTrainingPrograms();
+  });
+  
+  async function loadInterns() {
+      const response = await fetch('/api/active-interns/');
+      const interns = await response.json();
+      const select = document.getElementById('internSelect');
+      select.innerHTML = '<option value="">Chọn thực tập sinh...</option>';
+      interns.forEach(intern => {
+          const option = document.createElement('option');
+          option.value = intern.id;
+          option.textContent = intern.name;
+          select.appendChild(option);
+      });
+  }
+  
+  async function loadTrainingPrograms() {
+      const response = await fetch('/api/training-programs/');
+      const programs = await response.json();
+      const tbody = document.getElementById('trainingProgramList');
+      tbody.innerHTML = programs.map(program => `
+          <tr data-id="${program.id}">
+              <td>${program.name}</td>
+              <td>${program.description}</td>
+              <td>${program.start_date}</td>
+              <td>${program.end_date}</td>
+              <td>${program.trainer}</td>
+              <td>${program.max_participants}</td>
+              <td>${program.interns.join(', ')}</td>
+              <td>
+                  <button class="btn btn-sm btn-primary" onclick="editTrainingProgram(${program.id})">Sửa</button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteProgramTraining(${program.id})">Xóa</button>
+              </td>
+          </tr>`).join('');
+  }
+  
+  async function deleteProgramTraining(id) {
+      if (confirm('Bạn có chắc chắn muốn xóa chương trình đào tạo này không?')) {
+          try {
+              const response = await fetch(`/api/training-programs/${id}/`, {
+                  method: 'DELETE',
+                  headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+              });
+              if (response.ok) {
+                  alert('Chương trình đào tạo đã được xóa thành công!');
+                  loadTrainingPrograms();
+              } else {
+                  alert('Lỗi khi xóa chương trình đào tạo.');
+              }
+          } catch (error) {
+              alert('Lỗi: ' + error.message);
+          }
+      }
+  }
+  
+  async function editTrainingProgram(id) {
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      const name = row.cells[0].textContent;
+      const description = row.cells[1].textContent;
+      const startDate = row.cells[2].textContent;
+      const endDate = row.cells[3].textContent;
+      const trainer = row.cells[4].textContent;
+      const maxParticipants = row.cells[5].textContent;
+      const internId = row.getAttribute('data-intern-id');
+  
+      document.getElementById('name').value = name;
+      document.getElementById('description').value = description;
+      document.getElementById('start_date').value = startDate;
+      document.getElementById('end_date').value = endDate;
+      document.getElementById('trainer').value = trainer;
+      document.getElementById('max_participants').value = maxParticipants;
+      document.getElementById('internSelect').value = internId;
+  
+      document.getElementById('TrainingProgramForm').onsubmit = async (e) => {
+          e.preventDefault();
+          const formData = {
+              name: document.getElementById('name').value,
+              description: document.getElementById('description').value,
+              start_date: document.getElementById('start_date').value,
+              end_date: document.getElementById('end_date').value,
+              trainer: document.getElementById('trainer').value,
+              max_participants: document.getElementById('max_participants').value,
+              intern_id: document.getElementById('internSelect').value
+          };
+          try {
+              const response = await fetch(`/api/training-programs/${id}/`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                  body: JSON.stringify(formData)
+              });
+              if (response.ok) {
+                  alert('Cập nhật thành công!');
+                  clearTrainingProgramForm();
+                  loadTrainingPrograms();
+              } else {
+                  alert('Lỗi khi cập nhật chương trình đào tạo.');
+              }
+          } catch (error) {
+              alert('Lỗi: ' + error.message);
+          }
+      };
+  }
+  
+  document.getElementById('TrainingProgramForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = {
+          name: document.getElementById('name').value,
+          description: document.getElementById('description').value,
+          start_date: document.getElementById('start_date').value,
+          end_date: document.getElementById('end_date').value,
+          trainer: document.getElementById('trainer').value,
+          max_participants: document.getElementById('max_participants').value,
+          intern_id: document.getElementById('internSelect').value
+      };
+      try {
+          const response = await fetch('/api/training-programs/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+              body: JSON.stringify(formData)
+          });
+          if (response.ok) {
+              alert('Lưu thành công!');
+              clearTrainingProgramForm();
+              loadTrainingPrograms();
+          }
+      } catch (error) {
+          alert('Lỗi: ' + error.message);
+      }
+  });
+  
+  function clearTrainingProgramForm() {
+      document.getElementById('TrainingProgramForm').reset();
+  }
+  </script>  
 </body>
-</html>
+</html>      
