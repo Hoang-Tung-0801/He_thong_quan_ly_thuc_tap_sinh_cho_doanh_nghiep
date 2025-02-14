@@ -10,118 +10,122 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <!-- Custom CSS -->
   <style>
+    :root {
+      --primary-color: #007bff;
+      --secondary-color: #28a745;
+      --warning-color: #ffc107;
+      --background-color: #f8f9fa;
+      --text-color: #333;
+      --card-background: #ffffff;
+      --card-header-background: var(--primary-color);
+      --card-header-color: #ffffff;
+    }
+
+    body.dark-mode {
+      --background-color: #121212;
+      --text-color: #ffffff;
+      --card-background: #1e1e1e;
+      --card-header-background: #0d6efd;
+    }
+
     body {
-      background-color: #f8f9fa;
+      background-color: var(--background-color);
+      color: var(--text-color);
       font-family: 'Arial', sans-serif;
     }
+
     .card {
+      background-color: var(--card-background);
       border: none;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
+
     .card-header {
-      background-color: #007bff;
-      color: white;
+      background-color: var(--card-header-background);
+      color: var(--card-header-color);
       border-radius: 10px 10px 0 0;
       padding: 15px;
     }
+
     .card-title {
       margin: 0;
       font-size: 1.25rem;
     }
+
     .btn-success {
-      background-color: #28a745;
+      background-color: var(--secondary-color);
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
       transition: background-color 0.3s;
     }
+
     .btn-success:hover {
       background-color: #218838;
     }
+
     .btn-warning {
-      background-color: #ffc107;
+      background-color: var(--warning-color);
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
       transition: background-color 0.3s;
     }
+
     .btn-warning:hover {
       background-color: #e0a800;
     }
+
     .form-control {
-      border-radius: 5px;
+      background-color: var(--card-background);
       border: 1px solid #ddd;
+      border-radius: 5px;
       padding: 10px;
+      color: var(--text-color);
     }
+
     .form-control:focus {
-      border-color: #007bff;
+      border-color: var(--primary-color);
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
+
     .form-label {
       font-weight: bold;
-      color: #333;
+      color: var(--text-color);
     }
+
     .form-check-label {
-      color: #555;
-    }
-    /* Dark Mode Styles */
-    body.dark-mode {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    .dark-mode .card {
-        background-color: #1e1e1e;
-        color: #ffffff;
-    }
-
-    .dark-mode .card-header {
-        background-color: #0d6efd;
+      color: var(--text-color);
     }
 
     .dark-mode .form-control {
-        background-color: #2d2d2d;
-        border-color: #444;
-        color: #ffffff;
-    }
-
-    .dark-mode .form-control:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    .dark-mode .form-label {
-        color: #ffffff;
-    }
-
-    .dark-mode .form-check-label {
-        color: #ffffff;
-    }
-
-    .dark-mode ::placeholder {
-        color: #a0a0a0;
-        opacity: 1;
-    }
-
-    .dark-mode :-ms-input-placeholder {
-        color: #a0a0a0;
-    }
-
-    .dark-mode ::-ms-input-placeholder {
-        color: #a0a0a0;
+      background-color: #2d2d2d;
+      border-color: #444;
     }
 
     .dark-mode .form-select {
-        background-color: #2d2d2d;
-        border-color: #444;
-        color: #ffffff;
+      background-color: #2d2d2d;
+      border-color: #444;
+      color: #ffffff;
     }
 
     .dark-mode .form-select option {
-        background-color: #1e1e1e;
-        color: #ffffff;
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    .dark-mode ::placeholder {
+      color: #a0a0a0;
+    }
+
+    .dark-mode :-ms-input-placeholder {
+      color: #a0a0a0;
+    }
+
+    .dark-mode ::-ms-input-placeholder {
+      color: #a0a0a0;
     }
   </style>
 </head>
@@ -139,7 +143,7 @@
         </div>
         <div class="mb-3">
           <label for="permissions" class="form-label">Quyền hạn:</label>
-          <select class="form-select" id="permissions" >
+          <select class="form-select" id="permissions">
             <option value="view">Xem dữ liệu</option>
             <option value="edit">Chỉnh sửa dữ liệu</option>
             <option value="delete">Xóa dữ liệu</option>
@@ -218,10 +222,77 @@
         <button class="btn btn-warning ms-2"><i class="fas fa-undo"></i> Hủy</button>
       </div>
     </div>
+
+    <!-- Nút chuyển đổi Dark Mode -->
+    <div class="text-center mt-4">
+      <button id="toggleDarkMode" class="btn btn-secondary">
+        <i class="fas fa-moon"></i> Chế độ tối
+      </button>
+    </div>
   </div>
 
   <!-- Bootstrap JS và dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <!-- Custom JS -->
+  <script>
+    // Chuyển đổi Dark Mode
+    const toggleDarkMode = document.getElementById('toggleDarkMode');
+    const body = document.body;
+
+    toggleDarkMode.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const isDarkMode = body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+      toggleDarkMode.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i> Chế độ sáng' : '<i class="fas fa-moon"></i> Chế độ tối';
+    });
+
+    // Kiểm tra trạng thái Dark Mode khi tải trang
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+      body.classList.add('dark-mode');
+      toggleDarkMode.innerHTML = '<i class="fas fa-sun"></i> Chế độ sáng';
+    }
+
+    // Lưu trữ tạm thời các thiết lập
+    const saveSettings = () => {
+      const settings = {
+        roleName: document.getElementById('roleName').value,
+        permissions: document.getElementById('permissions').value,
+        enable2FA: document.getElementById('enable2FA').checked,
+        twoFAMethod: document.getElementById('2faMethod').value,
+        sessionTimeout: document.getElementById('sessionTimeout').value,
+        forceLogout: document.getElementById('forceLogout').checked,
+        dataEncryption: document.getElementById('dataEncryption').value,
+        backupFrequency: document.getElementById('backupFrequency').value,
+      };
+      localStorage.setItem('settings', JSON.stringify(settings));
+      alert('Các thiết lập đã được lưu!');
+    };
+
+    // Khôi phục các thiết lập khi tải trang
+    const loadSettings = () => {
+      const savedSettings = localStorage.getItem('settings');
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        document.getElementById('roleName').value = settings.roleName;
+        document.getElementById('permissions').value = settings.permissions;
+        document.getElementById('enable2FA').checked = settings.enable2FA;
+        document.getElementById('2faMethod').value = settings.twoFAMethod;
+        document.getElementById('sessionTimeout').value = settings.sessionTimeout;
+        document.getElementById('forceLogout').checked = settings.forceLogout;
+        document.getElementById('dataEncryption').value = settings.dataEncryption;
+        document.getElementById('backupFrequency').value = settings.backupFrequency;
+      }
+    };
+
+    // Gán sự kiện cho nút Lưu thay đổi
+    document.querySelectorAll('.btn-success').forEach(button => {
+      button.addEventListener('click', saveSettings);
+    });
+
+    // Tải các thiết lập khi trang được tải
+    window.addEventListener('load', loadSettings);
+  </script>
 </body>
 </html>
