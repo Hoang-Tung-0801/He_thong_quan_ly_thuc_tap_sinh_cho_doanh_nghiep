@@ -101,6 +101,9 @@ urlpatterns = [
     path('api/performances/<int:pk>/', views.performance_detail_api, name='performance_detail_api'),
     path('api/active-interns/', views.get_active_interns, name='active_interns'),
 
+    # navbar
+    path('notifications/', views.get_notifications, name='get_notifications'),
+    path('notifications/mark_as_read/<int:notification_id>/', views.mark_notification_as_read, name='mark_notification_as_read'),
 ]
 
 # Phục vụ file media trong môi trường DEBUG

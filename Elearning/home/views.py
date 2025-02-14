@@ -28,6 +28,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.db import models
 from django.utils.dateparse import parse_date, parse_time
+from django.views.decorators.http import require_POST
 
 logger = logging.getLogger(__name__)
 
@@ -375,10 +376,24 @@ def reset_password(request, uidb64, token):
 # Quản lý thông báo
 @login_required
 def notification_list(request):
+    # Lấy danh sách thông báo của người dùng hiện tại
     notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
-    context = get_user_groups_context(request.user)
-    context['notifications'] = notifications
-    return render(request, 'home/notification_list.html', context)
+    
+    # Chuẩn bị dữ liệu để trả về dưới dạng JSON
+    notifications_data = [
+        {
+            'id': notification.id,
+            'message': notification.message,
+            'is_read': notification.is_read,
+            'notification_type': notification.notification_type,
+            'link': notification.link,
+            'created_at': notification.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        for notification in notifications
+    ]
+    
+    # Trả về dữ liệu dưới dạng JSON
+    return JsonResponse({'notifications': notifications_data})
 
 @login_required
 def mark_notification_as_read(request, pk):
@@ -1239,8 +1254,6 @@ def get_interview_api(request, pk):
         "notes": interview.notes
     }
     return JsonResponse(data)
-<<<<<<< HEAD
-=======
 
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -1314,4 +1327,35 @@ def training_program_detail_api(request, pk):
     elif request.method == "DELETE":
         program.delete()
         return JsonResponse({"status": "success"})
->>>>>>> 578212b261c10939233204675d69f2f968488579
+
+@login_required
+def get_notifications(request):
+    try:
+        if not request.user.is_authenticated:
+            return JsonResponse({'error': 'Unauthorized'}, status=401)
+        
+        notifications = Notification.objects.filter(user=request.user, is_read=False).order_by('-created_at')
+        notifications_data = [
+            {
+                'id': notification.id,
+                'message': notification.message,
+                'created_at': notification.created_at.strftime("%H:%M %d/%m/%Y"),
+                'link': notification.link if notification.link else '#',
+            }
+            for notification in notifications
+        ]
+        logger.info(f"Notifications data: {notifications_data}")
+        return JsonResponse({'notifications': notifications_data})
+    except Exception as e:
+        logger.error(f"Error in get_notifications: {e}")
+        return JsonResponse({'error': str(e)}, status=500)
+
+@require_POST
+def mark_notification_as_read(request, notification_id):
+    try:
+        notification = Notification.objects.get(id=notification_id, user=request.user)
+        notification.is_read = True
+        notification.save()
+        return JsonResponse({'status': 'success'})
+    except Notification.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)

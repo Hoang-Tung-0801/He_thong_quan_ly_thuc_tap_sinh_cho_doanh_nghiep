@@ -11,28 +11,13 @@
       <!-- Notification Bell -->
       <li class="nav-item me-2 dropdown">
         <a class="nav-link p-0 position-relative dropdown" href="javascript:void(0);" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="badge bg-danger rounded-pill position-absolute top-0 start-50 translate-middle">{{ notifications|length }}</span>
+          <span class="badge bg-danger rounded-pill position-absolute top-0 start-50 translate-middle" id="notificationCount">0</span>
           <i class="menu-icon tf-icons bx bx-bell"></i>
         </a>
         <!-- Dropdown Menu for Notifications -->
-        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown" style="min-width: 300px; margin-top: 0; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          {% for notification in notifications %}
-            <li>
-              <a class="dropdown-item p-2" href="javascript:void(0);">
-                <div class="d-flex">
-                  <div class="flex-grow-1">
-                    <h6 class="mb-1">{{ notification.title }}</h6>
-                    <small class="text-muted">{{ notification.description }}</small>
-                  </div>
-                </div>
-              </a>
-            </li>
-          {% endfor %}
+        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown" style="min-width: 300px; margin-top: 0; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" id="notificationList">
           <li>
-            <div class="dropdown-divider my-1"></div>
-          </li>
-          <li>
-            <a class="dropdown-item text-center p-2" href="javascript:void(0);">Xem tất cả thông báo</a>
+            <div class="dropdown-item text-center p-2">Loading...</div>
           </li>
         </ul>
       </li>
@@ -119,3 +104,87 @@
     </ul>
   </div>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const notificationList = document.getElementById('notificationList');
+    const notificationCount = document.getElementById('notificationCount');
+  
+    // Hàm tải thông báo
+    function loadNotifications() {
+      // Hiển thị trạng thái "Đang tải..."
+      notificationList.innerHTML = '<li><div class="dropdown-item text-center p-2">Đang tải...</div></li>';
+  
+      // Gọi API để lấy thông báo
+      fetch('/notifications/')
+        .then(response => {
+          console.log('Response:', response);  // Log response
+          if (!response.ok) {
+              throw new Error(`Lỗi HTTP: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Data:', data);  // Log dữ liệu nhận được
+          // Kiểm tra dữ liệu
+          if (!data.notifications || !Array.isArray(data.notifications)) {
+            throw new Error('Dữ liệu thông báo không hợp lệ');
+          }
+  
+          // Cập nhật số lượng thông báo
+          notificationCount.textContent = data.notifications.length;
+  
+          // Xóa nội dung cũ
+          notificationList.innerHTML = '';
+  
+          // Thêm thông báo vào dropdown
+          if (data.notifications.length > 0) {
+            data.notifications.forEach(notification => {
+              const notificationItem = document.createElement('li');
+              notificationItem.innerHTML = `
+                <a class="dropdown-item p-2" href="${notification.link || 'javascript:void(0);'}">
+                  <div class="d-flex">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-1">${notification.message}</h6>
+                      <small class="text-muted">${notification.created_at}</small>
+                    </div>
+                  </div>
+                </a>
+              `;
+              notificationList.appendChild(notificationItem);
+            });
+  
+            // Thêm nút "Xem tất cả thông báo"
+            const viewAllItem = document.createElement('li');
+            viewAllItem.innerHTML = `
+              <div class="dropdown-divider my-1"></div>
+              <a class="dropdown-item text-center p-2" href="javascript:void(0);">Xem tất cả thông báo</a>
+            `;
+            notificationList.appendChild(viewAllItem);
+          } else {
+            // Hiển thị thông báo nếu không có thông báo
+            notificationList.innerHTML = '<li><div class="dropdown-item text-center p-2">Không có thông báo mới</div></li>';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading notifications:', error);
+          notificationList.innerHTML = `
+              <li>
+                  <div class="dropdown-item text-center p-2">Không thể tải thông báo: ${error.message}</div>
+              </li>
+          `;
+      });
+    }
+
+    fetch('/notifications/', {
+      method: 'GET',
+      headers: {
+          'X-CSRFToken': '{{ csrf_token }}', // Thêm CSRF token
+      },
+  })
+  
+    // Tải thông báo khi dropdown được mở
+    notificationDropdown.addEventListener('click', loadNotifications);
+  });
+</script>
