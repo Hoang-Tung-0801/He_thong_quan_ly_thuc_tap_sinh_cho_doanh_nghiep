@@ -157,23 +157,31 @@
             <form method="post" action="{% url 'create_recruitment' %}">
               {% csrf_token %}
               <div class="mb-3">
-                <label for="position" class="form-label">Vị trí tuyển dụng</label>
-                <input type="text" class="form-control" id="position" name="position" placeholder="Nhập vị trí tuyển dụng" required>
+                  <label for="position" class="form-label">Vị trí tuyển dụng</label>
+                  <input type="text" class="form-control" id="position" name="position" placeholder="Nhập vị trí tuyển dụng" required>
               </div>
               <div class="mb-3">
-                <label for="description" class="form-label">Mô tả công việc</label>
-                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Nhập mô tả công việc" required></textarea>
+                  <label for="description" class="form-label">Mô tả công việc</label>
+                  <textarea class="form-control" id="description" name="description" rows="3" placeholder="Nhập mô tả công việc" required></textarea>
               </div>
               <div class="mb-3">
-                <label for="requirements" class="form-label">Yêu cầu</label>
-                <textarea class="form-control" id="requirements" name="requirements" rows="3" placeholder="Nhập yêu cầu công việc" required></textarea>
+                  <label for="requirements" class="form-label">Yêu cầu</label>
+                  <textarea class="form-control" id="requirements" name="requirements" rows="3" placeholder="Nhập yêu cầu công việc" required></textarea>
               </div>
               <div class="mb-3">
-                <label for="deadline" class="form-label">Hạn nộp hồ sơ</label>
-                <input type="date" class="form-control" id="deadline" name="deadline" required>
+                  <label for="location" class="form-label">Địa điểm</label>
+                  <input type="text" class="form-control" id="location" name="location" placeholder="Nhập địa điểm làm việc" required>
+              </div>
+              <div class="mb-3">
+                  <label for="salary_range" class="form-label">Mức lương</label>
+                  <input type="text" class="form-control" id="salaryRange" name="salaryRange" placeholder="Nhập mức lương" required>
+              </div>
+              <div class="mb-3">
+                  <label for="deadline" class="form-label">Hạn nộp hồ sơ</label>
+                  <input type="date" class="form-control" id="deadline" name="deadline" required>
               </div>
               <button type="submit" class="btn btn-success">Tạo Chiến dịch</button>
-            </form>
+          </form>
           </div>
         </div>
       </div>
@@ -197,7 +205,10 @@
               <tbody>
                 {% if recruitments %}
                   {% for recruitment in recruitments %}
-                    <tr>
+                    <tr data-description="{{ recruitment.description }}" 
+                        data-requirements="{{ recruitment.requirements }}" 
+                        data-location="{{ recruitment.location }}" 
+                        data-salary-range="{{ recruitment.salary_range }}">
                       <td>{{ recruitment.position }}</td>
                       <td>{{ recruitment.posted_date|date:"d/m/Y" }}</td>
                       <td>{{ recruitment.deadline|date:"d/m/Y" }}</td>
@@ -255,32 +266,54 @@
     </div>
   </div>
   
+  <!-- Modal for Recruitment Details -->
+  <div class="modal fade" id="recruitmentDetailModal" tabindex="-1" aria-labelledby="recruitmentDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="recruitmentDetailModalLabel">Chi tiết Chiến dịch Tuyển dụng</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Vị trí tuyển dụng:</strong> <span id="detailPosition"></span></p>
+          <p><strong>Mô tả công việc:</strong> <span id="detailDescription"></span></p>
+          <p><strong>Yêu cầu:</strong> <span id="detailRequirements"></span></p>
+          <p><strong>Địa điểm:</strong> <span id="detailLocation"></span></p>
+          <p><strong>Mức lương:</strong> <span id="detailSalaryRange"></span></p>
+          <p><strong>Hạn nộp hồ sơ:</strong> <span id="detailDeadline"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- Quản lý Ứng viên -->
-<div class="card">
-  <div class="card-header">
-    <h5 class="card-title">Quản lý Ứng viên</h5>
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <!-- Cột bên trái: Form Tìm kiếm & Lọc Ứng viên -->
-      <div class="col-md-5">
-        <form method="get" action="{% url 'quanlituyendung' %}">
-          <div class="mb-3">
-            <label for="candidateSearch" class="form-label">🔎 Tìm kiếm Ứng viên</label>
-            <input type="text" class="form-control" id="candidateSearch" name="candidateSearch" placeholder="Nhập tên hoặc email ứng viên" value="{{ candidate_search }}">
-          </div>
-          <div class="mb-3">
-            <label for="candidateFilter" class="form-label">📌 Lọc Ứng viên</label>
-            <select class="form-select" id="candidateFilter" name="candidateFilter">
-              <option value="all" {% if candidate_filter == 'all' %}selected{% endif %}>Tất cả</option>
-              <option value="new" {% if candidate_filter == 'new' %}selected{% endif %}>Ứng viên Mới</option>
-              <option value="interviewed" {% if candidate_filter == 'interviewed' %}selected{% endif %}>Đã Phỏng vấn</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-success">🔍 Tìm kiếm</button>
-        </form>
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Quản lý Ứng viên</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <!-- Cột bên trái: Form Tìm kiếm & Lọc Ứng viên -->
+        <div class="col-md-5">
+          <form method="get" action="{% url 'quanlituyendung' %}">
+            <div class="mb-3">
+              <label for="candidateSearch" class="form-label">🔎 Tìm kiếm Ứng viên</label>
+              <input type="text" class="form-control" id="candidateSearch" name="candidateSearch" placeholder="Nhập tên hoặc email ứng viên" value="{{ candidate_search }}">
+            </div>
+            <div class="mb-3">
+              <label for="candidateFilter" class="form-label">📌 Lọc Ứng viên</label>
+              <select class="form-select" id="candidateFilter" name="candidateFilter">
+                <option value="all" {% if candidate_filter == 'all' %}selected{% endif %}>Tất cả</option>
+                <option value="new" {% if candidate_filter == 'new' %}selected{% endif %}>Ứng viên Mới</option>
+                <option value="interviewed" {% if candidate_filter == 'interviewed' %}selected{% endif %}>Đã Phỏng vấn</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">🔍 Tìm kiếm</button>
+          </form>
+        </div>
 
       <!-- Cột bên phải: Danh sách Ứng viên -->
       <div class="col-md-7">
@@ -340,40 +373,8 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
 
-    <!-- Lịch Phỏng vấn -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Lịch Phỏng vấn</h5>
-      </div>
-      <div class="card-body">
-        {% if candidates %}
-          <form method="post" action="{% url 'schedule_interview' %}">
-            {% csrf_token %}
-            <div class="mb-3">
-              <label for="interviewDate" class="form-label">Ngày Phỏng vấn</label>
-              <input type="date" class="form-control" id="interviewDate" name="interviewDate" required>
-            </div>
-            <div class="mb-3">
-              <label for="interviewTime" class="form-label">Thời gian Phỏng vấn</label>
-              <input type="time" class="form-control" id="interviewTime" name="interviewTime" required>
-            </div>
-            <div class="mb-3">
-              <label for="interviewCandidate" class="form-label">Ứng viên</label>
-              <select class="form-select" id="interviewCandidate" name="interviewCandidate" required>
-                {% for candidate in candidates %}
-                  <option value="{{ candidate.id }}">{{ candidate.name }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <button type="submit" class="btn btn-success">Lên Lịch</button>
-          </form>
-        {% else %}
-          <p class="text-center">Không có ứng viên nào để lên lịch phỏng vấn.</p>
-        {% endif %}
-      </div>
-    </div>
 
     <!-- Đánh giá Ứng viên -->
     <div class="card">
@@ -461,6 +462,29 @@
           body.classList.remove('dark-mode');
         }
       }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      const rows = document.querySelectorAll('table tbody tr');
+      rows.forEach(row => {
+        row.addEventListener('click', function() {
+          const position = row.cells[0].innerText;
+          const description = row.getAttribute('data-description');
+          const requirements = row.getAttribute('data-requirements');
+          const location = row.getAttribute('data-location');
+          const salaryRange = row.getAttribute('data-salary-range');
+          const deadline = row.cells[2].innerText;
+    
+          document.getElementById('detailPosition').innerText = position;
+          document.getElementById('detailDescription').innerText = description;
+          document.getElementById('detailRequirements').innerText = requirements;
+          document.getElementById('detailLocation').innerText = location;
+          document.getElementById('detailSalaryRange').innerText = salaryRange;
+          document.getElementById('detailDeadline').innerText = deadline;
+    
+          const modal = new bootstrap.Modal(document.getElementById('recruitmentDetailModal'));
+          modal.show();
+        });
+      });
     });
   </script>
 </body>

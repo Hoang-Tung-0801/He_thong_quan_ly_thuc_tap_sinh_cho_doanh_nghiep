@@ -113,7 +113,7 @@ def quanlituyendung(request):
 
     # Xử lý phân trang danh sách chiến dịch tuyển dụng
     recruitments_list = Recruitment.objects.all().order_by('-posted_date')
-    paginator = Paginator(recruitments_list, 8)  # 10 items per page
+    paginator = Paginator(recruitments_list, 14)  # 10 items per page
     page = request.GET.get('page')
     
     try:
@@ -139,7 +139,7 @@ def quanlituyendung(request):
         candidates = candidates.filter(status='interviewed')
 
     # Phân trang danh sách ứng viên
-    candidate_paginator = Paginator(candidates, 10)  # 10 ứng viên mỗi trang
+    candidate_paginator = Paginator(candidates, 4)  # 10 ứng viên mỗi trang
     candidate_page = request.GET.get('candidate_page')
     try:
         candidates = candidate_paginator.page(candidate_page)
@@ -338,25 +338,32 @@ def forgot_password_view(request):
 # Đặt lại mật khẩu
 def reset_password(request, uidb64, token):
     try:
+        # Giải mã uidb64 để lấy user ID
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
         
+        # Kiểm tra token hợp lệ
         if default_token_generator.check_token(user, token):
             if request.method == 'POST':
                 password = request.POST.get('password')
                 confirm_password = request.POST.get('confirmPassword')
                 
+                # Kiểm tra mật khẩu khớp nhau
                 if password == confirm_password:
                     try:
+                        # Kiểm tra tính hợp lệ của mật khẩu
                         validate_password(password, user)
+                        # Đặt lại mật khẩu
                         user.set_password(password)
                         user.save()
                         messages.success(request, 'Mật khẩu của bạn đã được đặt lại. Vui lòng đăng nhập.')
                         return redirect('login')
                     except ValidationError as e:
+                        # Hiển thị lỗi nếu mật khẩu không hợp lệ
                         messages.error(request, f'Mật khẩu không hợp lệ: {", ".join(e.messages)}')
                 else:
                     messages.error(request, 'Mật khẩu không khớp.')
+            # Hiển thị trang đặt lại mật khẩu
             return render(request, 'home/reset_password.html')
         else:
             messages.error(request, 'Liên kết đặt lại mật khẩu không hợp lệ.')
@@ -364,7 +371,7 @@ def reset_password(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         messages.error(request, 'Liên kết đặt lại mật khẩu không hợp lệ.')
         return redirect('home')
-
+    
 # Quản lý thông báo
 @login_required
 def notification_list(request):
@@ -744,22 +751,6 @@ def manage_candidates(request):
 
 
 @login_required
-def evaluate_candidate(request):
-    if request.method == 'POST':
-        candidate_id = request.POST.get('candidateEvaluation')
-        score = request.POST.get('evaluationScore')
-        comments = request.POST.get('candidateEvaluation')
-        candidate = Candidate.objects.get(id=candidate_id)
-        CandidateEvaluation.objects.create(
-            candidate=candidate,
-            evaluator=request.user,
-            score=score,
-            comments=comments
-        )
-        messages.success(request, 'Đánh giá đã được lưu thành công.')
-        return redirect('quanlituyendung')
-    
-@login_required
 def generate_report(request):
     if request.method == 'POST':
         report_type = request.POST.get('reportType')
@@ -805,6 +796,16 @@ def create_recruitment(request):
         description = request.POST.get('description')
         requirements = request.POST.get('requirements')
         deadline = request.POST.get('deadline')
+        location = request.POST.get('location')
+        salary_range = request.POST.get('salaryRange')
+        
+        # Debug: In ra console để kiểm tra dữ liệu
+        print(f"Position: {position}")
+        print(f"Description: {description}")
+        print(f"Requirements: {requirements}")
+        print(f"Deadline: {deadline}")
+        print(f"Location: {location}")
+        print(f"Salary Range: {salary_range}")
         
         try:
             Recruitment.objects.create(
@@ -812,7 +813,9 @@ def create_recruitment(request):
                 description=description,
                 requirements=requirements,
                 deadline=deadline,
-                posted_by=request.user
+                posted_by=request.user,
+                location=location,
+                salary_range=salary_range
             )
             messages.success(request, 'Chiến dịch tuyển dụng đã được tạo thành công.')
         except Exception as e:

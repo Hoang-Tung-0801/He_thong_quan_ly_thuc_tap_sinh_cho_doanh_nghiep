@@ -12,6 +12,7 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('forgot-password/', views.forgot_password_view, name='forgot_password'),
     path('logout/', views.logout_view, name='logout'),
+    path('reset-password/<uidb64>/<token>/', views.reset_password, name='reset_password'),
 
     # Xác thực email và đặt lại mật khẩu
     path('activate/<uidb64>/<token>/', views.activate_account, name='activate_account'),
@@ -27,7 +28,7 @@ urlpatterns = [
     path('baocaovaphantich/', views.baocaovaphantich, name='baocaovaphantich'),
     path('cauhinhhethong/', views.cauhinhhethong, name='cauhinhhethong'),
     path('baomatvaquyenhan/', views.baomatvaquyenhan, name='baomatvaquyenhan'),
-    path('create-recruitment/', views.create_recruitment, name='create_recruitment'),
+    path('create_recruitment/', views.create_recruitment, name='create_recruitment'),
 
     # Nhóm chức năng cá nhân
     path('myprofile/', views.myprofile, name='myprofile'),
