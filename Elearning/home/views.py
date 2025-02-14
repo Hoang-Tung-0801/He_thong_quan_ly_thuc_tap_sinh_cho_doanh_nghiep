@@ -21,7 +21,7 @@ from django import forms
 from .utils import get_user_groups_context
 from .forms import RecruitmentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import InterviewForm, CommunicationForm
+from .forms import InterviewForm,CommunicationForm
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -678,9 +678,20 @@ def performance_detail(request, pk):
     context['performance'] = performance
     return render(request, 'home/performance_detail.html', context)
 
+#Quản lý đào tạo
 @login_required
-def enroll_training_program(request, pk):
-    program = get_object_or_404(TrainingProgram, pk=pk)
+def training_program_list(request):
+    trainingprograms = TrainingProgram.objects.filter(intern__user=request.user)
+    context = get_user_groups_context(request.user)
+    context['trainingprograms'] = trainingprograms
+    return render(request, 'home/training_program_list.html', context)
+
+@login_required
+def training_program_detail(request, pk):
+    trainingprogram = get_object_or_404(TrainingProgram, pk=pk, intern__user=request.user)
+    context = get_user_groups_context(request.user)
+    context['trainingprogram'] = trainingprogram
+    return render(request, 'home/trainingprogram_detail.html', context)
 
 @user_passes_test(lambda u: is_hr(u) or u.is_superuser)
 def edit_recruitment(request, pk):
@@ -1110,129 +1121,76 @@ def get_profile(request):
     except Intern.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Profile not found.'}, status=404)
 
-@csrf_exempt
-@require_http_methods(["POST"])
-def schedule_interview_api(request):
-    try:
-        data = json.loads(request.body)
-        candidate_id = data.get('candidate_id')
-        interview_date = data.get('interview_date')
-        interview_time = data.get('interview_time')
-        location = data.get('location')
-        notes = data.get('notes')
-
-        # Lấy người phỏng vấn từ request.user
-        interviewer = request.user  # Người phỏng vấn là người dùng hiện tại
-
-        # Kiểm tra xem candidate có tồn tại không
-        candidate = Candidate.objects.get(id=candidate_id)
-
-        # Tạo lịch phỏng vấn
-        interview = Interview.objects.create(
-            candidate=candidate,
-            interview_date=interview_date,
-            interview_time=interview_time,
-            interviewer=interviewer,
-            location=location,
-            notes=notes
-        )
-
-        return JsonResponse({
-            'status': 'success',
-            'data': {
-                'id': interview.id,
-                'candidate_name': candidate.name,
-                'interview_date': interview.interview_date,
-                'interview_time': interview.interview_time,
-                'interviewer_name': interviewer.username,
-                'location': interview.location,
-                'notes': interview.notes
-            }
-        }, status=201)  # Trả về status 201 (Created)
-    except Candidate.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Ứng viên không tồn tại'}, status=404)
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-
-def get_interviews_api(request):
-    interviews = Interview.objects.all().select_related('candidate', 'interviewer')
-    data = [{
-        'id': interview.id,
-        'candidate_id': interview.candidate.id,  # Thêm trường này
-        'candidate_name': interview.candidate.name,
-        'interview_date': interview.interview_date.strftime("%Y-%m-%d"),
-        'interview_time': interview.interview_time.strftime("%H:%M"),  # Bỏ giây
-        'interviewer_name': interview.interviewer.get_full_name() or interview.interviewer.username,
-        'location': interview.location,
-        'notes': interview.notes
-    } for interview in interviews]
-    return JsonResponse(data, safe=False)
-
-@csrf_exempt
-@require_http_methods(["PUT"])
-def update_interview_api(request, pk):
-    try:
-        interview = Interview.objects.get(pk=pk)
-        data = json.loads(request.body)
-        
-        # Chuyển đổi chuỗi thành đối tượng date/time
-        interview_date = parse_date(data.get('interview_date'))
-        interview_time = parse_time(data.get('interview_time'))
-        
-        if interview_date:
-            interview.interview_date = interview_date
-        if interview_time:
-            interview.interview_time = interview_time
-        
-        interview.location = data.get('location', interview.location)
-        interview.notes = data.get('notes', interview.notes)
-        
-        if 'candidate_id' in data:
-            interview.candidate = get_object_or_404(Candidate, pk=data['candidate_id'])
-        
-        interview.save()
-        
-        return JsonResponse({
-            "status": "success",
-            "data": {
-                "id": interview.id,
-                "candidate_name": interview.candidate.name,
-                "interview_date": interview.interview_date.isoformat(),
-                "interview_time": interview.interview_time.strftime("%H:%M"),
-                "location": interview.location,
-                "notes": interview.notes
-            }
-        })
-    except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)}, status=400)
-
-@csrf_exempt
-@require_http_methods(["DELETE"])
-def delete_interview_api(request, pk):
-    try:
-        interview = Interview.objects.get(pk=pk)
-        interview.delete()
-        return JsonResponse({'status': 'success'})
-    except Interview.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Interview not found'}, status=404)
+@login_required
+@require_http_methods(["GET", "POST"])
+def training_program_api(request):
+    if request.method == 'GET':
+        programs = TrainingProgram.objects.all().select_related('trainer')
+        data = [{
+            "id": p.id,
+            "name": p.name,
+            "description": p.description,
+            "start_date": p.start_date.strftime('%Y-%m-%d'),
+            "end_date": p.end_date.strftime('%Y-%m-%d'),
+            "trainer": p.trainer,
+            "max_participants": p.max_participants,
+            "interns": [intern.full_name for intern in p.interns.all()]
+        } for p in programs]
+        return JsonResponse(data, safe=False)
     
-@require_http_methods(["GET"])
-def get_candidates_api(request):
-    candidates = Candidate.objects.all()
-    data = [{
-        'id': candidate.id,
-        'name': candidate.name
-    } for candidate in candidates]
-    return JsonResponse(data, safe=False)
-
-def get_interview_api(request, pk):
-    interview = get_object_or_404(Interview, pk=pk)
-    data = {
-        "id": interview.id,
-        "candidate_id": interview.candidate.id,
-        "interview_date": interview.interview_date.isoformat() if interview.interview_date else None,
-        "interview_time": interview.interview_time.isoformat() if interview.interview_time else None,
-        "location": interview.location,
-        "notes": interview.notes
-    }
-    return JsonResponse(data)
+    elif request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            name = data.get('name')
+            description = data.get('description')
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+            trainer = data.get('trainer')
+            max_participants = data.get('max_participants')
+            intern_id = data.get('intern_id')
+            
+            intern = Intern.objects.get(id=intern_id)
+            program = TrainingProgram.objects.create(
+                name=name,
+                description=description,
+                start_date=start_date,
+                end_date=end_date,
+                trainer=trainer,
+                max_participants=max_participants
+            )
+            program.interns.add(intern)
+            return JsonResponse({"status": "success", "id": program.id}, status=201)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+        
+@login_required
+@require_http_methods(["PUT", "DELETE"])
+def training_program_detail_api(request, pk):
+    try:
+        program = TrainingProgram.objects.get(pk=pk)
+    except TrainingProgram.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Not found"}, status=404)
+    
+    if request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+            program.name = data.get('name', program.name)
+            program.description = data.get('description', program.description)
+            program.start_date = data.get('start_date', program.start_date)
+            program.end_date = data.get('end_date', program.end_date)
+            program.trainer = data.get('trainer', program.trainer)
+            program.max_participants = data.get('max_participants', program.max_participants)
+            intern_id = data.get('intern_id')
+            if intern_id:
+                intern = Intern.objects.get(id=intern_id)
+                program.interns.clear()
+                program.interns.add(intern)
+            program.save()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    
+    elif request.method == "DELETE":
+        program.delete()
+        return JsonResponse({"status": "success"})
+    
