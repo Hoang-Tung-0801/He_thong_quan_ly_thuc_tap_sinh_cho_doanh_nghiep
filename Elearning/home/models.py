@@ -43,13 +43,14 @@ class Intern(models.Model):
     start_date = models.DateField(verbose_name="Ngày bắt đầu thực tập")
     end_date = models.DateField(verbose_name="Ngày kết thúc thực tập")
     avatar = models.ImageField(upload_to='interns/avatars/%Y/%m/', blank=True, null=True, verbose_name="Ảnh đại diện")
+    STATUS_CHOICES = [
+        ('active', 'Đang thực tập'),
+        ('completed', 'Đã hoàn thành'),
+        ('terminated', 'Đã chấm dứt'),
+    ]
     status = models.CharField(
         max_length=20,
-        choices=[
-            ('active', 'Đang thực tập'),
-            ('completed', 'Đã hoàn thành'),
-            ('terminated', 'Đã chấm dứt'),
-        ],
+        choices=STATUS_CHOICES,
         default='active',
         verbose_name="Trạng thái",
         db_index=True
@@ -73,6 +74,7 @@ class Intern(models.Model):
     def get_absolute_url(self):
         return reverse('intern_detail', args=[str(self.id)])
 
+    @property
     def is_active_intern(self):
         return self.status == 'active' and self.is_active
 
@@ -103,23 +105,20 @@ class Recruitment(models.Model):
         super().save(*args, **kwargs)
 
     def clean(self):
-        # Lấy ngày hiện tại
         current_date = timezone.now().date()
         
-        # Kiểm tra deadline không được ở quá khứ
         if self.deadline < current_date:
             raise ValidationError({
                 'deadline': "Hạn nộp không được ở trong quá khứ."
             })
             
-        # Kiểm tra deadline phải sau ngày đăng
-        if self.pk:  # Nếu đã tồn tại trong DB
+        if self.pk:
             posted_date = self.posted_date.date()
             if self.deadline < posted_date:
                 raise ValidationError({
                     'deadline': "Hạn nộp phải sau ngày đăng bài."
                 })
-        else:  # Trường hợp tạo mới
+        else:
             if self.deadline < current_date:
                 raise ValidationError({
                     'deadline': "Hạn nộp phải sau ngày đăng bài."
@@ -131,7 +130,8 @@ class Recruitment(models.Model):
     def days_remaining(self):
         return (self.deadline - timezone.now().date()).days
 
-    def get_status(self):
+    @property
+    def status(self):
         current_date = timezone.now().date()
         if self.is_active:
             if self.deadline >= current_date:
@@ -147,7 +147,6 @@ class Recruitment(models.Model):
 
 
 class TrainingProgram(models.Model):
-    # Chương trình đào tạo
     name = models.CharField(max_length=200, verbose_name="Tên chương trình", unique=True)
     description = models.TextField(verbose_name="Mô tả")
     start_date = models.DateField(verbose_name="Ngày bắt đầu")
@@ -156,13 +155,14 @@ class TrainingProgram(models.Model):
     trainer = models.CharField(max_length=200, verbose_name="Người đào tạo")
     max_participants = models.PositiveIntegerField(default=0, verbose_name="Số lượng tối đa")
     interns = models.ManyToManyField(Intern, related_name='training_programs', verbose_name="Thực tập sinh")
+    STATUS_CHOICES = [
+        ('active', 'Đang hoạt động'),
+        ('completed', 'Đã hoàn thành'),
+        ('cancelled', 'Đã hủy'),
+    ]
     status = models.CharField(
         max_length=20,
-        choices=[
-            ('active', 'Đang hoạt động'),
-            ('completed', 'Đã hoàn thành'),
-            ('cancelled', 'Đã hủy'),
-        ],
+        choices=STATUS_CHOICES,
         default='active',
         verbose_name="Trạng thái",
         db_index=True
@@ -178,6 +178,7 @@ class TrainingProgram(models.Model):
     def get_absolute_url(self):
         return reverse('training_program_detail', args=[str(self.id)])
 
+    @property
     def is_active_program(self):
         return self.status == 'active'
 
@@ -186,8 +187,8 @@ class TrainingProgram(models.Model):
         verbose_name_plural = "Chương trình đào tạo"
         ordering = ['-start_date']
 
+
 class Performance(models.Model):
-    # Đánh giá hiệu suất
     intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="performances")
     evaluator = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Người đánh giá", related_name="evaluations")
     evaluation_date = models.DateField(auto_now_add=True, verbose_name="Ngày đánh giá", editable=False)
@@ -195,14 +196,15 @@ class Performance(models.Model):
     score = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Điểm số", validators=[MinValueValidator(0), MaxValueValidator(100)])
     comments = models.TextField(verbose_name="Nhận xét")
     is_final_evaluation = models.BooleanField(default=False, verbose_name="Đánh giá cuối kỳ")
+    RATING_CHOICES = [
+        (1, 'Rất kém'),
+        (2, 'Kém'),
+        (3, 'Trung bình'),
+        (4, 'Tốt'),
+        (5, 'Xuất sắc'),
+    ]
     rating = models.PositiveSmallIntegerField(
-        choices=[
-            (1, 'Rất kém'),
-            (2, 'Kém'),
-            (3, 'Trung bình'),
-            (4, 'Tốt'),
-            (5, 'Xuất sắc'),
-        ],
+        choices=RATING_CHOICES,
         default=3,
         verbose_name="Đánh giá"
     )
@@ -214,13 +216,13 @@ class Performance(models.Model):
         return self.intern.performances.aggregate(models.Avg('score'))['score__avg']
 
     class Meta:
-        unique_together = ['intern', 'evaluator', 'evaluation_period']  # Thêm dòng này
+        unique_together = ['intern', 'evaluator', 'evaluation_period']
         verbose_name = "Đánh giá hiệu suất"
         verbose_name_plural = "Đánh giá hiệu suất"
         ordering = ['-evaluation_date']
 
+
 class Feedback(models.Model):
-    # Phản hồi từ thực tập sinh
     intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="feedbacks")
     feedback_date = models.DateField(auto_now_add=True, verbose_name="Ngày phản hồi", editable=False)
     content = models.TextField(verbose_name="Nội dung phản hồi")
@@ -238,7 +240,6 @@ class Feedback(models.Model):
 
 
 class Task(models.Model):
-    # Công việc
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('in_progress', 'In Progress'),
@@ -265,6 +266,7 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+    @property
     def is_completed(self):
         return self.status == 'completed'
 
@@ -281,14 +283,15 @@ class Project(models.Model):
     end_date = models.DateField(verbose_name="Ngày kết thúc")
     manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Quản lý dự án", related_name="managed_projects")
     interns = models.ManyToManyField(Intern, related_name='projects', verbose_name="Thực tập sinh")
+    STATUS_CHOICES = [
+        ('planned', 'Đã lên kế hoạch'),
+        ('in_progress', 'Đang thực hiện'),
+        ('completed', 'Đã hoàn thành'),
+        ('cancelled', 'Đã hủy'),
+    ]
     status = models.CharField(
         max_length=20,
-        choices=[
-            ('planned', 'Đã lên kế hoạch'),
-            ('in_progress', 'Đang thực hiện'),
-            ('completed', 'Đã hoàn thành'),
-            ('cancelled', 'Đã hủy'),
-        ],
+        choices=STATUS_CHOICES,
         default='planned',
         verbose_name="Trạng thái",
         db_index=True
@@ -301,6 +304,7 @@ class Project(models.Model):
         if self.start_date and self.end_date and self.start_date > self.end_date:
             raise ValidationError("Ngày bắt đầu không thể lớn hơn ngày kết thúc.")
 
+    @property
     def is_active_project(self):
         return self.status == 'in_progress'
 
@@ -313,13 +317,14 @@ class Project(models.Model):
 class Attendance(models.Model):
     intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="attendances")
     date = models.DateField(verbose_name="Ngày điểm danh")
+    STATUS_CHOICES = [
+        ('present', 'Có mặt'),
+        ('absent', 'Vắng mặt'),
+        ('late', 'Đến muộn'),
+    ]
     status = models.CharField(
         max_length=20,
-        choices=[
-            ('present', 'Có mặt'),
-            ('absent', 'Vắng mặt'),
-            ('late', 'Đến muộn'),
-        ],
+        choices=STATUS_CHOICES,
         default='present',
         verbose_name="Trạng thái"
     )
@@ -360,14 +365,15 @@ class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Người dùng", related_name="notifications")
     message = models.TextField(verbose_name="Nội dung thông báo")
     is_read = models.BooleanField(default=False, verbose_name="Đã đọc", db_index=True)
+    NOTIFICATION_TYPE_CHOICES = [
+        ('info', 'Thông tin'),
+        ('warning', 'Cảnh báo'),
+        ('error', 'Lỗi'),
+        ('success', 'Thành công'),
+    ]
     notification_type = models.CharField(
         max_length=20,
-        choices=[
-            ('info', 'Thông tin'),
-            ('warning', 'Cảnh báo'),
-            ('error', 'Lỗi'),
-            ('success', 'Thành công'),
-        ],
+        choices=NOTIFICATION_TYPE_CHOICES,
         default='info',
         verbose_name="Loại thông báo"
     )
@@ -387,13 +393,14 @@ class Notification(models.Model):
 class JobPost(models.Model):
     title = models.CharField(max_length=200, verbose_name="Tiêu đề", null=False, blank=False)
     description = models.TextField(verbose_name="Mô tả", null=False, blank=False)
+    PLATFORM_CHOICES = [
+        ('website', 'Trang web Công ty'),
+        ('linkedin', 'LinkedIn'),
+        ('indeed', 'Indeed'),
+    ]
     platform = models.CharField(
         max_length=50,
-        choices=[
-            ('website', 'Trang web Công ty'),
-            ('linkedin', 'LinkedIn'),
-            ('indeed', 'Indeed'),
-        ],
+        choices=PLATFORM_CHOICES,
         verbose_name="Nền tảng",
         null=False,
         blank=False
@@ -408,22 +415,24 @@ class JobPost(models.Model):
 class Candidate(models.Model):
     name = models.CharField(max_length=200, verbose_name="Tên ứng viên")
     email = models.EmailField(verbose_name="Email")
-    status = models.CharField(max_length=50, choices=[
+    STATUS_CHOICES = [
         ('new', 'Ứng viên Mới'),
         ('interviewed', 'Đã Phỏng vấn'),
-    ], default='new', verbose_name="Trạng thái")
+    ]
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='new', verbose_name="Trạng thái")
     applied_date = models.DateTimeField(auto_now_add=True, verbose_name="Ngày ứng tuyển")
 
     def __str__(self):
         return self.name
+
 
 class Interview(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Ứng viên")
     interview_date = models.DateField(verbose_name="Ngày phỏng vấn")
     interview_time = models.TimeField(verbose_name="Thời gian phỏng vấn")
     interviewer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Người phỏng vấn")
-    location = models.CharField(max_length=200, verbose_name="Địa điểm", blank=True, null=True)  # Thêm trường location
-    notes = models.TextField(verbose_name="Ghi chú", blank=True, null=True)  # Thêm trường notes
+    location = models.CharField(max_length=200, verbose_name="Địa điểm", blank=True, null=True)
+    notes = models.TextField(verbose_name="Ghi chú", blank=True, null=True)
 
     def __str__(self):
         return f"Phỏng vấn {self.candidate.name} vào {self.interview_date}"
@@ -441,10 +450,11 @@ class CandidateEvaluation(models.Model):
 
 
 class Integration(models.Model):
-    system = models.CharField(max_length=50, choices=[
+    SYSTEM_CHOICES = [
         ('hrm', 'HRM'),
         ('lms', 'LMS'),
-    ], verbose_name="Hệ thống")
+    ]
+    system = models.CharField(max_length=50, choices=SYSTEM_CHOICES, verbose_name="Hệ thống")
     integrated_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Người tích hợp")
     integrated_date = models.DateTimeField(auto_now_add=True, verbose_name="Ngày tích hợp")
 
@@ -454,19 +464,22 @@ class Integration(models.Model):
 
 class UserPermission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Người dùng")
-    role = models.CharField(max_length=50, choices=[
+    ROLE_CHOICES = [
         ('hr', 'HR Manager'),
         ('coordinator', 'Internship Coordinator'),
         ('mentor', 'Mentor'),
-    ], verbose_name="Vai trò")
-    permission = models.CharField(max_length=50, choices=[
+    ]
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, verbose_name="Vai trò")
+    PERMISSION_CHOICES = [
         ('read', 'Chỉ Đọc'),
         ('write', 'Đọc và Ghi'),
-    ], verbose_name="Quyền Truy cập")
+    ]
+    permission = models.CharField(max_length=50, choices=PERMISSION_CHOICES, verbose_name="Quyền Truy cập")
 
     def __str__(self):
         return f"{self.user.username} - {self.get_role_display()}"
-    
+
+
 class Report(models.Model):
     intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="reports")
     title = models.CharField(max_length=200, verbose_name="Tiêu đề")
@@ -491,7 +504,16 @@ class InternshipOffer(models.Model):
     content = models.TextField()
     sent_by = models.ForeignKey(User, on_delete=models.CASCADE)
     sent_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending')
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+    def __str__(self):
+        return f"Offer to {self.candidate.name}"
+
 
 class Communication(models.Model):
     FEEDBACK_CHOICES = [
@@ -500,21 +522,10 @@ class Communication(models.Model):
         ('neutral', 'Trung lập'),
     ]
     
-    sender = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='sent_messages'
-    )
-    receiver = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='received_messages'
-    )
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
     message = models.TextField()
-    feedback_type = models.CharField(
-        max_length=10,
-        choices=FEEDBACK_CHOICES
-    )
+    feedback_type = models.CharField(max_length=10, choices=FEEDBACK_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -522,6 +533,3 @@ class Communication(models.Model):
 
     def __str__(self):
         return f"{self.sender} -> {self.receiver} ({self.get_feedback_type_display()})"
-    
-
-
