@@ -186,7 +186,6 @@ class TrainingProgram(models.Model):
         verbose_name_plural = "Chương trình đào tạo"
         ordering = ['-start_date']
 
-
 class Performance(models.Model):
     # Đánh giá hiệu suất
     intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="performances")
@@ -520,39 +519,6 @@ class Communication(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-
-    def __str__(self):
-        return f"{self.sender} -> {self.receiver} ({self.get_feedback_type_display()})"
-    
-class Communication(models.Model):
-    FEEDBACK_CHOICES = [
-        ('positive', 'Tích cực'),
-        ('negative', 'Tiêu cực'),
-        ('neutral', 'Trung lập'),
-    ]
-    
-    sender = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='sent_messages'
-    )
-    receiver = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='received_messages'
-    )
-    message = models.TextField()
-    feedback_type = models.CharField(
-        max_length=10,
-        choices=FEEDBACK_CHOICES
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name = "Giao tiếp"
-        verbose_name_plural = "Giao tiếp"
 
     def __str__(self):
         return f"{self.sender} -> {self.receiver} ({self.get_feedback_type_display()})"

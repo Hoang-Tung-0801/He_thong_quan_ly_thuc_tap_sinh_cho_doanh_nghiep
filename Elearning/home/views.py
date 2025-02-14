@@ -1239,3 +1239,79 @@ def get_interview_api(request, pk):
         "notes": interview.notes
     }
     return JsonResponse(data)
+<<<<<<< HEAD
+=======
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def training_program_api(request):
+    if request.method == 'GET':
+        programs = TrainingProgram.objects.all().select_related('trainer')
+        data = [{
+            "id": p.id,
+            "name": p.name,
+            "description": p.description,
+            "start_date": p.start_date.strftime('%Y-%m-%d'),
+            "end_date": p.end_date.strftime('%Y-%m-%d'),
+            "trainer": p.trainer,
+            "max_participants": p.max_participants,
+            "interns": [intern.full_name for intern in p.interns.all()]
+        } for p in programs]
+        return JsonResponse(data, safe=False)
+    
+    elif request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            name = data.get('name')
+            description = data.get('description')
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+            trainer = data.get('trainer')
+            max_participants = data.get('max_participants')
+            intern_id = data.get('intern_id')
+            
+            intern = Intern.objects.get(id=intern_id)
+            program = TrainingProgram.objects.create(
+                name=name,
+                description=description,
+                start_date=start_date,
+                end_date=end_date,
+                trainer=trainer,
+                max_participants=max_participants
+            )
+            program.interns.add(intern)
+            return JsonResponse({"status": "success", "id": program.id}, status=201)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+        
+@login_required
+@require_http_methods(["PUT", "DELETE"])
+def training_program_detail_api(request, pk):
+    try:
+        program = TrainingProgram.objects.get(pk=pk)
+    except TrainingProgram.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Not found"}, status=404)
+    
+    if request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+            program.name = data.get('name', program.name)
+            program.description = data.get('description', program.description)
+            program.start_date = data.get('start_date', program.start_date)
+            program.end_date = data.get('end_date', program.end_date)
+            program.trainer = data.get('trainer', program.trainer)
+            program.max_participants = data.get('max_participants', program.max_participants)
+            intern_id = data.get('intern_id')
+            if intern_id:
+                intern = Intern.objects.get(id=intern_id)
+                program.interns.clear()
+                program.interns.add(intern)
+            program.save()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    
+    elif request.method == "DELETE":
+        program.delete()
+        return JsonResponse({"status": "success"})
+>>>>>>> 578212b261c10939233204675d69f2f968488579

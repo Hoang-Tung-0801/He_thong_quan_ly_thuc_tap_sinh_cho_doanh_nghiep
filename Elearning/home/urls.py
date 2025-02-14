@@ -62,7 +62,8 @@ urlpatterns = [
     path('performances/<int:pk>/', views.performance_detail, name='performance_detail'),
 
     # Quản lý chương trình đào tạo
-    path('training-programs/<int:pk>/enroll/', views.enroll_training_program, name='enroll_training_program'),
+    path('api/training-programs/', views.training_program_api, name='training_program_api'),
+    path('api/training-programs/<int:pk>/', views.training_program_detail_api, name='training_program_detail_api'),
 
     # Quản lý hồ sơ cá nhân
     path('update-profile/', views.update_profile, name='update_profile'),
@@ -91,17 +92,15 @@ urlpatterns = [
 
     # Lịch phỏng vấn
     path('lichphongvan/', views.interview_list, name='lichphongvan'),
-    path('api/get-candidates/', views.get_candidates_api, name='get_candidates_api'),
-    path('api/schedule-interview/', views.schedule_interview_api, name='schedule_interview_api'),
-    path('api/get-interviews/', views.get_interviews_api, name='get_interviews_api'),
-    path('api/update-interview/<int:pk>/', views.update_interview_api, name='update_interview_api'),
-    path('api/delete-interview/<int:pk>/', views.delete_interview_api, name='delete_interview_api'),
-    path('api/get-interviews/<int:pk>/', views.get_interview_api, name='get_interview_api'),
+    path('lichphongvan/schedule/', views.schedule_interview, name='schedule_interview'),
+    path('lichphongvan/edit/<int:pk>/', views.edit_interview, name='edit_interview'),
+    path('lichphongvan/delete/<int:pk>/', views.delete_interview, name='delete_interview'),
     
     #theo dõi hiệu suất
     path('api/performances/', views.performance_api, name='performance_api'),
     path('api/performances/<int:pk>/', views.performance_detail_api, name='performance_detail_api'),
     path('api/active-interns/', views.get_active_interns, name='active_interns'),
+
 ]
 
 # Phục vụ file media trong môi trường DEBUG

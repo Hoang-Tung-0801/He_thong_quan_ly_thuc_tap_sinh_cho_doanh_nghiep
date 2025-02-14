@@ -122,6 +122,25 @@
         background-color: #1e1e1e;
         color: #ffffff;
     }
+
+    button {
+      background-color: #4CAF50; /* Màu nền xanh lá cây */
+      color: white; /* Màu chữ trắng */
+      border: none; /* Không có viền */
+      padding: 10px 20px; /* Khoảng cách bên trong */
+      text-align: center; /* Căn giữa chữ */
+      text-decoration: none; /* Không có gạch chân */
+      display: inline-block; /* Hiển thị inline */
+      font-size: 16px; /* Kích thước chữ */
+      margin: 4px 2px; /* Khoảng cách giữa các nút */
+      cursor: pointer; /* Con trỏ chuột khi di chuột qua */
+      border-radius: 5px; /* Bo góc */
+  }
+  
+  button:hover {
+      background-color: #45a049; /* Màu nền khi di chuột qua */
+  }
+    
   </style>
   
 </head>
@@ -190,6 +209,7 @@
               </tr>
             </tbody>
           </table>
+          <button id="exportExcelBtn" class="btn btn-success mt-3">Xuất ra Excel</button>
         </div>
         <!-- Modal -->
           <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -220,16 +240,16 @@
           <!-- Tabs for Detailed Analysis -->
           <ul class="nav nav-tabs" id="analysisTabs" role="tablist">
             <li class="nav-item">
-              <button class="nav-link active" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills" type="button" role="tab">Kỹ năng đạt được</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link" id="intern-feedback-tab" data-bs-toggle="tab" data-bs-target="#intern-feedback" type="button" role="tab">Phản hồi Intern</button>
+              <button class="nav-link active" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills" type="button" role="tab">Thành tích đạt được</button>
             </li>
             <li class="nav-item">
               <button class="nav-link" id="student-participation-tab" data-bs-toggle="tab" data-bs-target="#student-participation" type="button" role="tab">Mức độ chuyên cần</button>
             </li>
             <li class="nav-item">
               <button class="nav-link" id="intern-performance-tab" data-bs-toggle="tab" data-bs-target="#intern-performance" type="button" role="tab">Hiệu suất Intern</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" id="intern-feedback-tab" data-bs-toggle="tab" data-bs-target="#intern-feedback" type="button" role="tab">Phản hồi Intern</button>
             </li>
           </ul>
           <div class="tab-content mt-4">
@@ -241,8 +261,8 @@
                   <input type="text" class="form-control" id="internNameSkills" placeholder="Nhập tên Intern" required>
                 </div>
                 <div class="mb-3">
-                  <label for="skillsAcquired" class="form-label">Kỹ năng đã đạt được</label>
-                  <textarea class="form-control" id="skillsAcquired" rows="3" placeholder="Nhập danh sách kỹ năng" required></textarea>
+                  <label for="skillsAcquired" class="form-label">Thành tích đã đạt được</label>
+                  <textarea class="form-control" id="skillsAcquired" rows="3" placeholder="Nhập danh sách thành tích đạt được" required></textarea>
                 </div>
               </form>
             </div>
@@ -250,10 +270,6 @@
             <!-- Phân tích Mức độ Tham gia -->
             <div class="tab-pane fade" id="student-participation" role="tabpanel">
               <form id="studentParticipationForm">
-                <div class="mb-3">
-                  <label for="studentName" class="form-label">Tên Intern</label>
-                  <input type="text" class="form-control" id="studentName" placeholder="Nhập tên Intern" required>
-                </div>
                 <div class="mb-3">
                   <label for="totalSessions" class="form-label">Tổng số buổi</label>
                   <input type="number" class="form-control" id="totalSessions" placeholder="Nhập tổng số buổi" required min="1">
@@ -270,10 +286,6 @@
             <div class="tab-pane fade" id="intern-performance" role="tabpanel">
               <form id="internPerformanceForm">
                 <div class="mb-3">
-                  <label for="internName" class="form-label">Tên Intern</label>
-                  <input type="text" class="form-control" id="internName" placeholder="Nhập tên Intern" required>
-                </div>
-                <div class="mb-3">
                   <label for="assignedTasks" class="form-label">Số công việc được giao</label>
                   <input type="number" class="form-control" id="assignedTasks" placeholder="Nhập số công việc" required min="1">
                 </div>
@@ -288,10 +300,6 @@
             <!-- Phản hồi Từ Intern -->
             <div class="tab-pane fade" id="intern-feedback" role="tabpanel">
               <form id="internFeedbackForm">
-                <div class="mb-3">
-                  <label for="internNameFeedback" class="form-label">Tên Intern</label>
-                  <input type="text" class="form-control" id="internNameFeedback" placeholder="Nhập tên Intern" required>
-                </div>
                 <div class="mb-3">
                   <label for="internComments" class="form-label">Phản hồi của Intern</label>
                   <textarea class="form-control" id="internComments" rows="3" placeholder="Nhập phản hồi" required></textarea>
@@ -310,6 +318,13 @@
           </div>
         </div>
         <button class="btn btn-info" id="viewAllBtn">Xem tất cả</button>
+        <button id="exportBtn">Xuất file Word</button>
+        <div id="allContent" style="display:none;">
+            <div id="allSkillsContent"></div>
+            <div id="allParticipationContent"></div>
+            <div id="allPerformanceContent"></div>
+            <div id="allFeedbackContent"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -317,6 +332,7 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
   <script>
     // Mảng lưu trữ báo cáo và phân tích
     let reports = [
@@ -470,7 +486,7 @@
     }
 
     let participationRate = 0; // Biến lưu trữ phần trăm tham gia
-  let performanceRate = 0; // Biến lưu trữ phần trăm hoàn thành
+    let performanceRate = 0; // Biến lưu trữ phần trăm hoàn thành
 
   // Tính toán phần trăm tham gia
   document.getElementById('studentParticipationForm').addEventListener('submit', function(event) {
@@ -494,6 +510,7 @@
     alert(`Phần trăm hoàn thành: ${performanceRate}%`); // Hiển thị phần trăm hoàn thành
   });
 
+
   document.getElementById('viewAllBtn').addEventListener('click', function() {
     const allContent = document.getElementById('allContent');
     const allSkillsContent = document.getElementById('allSkillsContent');
@@ -506,21 +523,89 @@
     const skillsAcquired = document.getElementById('skillsAcquired').value;
     const participationSessions = document.getElementById('participationSessions').value;
     const totalSessions = document.getElementById('totalSessions').value;
-    const studentName = document.getElementById('studentName').value;
-    const internName = document.getElementById('internName').value;
     const assignedTasks = document.getElementById('assignedTasks').value;
     const completedTasks = document.getElementById('completedTasks').value;
-    const internNameFeedback = document.getElementById('internNameFeedback').value;
     const internComments = document.getElementById('internComments').value;
 
     // Hiển thị nội dung
-    allSkillsContent.innerHTML = `<strong>Kỹ năng đạt được:</strong><br>Tên Intern: ${internNameSkills}<br>Kỹ năng: ${skillsAcquired}`;
-    allParticipationContent.innerHTML = `<strong>Mức độ chuyên cần:</strong><br>Tên Intern: ${studentName}<br>Tổng số buổi: ${totalSessions}<br>Số buổi tham gia: ${participationSessions}<br>Phần trăm tham gia: ${participationRate}%`;
-    allPerformanceContent.innerHTML = `<strong>Hiệu suất Intern:</strong><br>Tên Intern: ${internName}<br>Số công việc được giao: ${assignedTasks}<br>Số công việc đã hoàn thành: ${completedTasks}<br>Phần trăm hoàn thành: ${performanceRate}%`;
-    allFeedbackContent.innerHTML = `<strong>Phản hồi của Intern:</strong><br>Tên Intern: ${internNameFeedback}<br>Phản hồi: ${internComments}`;
+    allSkillsContent.innerHTML = `<strong>Thành tích đạt được:</strong><br>Tên Intern: ${internNameSkills}<br>Thành tích: ${skillsAcquired}`;
+    allParticipationContent.innerHTML = `<strong>Mức độ chuyên cần:</strong><br>Tổng số buổi: ${totalSessions}<br>Số buổi tham gia: ${participationSessions}<br>Phần trăm tham gia: ${participationRate}%`;
+    allPerformanceContent.innerHTML = `<strong>Hiệu suất Intern:</strong><br>Số công việc được giao: ${assignedTasks}<br>Số công việc đã hoàn thành: ${completedTasks}<br>Phần trăm hoàn thành: ${performanceRate}%`;
+    allFeedbackContent.innerHTML = `<strong>Phản hồi của Intern:</strong><br>Phản hồi: ${internComments}`;
 
     allContent.style.display = 'block'; // Hiển thị phần nội dung tất cả
+
   });
+
+    function exportToWord() {
+      const allSkillsContent = document.getElementById('allSkillsContent').innerHTML;
+      const allParticipationContent = document.getElementById('allParticipationContent').innerHTML;
+      const allPerformanceContent = document.getElementById('allPerformanceContent').innerHTML;
+      const allFeedbackContent = document.getElementById('allFeedbackContent').innerHTML;
+
+      const content = `
+          <html>
+              <head>
+                  <meta charset="utf-8">
+                  <title>Intern Report</title>
+              </head>
+              <body>
+                  <h1>Báo cáo Intern</h1>
+                  ${allSkillsContent}
+                  <br>
+                  ${allParticipationContent}
+                  <br>
+                  ${allPerformanceContent}
+                  <br>
+                  ${allFeedbackContent}
+              </body>
+          </html>
+      `;
+
+      const blob = new Blob([content], {
+          type: 'application/msword'
+      });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Phan_tich_chi_tiet_intern.doc';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  }
+
+  // Thêm sự kiện cho nút xuất file
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    exportToWord();
+  });
+
+  document.getElementById('exportExcelBtn').addEventListener('click', function() {
+    // Lấy dữ liệu từ bảng
+    const table = document.getElementById('reportAnalysisList');
+    const rows = Array.from(table.rows);
+    
+    // Tạo một mảng để chứa dữ liệu, bỏ cột cuối cùng (Hành động)
+    const data = rows.map(row => {
+        const cells = Array.from(row.cells);
+        return cells.slice(0, -1).map(cell => cell.innerText); // Bỏ cột cuối cùng
+    });
+
+    // Thêm tiêu đề của bảng (nếu cần)
+    const headers = ["Loại báo cáo", "Kỳ báo cáo", "Chi tiết"];
+    data.unshift(headers);
+
+    // Tạo workbook và worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(data);
+
+    // Thêm worksheet vào workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Báo cáo");
+
+    // Xuất file Excel
+    XLSX.writeFile(wb, "bao_cao.xlsx");
+});
+
   </script>
 
 </body>
