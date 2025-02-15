@@ -544,6 +544,7 @@ class Profile(models.Model):
     address = models.CharField(max_length=200, verbose_name="Địa chỉ")
     education = models.CharField(max_length=100, verbose_name="Trình độ học vấn")
     workExperience = models.TextField(blank=True, verbose_name="Kinh nghiệm làm việc")
+    documents = models.FileField(upload_to='documents/')
 
     def __str__(self):
         return self.full_name

@@ -30,8 +30,8 @@ from django.db import models
 from django.utils.dateparse import parse_date, parse_time
 from django.views.decorators.http import require_POST
 
+from .forms import ProfileForm
 from .models import Profile
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -1363,35 +1363,37 @@ def mark_notification_as_read(request, notification_id):
     except Notification.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
 
-@csrf_exempt 
-def add_profile(request):
+#
+def profile_list(request):
+    profiles = Profile.objects.all()  # Lấy tất cả hồ sơ từ database
+    return render(request, 'profile_list.html', {'profiles': profiles})
+
+def profile_create(request):
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            # Chuyển đổi ngày sinh từ string sang kiểu date (giả sử định dạng là "yyyy-mm-dd")
-            dob = datetime.strptime(data.get('dob'), '%Y-%m-%d').date()
-            
-            # Tạo và lưu hồ sơ
-            profile = Profile.objects.create(
-                trainee_id = data.get('id'),
-                full_name = data.get('fullName'),
-                dob = dob,
-                gender = data.get('gender'),
-                email = data.get('email'),
-                phone = data.get('phone'),
-                address = data.get('address'),
-                education = data.get('education'),
-                work_experience = data.get('workExperience'),
-            )
-            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được lưu.'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-    return JsonResponse({'success': False, 'message': 'Phương thức không hợp lệ.'})
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_list')  # Sau khi lưu, chuyển hướng sang trang danh sách
+    else:
+        form = ProfileForm()
+    return render(request, 'profile_create.html', {'form': form})
 
 
-def list_profiles(request):
-    profiles = Profile.objects.all().values(
-        'id', 'full_name', 'dob', 'gender',
-        'email', 'phone', 'address', 'education', 'work_experience'
-    )
-    return JsonResponse(list(profiles), safe=False)
+@csrf_exempt  # Lưu ý: Khi dùng AJAX, hãy đảm bảo bảo mật bằng cách sử dụng CSRF token
+def profile_create_ajax(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        # Chuyển đổi dữ liệu nếu cần (ví dụ, chuyển chuỗi ngày thành kiểu date)
+        profile = Profile.objects.create(
+            profile_id=data.get('profile_id'),
+            full_name=data.get('full_name'),
+            dob=data.get('dob'),
+            gender=data.get('gender'),
+            email=data.get('email'),
+            phone=data.get('phone'),
+            address=data.get('address'),
+            education=data.get('education'),
+            workExperience=data.get('workExperience')
+        )
+        return JsonResponse({'status': 'success', 'profile_id': profile.profile_id})
+    return JsonResponse({'status': 'error'}, status=400)

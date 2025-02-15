@@ -423,6 +423,7 @@
   
   
   <script>
+
     // Lắng nghe sự kiện tìm kiếm
     function filterProfiles() {
       const searchID = document.getElementById('searchID').value;
@@ -495,12 +496,12 @@
     
       // Xuất file Excel
       XLSX.writeFile(wb, "ho_so.xlsx");
+
+
     }
 
     updateProfileList();
-
-
-
+    
       document.getElementById('profileManagementForm').addEventListener('submit', async function(event) {
       event.preventDefault();
 
@@ -557,7 +558,7 @@
           profiles.forEach((profile, index) => {
             profileList.innerHTML += `
               <tr>
-                <td>${profile.trainee_id}</td>
+                <td>${profile.id}</td>
                 <td>${profile.full_name}</td>
                 <td>${new Date(profile.dob).toLocaleDateString()}</td>
                 <td>${profile.gender}</td>
@@ -565,7 +566,7 @@
                 <td>${profile.phone}</td>
                 <td>${profile.address}</td>
                 <td>${profile.education}</td>
-                <td>${profile.work_experience}</td>
+                <td>${profile.workExperience}</td>
                 <td>
                   <!-- Nút Sửa/Xóa cần được xử lý tương ứng -->
                   <button class="btn btn-sm btn-primary">Sửa</button>
@@ -598,6 +599,5 @@
       }
       
   </script>
-  
 </body>
 </html>

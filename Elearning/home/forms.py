@@ -32,11 +32,7 @@ class CommunicationForm(forms.ModelForm):
         }
 
 
-class InternProfileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = "__all__"
-        widgets = {
-            "dob": forms.DateInput(attrs={"type": "date"}),  # Input dạng Date
-            "gender": forms.Select(attrs={"class": "form-control"}),
-        }
