@@ -3,23 +3,23 @@
     <div class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
       <div class="text-body">
         ©
-        <script>
-          document.write(new Date().getFullYear());
-        </script>
+        <span id="current-year"></span>
         , made with ❤️ by
-        <a href="https://github.com/Hoang-Tung-0801/He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep" target="_blank" class="footer-link">Nhóm 10</a>
+        <a href="https://github.com/Hoang-Tung-0801/He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep" target="_blank" class="footer-link" rel="noopener noreferrer">Nhóm 10</a>
       </div>
       <div class="d-none d-lg-inline-block">
         <a
           href="https://docs.google.com/document/d/1xHk9KSn_4ahE6lnzRG3DkIWzLFBkrGda_n_dU1gQO-w/edit?tab=t.0#heading=h.l9sagyhna8jy"
           target="_blank"
           class="footer-link me-4"
+          rel="noopener noreferrer"
           >Documentation</a
         >
         <a
           href="https://github.com/Hoang-Tung-0801/He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep"
           target="_blank"
           class="footer-link"
+          rel="noopener noreferrer"
           >Support</a
         >
       </div>
@@ -29,12 +29,13 @@
 
 <style>
   /* Bỏ gạch chân cho các liên kết trong footer */
-  .footer-link {
-    text-decoration: none !important;
-  }
-
-  /* Đảm bảo gạch chân không xuất hiện khi hover */
+  .footer-link,
   .footer-link:hover {
     text-decoration: none !important;
   }
 </style>
+
+<script>
+  // Cập nhật năm hiện tại
+  document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
