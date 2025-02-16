@@ -1,19 +1,18 @@
 from django import forms
-from .models import Recruitment,Interview,Communication
+from .models import Recruitment, Interview, Communication, Profile
 from django.utils import timezone
-from .models import Profile
 
 class RecruitmentForm(forms.ModelForm):
     class Meta:
         model = Recruitment
         fields = ['position', 'description', 'requirements', 'location', 'salary_range', 'deadline']
-        
+
     def clean_deadline(self):
         deadline = self.cleaned_data.get('deadline')
         if deadline < timezone.now().date():
             raise forms.ValidationError("Hạn nộp không được ở trong quá khứ.")
         return deadline
-    
+
 class InterviewForm(forms.ModelForm):
     class Meta:
         model = Interview
@@ -30,7 +29,6 @@ class CommunicationForm(forms.ModelForm):
         widgets = {
             'message': forms.Textarea(attrs={'rows': 3}),
         }
-
 
 class ProfileForm(forms.ModelForm):
     class Meta:
