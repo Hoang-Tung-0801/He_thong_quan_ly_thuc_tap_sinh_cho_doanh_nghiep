@@ -28,6 +28,8 @@ class DepartmentAdmin(admin.ModelAdmin):
     search_fields = ('name', 'manager__username')
     list_filter = ('created_at',)
     list_per_page = 20
+    ordering = ('name',)
+    list_select_related = ('manager',)
 
 @admin.register(Intern)
 class InternAdmin(admin.ModelAdmin):
@@ -51,6 +53,8 @@ class InternAdmin(admin.ModelAdmin):
     )
     readonly_fields = ('full_name', 'created_at', 'updated_at')
     actions = [mark_as_completed, send_notification]
+    list_select_related = ('user', 'department')
+    raw_id_fields = ('user', 'department')
 
     def avatar_preview(self, obj):
         if obj.avatar:
@@ -73,6 +77,8 @@ class RecruitmentAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = ('posted_date',)
+    list_select_related = ('posted_by',)
+    raw_id_fields = ('posted_by',)
 
 @admin.register(TrainingProgram)
 class TrainingProgramAdmin(admin.ModelAdmin):
@@ -89,6 +95,8 @@ class TrainingProgramAdmin(admin.ModelAdmin):
         }),
     )
     filter_horizontal = ('interns',)
+    list_select_related = ('trainer',)
+    raw_id_fields = ('trainer',)
 
 @admin.register(Performance)
 class PerformanceAdmin(admin.ModelAdmin):
@@ -101,6 +109,8 @@ class PerformanceAdmin(admin.ModelAdmin):
             'fields': ('intern', 'evaluator', 'evaluation_period', 'score', 'comments', 'is_final_evaluation', 'rating')
         }),
     )
+    list_select_related = ('intern', 'evaluator')
+    raw_id_fields = ('intern', 'evaluator')
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
@@ -116,6 +126,8 @@ class FeedbackAdmin(admin.ModelAdmin):
             'fields': ('response', 'response_date')
         }),
     )
+    list_select_related = ('intern',)
+    raw_id_fields = ('intern',)
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
@@ -123,6 +135,8 @@ class TaskAdmin(admin.ModelAdmin):
     search_fields = ('title', 'assigned_to__username', 'description')
     list_filter = ('status', 'priority', 'due_date', 'project')
     list_per_page = 20
+    list_select_related = ('assigned_to', 'project')
+    raw_id_fields = ('assigned_to', 'project')
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
@@ -130,6 +144,8 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('name', 'manager__username', 'description')
     list_filter = ('start_date', 'end_date', 'status')
     list_per_page = 20
+    list_select_related = ('manager',)
+    raw_id_fields = ('manager',)
 
 @admin.register(Attendance)
 class AttendanceAdmin(admin.ModelAdmin):
@@ -137,6 +153,8 @@ class AttendanceAdmin(admin.ModelAdmin):
     search_fields = ('intern__full_name', 'notes')
     list_filter = ('date', 'status')
     list_per_page = 20
+    list_select_related = ('intern',)
+    raw_id_fields = ('intern',)
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
@@ -145,6 +163,8 @@ class ReportAdmin(admin.ModelAdmin):
     readonly_fields = ('submitted_date',)
     search_fields = ('title', 'intern__full_name')
     date_hierarchy = 'submitted_date'
+    list_select_related = ('intern', 'reviewed_by')
+    raw_id_fields = ('intern', 'reviewed_by')
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
@@ -152,6 +172,7 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ('title', 'location', 'description')
     list_filter = ('start_time', 'end_time')
     list_per_page = 20
+    date_hierarchy = 'start_time'
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
@@ -159,6 +180,8 @@ class NotificationAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'message')
     list_filter = ('notification_type', 'is_read', 'created_at')
     list_per_page = 20
+    list_select_related = ('user',)
+    raw_id_fields = ('user',)
 
 @admin.register(JobPost)
 class JobPostAdmin(admin.ModelAdmin):
@@ -166,6 +189,8 @@ class JobPostAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description', 'posted_by__username')
     list_filter = ('platform', 'posted_date')
     list_per_page = 20
+    list_select_related = ('posted_by',)
+    raw_id_fields = ('posted_by',)
 
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
@@ -173,6 +198,7 @@ class CandidateAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email')
     list_filter = ('status', 'applied_date')
     list_per_page = 20
+    date_hierarchy = 'applied_date'
 
 @admin.register(Interview)
 class InterviewAdmin(admin.ModelAdmin):
@@ -180,6 +206,8 @@ class InterviewAdmin(admin.ModelAdmin):
     search_fields = ('candidate__name', 'interviewer__username')
     list_filter = ('interview_date', 'interviewer')
     list_per_page = 20
+    list_select_related = ('candidate', 'interviewer')
+    raw_id_fields = ('candidate', 'interviewer')
 
 @admin.register(CandidateEvaluation)
 class CandidateEvaluationAdmin(admin.ModelAdmin):
@@ -187,6 +215,8 @@ class CandidateEvaluationAdmin(admin.ModelAdmin):
     search_fields = ('candidate__name', 'evaluator__username')
     list_filter = ('evaluation_date', 'evaluator')
     list_per_page = 20
+    list_select_related = ('candidate', 'evaluator')
+    raw_id_fields = ('candidate', 'evaluator')
 
 @admin.register(Integration)
 class IntegrationAdmin(admin.ModelAdmin):
@@ -194,6 +224,8 @@ class IntegrationAdmin(admin.ModelAdmin):
     search_fields = ('system', 'integrated_by__username')
     list_filter = ('system', 'integrated_date')
     list_per_page = 20
+    list_select_related = ('integrated_by',)
+    raw_id_fields = ('integrated_by',)
 
 @admin.register(UserPermission)
 class UserPermissionAdmin(admin.ModelAdmin):
@@ -201,6 +233,8 @@ class UserPermissionAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'role')
     list_filter = ('role', 'permission')
     list_per_page = 20
+    list_select_related = ('user',)
+    raw_id_fields = ('user',)
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -208,3 +242,4 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ('id', 'full_name', 'dob', 'gender', 'email', 'phone', 'education')
     list_filter = ('gender', 'education', 'dob')
     list_per_page = 20
+    date_hierarchy = 'dob'
