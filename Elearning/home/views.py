@@ -29,7 +29,6 @@ from django.views.decorators.http import require_http_methods
 from django.db import models
 from django.utils.dateparse import parse_date, parse_time
 from django.views.decorators.http import require_POST
-
 from .forms import ProfileForm
 from .models import Profile
 
@@ -1262,7 +1261,7 @@ def get_interview_api(request, pk):
 @require_http_methods(["GET", "POST"])
 def training_program_api(request):
     if request.method == 'GET':
-        programs = TrainingProgram.objects.all().select_related('trainer')
+        programs = TrainingProgram.objects.all().prefetch_related('interns')
         data = [{
             "id": p.id,
             "name": p.name,
