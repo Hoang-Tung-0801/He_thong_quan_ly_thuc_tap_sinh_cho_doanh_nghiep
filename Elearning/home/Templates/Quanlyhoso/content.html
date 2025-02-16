@@ -135,6 +135,7 @@
       </div>
       <div class="card-body">
         <form id="profileManagementForm">
+          {% csrf_token %} 
           <div class="mb-3">
             <label for="id" class="form-label">Mã thực tập sinh</label>
             <input type="text" class="form-control" id="id" placeholder="Nhập mã thực tập sinh" required>
@@ -273,6 +274,7 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
     // Mảng lưu trữ hồ sơ
@@ -497,106 +499,83 @@
       // Xuất file Excel
       XLSX.writeFile(wb, "ho_so.xlsx");
 
-
+      
     }
 
     updateProfileList();
+
     
-      document.getElementById('profileManagementForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
+    $(document).ready(function() {
+      $('#profileManagementForm').on('submit', function(e) {
+        e.preventDefault();  // Ngăn form gửi theo cách thông thường
 
-      // Lấy dữ liệu từ form
-      const id = document.getElementById('id').value;
-      const fullName = document.getElementById('fullName').value;
-      const dob = document.getElementById('dob').value; // yyyy-mm-dd
-      const gender = document.getElementById('gender').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const address = document.getElementById('address').value;
-      const education = document.getElementById('education').value;
-      const workExperience = document.getElementById('workExperience').value;
-      // Lấy file nếu cần xử lý riêng
+        // Tạo FormData để gửi cả file và dữ liệu
+        const formData = new FormData(this);
 
-      // Tạo object dữ liệu
-      const profileData = {
-        id: id,
-        fullName: fullName,
-        dob: dob,
-        gender: gender,
-        email: email,
-        phone: phone,
-        address: address,
-        education: education,
-        workExperience: workExperience
-      };
-
-      try {
-        const response = await fetch('/api/add-profile/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            // Nếu dùng CSRF token, thêm header 'X-CSRFToken': tokenValue
+        // Gửi dữ liệu bằng AJAX
+        $.ajax({
+          url: 'http://127.0.0.1:8000/quanlyhoso/add-profile/',  // URL của view xử lý form
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.success) {
+              alert(response.message);  // Thông báo thành công
+              clearProfileManagementForm();  // Xóa form sau khi lưu
+              loadProfiles();  // Tải lại danh sách sau khi thêm
+            } 
           },
-          body: JSON.stringify(profileData)
         });
-        const result = await response.json();
-        if (result.success) {
-          alert(result.message);
-          // Sau khi lưu thành công, bạn có thể cập nhật lại danh sách hồ sơ từ backend (ví dụ: gọi API lấy danh sách)
-          clearProfileManagementForm();
-        } else {
-          alert('Lỗi: ' + result.message);
-        }
-      
+      });
+    });
+
+    // Hàm xóa form
+    function clearProfileManagementForm() {
+      $('#profileManagementForm')[0].reset();
+    }
+    
+    $(document).ready(function() {
+      loadProfiles();  // Tải dữ liệu khi trang được tải
+    });
   
-      async function updateProfileList() {
-        try {
-          const response = await fetch('quanlyhoso/');
-          const profiles = await response.json();
-          const profileList = document.getElementById('profileList');
-          profileList.innerHTML = '';
-          profiles.forEach((profile, index) => {
-            profileList.innerHTML += `
-              <tr>
-                <td>${profile.id}</td>
-                <td>${profile.full_name}</td>
-                <td>${new Date(profile.dob).toLocaleDateString()}</td>
-                <td>${profile.gender}</td>
-                <td>${profile.email}</td>
-                <td>${profile.phone}</td>
-                <td>${profile.address}</td>
-                <td>${profile.education}</td>
-                <td>${profile.workExperience}</td>
-                <td>
-                  <!-- Nút Sửa/Xóa cần được xử lý tương ứng -->
-                  <button class="btn btn-sm btn-primary">Sửa</button>
-                  <button class="btn btn-sm btn-danger">Xóa</button>
-                </td>
-              </tr>
-            `;
-          });
-        } catch (error) {
-          console.error('Error fetching profiles:', error);
-        }
-      }
-      
-      // Gọi hàm này sau khi thêm hồ sơ thành công
-      
+    // Hàm tải danh sách hồ sơ
+    function loadProfiles() {
+      $.ajax({
+        url: 'http://127.0.0.1:8000/quanlyhoso/get-profiles/',  // URL của view lấy dữ liệu
+        type: 'GET',
+        success: function(response) {
+          renderProfiles(response);  // Hiển thị dữ liệu lên bảng
+        },
+      });
+    }
   
-      function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-          const cookies = document.cookie.split(';');
-          for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.startsWith(name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-            }
-          }
-        }
-        return cookieValue;
-      }
+    // Hàm hiển thị danh sách hồ sơ lên bảng
+    function renderProfiles(profiles) {
+      const profileList = $('#profileList');
+      profileList.empty();  // Xóa dữ liệu cũ
+  
+      profiles.forEach(function(profile) {
+        const row = `
+          <tr>
+            <th>${profile.id}</th>
+            <td>${profile.full_name}</td>
+            <td>${profile.dob}</td>
+            <td>${profile.gender}</td>
+            <td>${profile.email}</td>
+            <td>${profile.phone}</td>
+            <td>${profile.address}</td>
+            <td>${profile.education}</td>
+            <td>${profile.workExperience}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editProfile('${profile.id}')">Sửa</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteProfile('${profile.id}')">Xóa</button>
+            </td>
+          </tr>
+        `;
+        profileList.append(row);  // Thêm hàng mới vào bảng
+      });
+    }
       
   </script>
 </body>

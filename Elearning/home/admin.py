@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from .models import (
     Department, Intern, Recruitment, TrainingProgram, Performance,
     Feedback, Task, Project, Attendance, Report, Event, Notification,
-    JobPost, Candidate, Interview, CandidateEvaluation, UserPermission, Integration,
+    JobPost, Candidate, Interview, CandidateEvaluation, UserPermission, Integration, Profile,
 )
 
 # Custom Admin Actions
@@ -200,4 +200,11 @@ class UserPermissionAdmin(admin.ModelAdmin):
     list_display = ('user', 'role', 'permission')
     search_fields = ('user__username', 'role')
     list_filter = ('role', 'permission')
+    list_per_page = 20
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'full_name', 'dob', 'gender', 'email', 'phone', 'education', 'workExperience')
+    search_fields = ('id', 'full_name', 'dob', 'gender', 'email', 'phone', 'education')
+    list_filter = ('gender', 'education', 'dob')
     list_per_page = 20

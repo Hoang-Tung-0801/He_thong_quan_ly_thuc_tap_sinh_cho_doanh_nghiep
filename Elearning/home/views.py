@@ -1364,36 +1364,35 @@ def mark_notification_as_read(request, notification_id):
         return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
 
 #
-def profile_list(request):
-    profiles = Profile.objects.all()  # Lấy tất cả hồ sơ từ database
-    return render(request, 'profile_list.html', {'profiles': profiles})
-
-def profile_create(request):
+@login_required
+def add_profile(request):
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
+        form = ProfileForm(request.POST, request.FILES)  # Xử lý dữ liệu và file
         if form.is_valid():
-            form.save()
-            return redirect('profile_list')  # Sau khi lưu, chuyển hướng sang trang danh sách
-    else:
-        form = ProfileForm()
-    return render(request, 'profile_create.html', {'form': form})
+            form.save()  # Lưu dữ liệu vào database
+            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được lưu thành công!'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ!'})
 
+@login_required
+def get_profiles(request):
+    profiles = Profile.objects.all()  # Lấy tất cả hồ sơ từ database
+    data = []  # Tạo một list để chứa dữ liệu
 
-@csrf_exempt  # Lưu ý: Khi dùng AJAX, hãy đảm bảo bảo mật bằng cách sử dụng CSRF token
-def profile_create_ajax(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        # Chuyển đổi dữ liệu nếu cần (ví dụ, chuyển chuỗi ngày thành kiểu date)
-        profile = Profile.objects.create(
-            profile_id=data.get('profile_id'),
-            full_name=data.get('full_name'),
-            dob=data.get('dob'),
-            gender=data.get('gender'),
-            email=data.get('email'),
-            phone=data.get('phone'),
-            address=data.get('address'),
-            education=data.get('education'),
-            workExperience=data.get('workExperience')
-        )
-        return JsonResponse({'status': 'success', 'profile_id': profile.profile_id})
-    return JsonResponse({'status': 'error'}, status=400)
+    # Duyệt qua từng hồ sơ và thêm vào list
+    for profile in profiles:
+        data.append({
+            'id': profile.id,
+            'full_name': profile.full_name,
+            'dob': profile.dob.strftime('%Y-%m-%d'),  # Định dạng ngày tháng
+            'gender': profile.gender,
+            'email': profile.email,
+            'phone': profile.phone,
+            'address': profile.address,
+            'education': profile.education,
+            'workExperience': profile.workExperience,
+            'documents': profile.documents.url if profile.documents else None,  # Lấy URL file nếu có
+        })
+
+    return JsonResponse(data, safe=False)  # Trả về dữ liệu dưới dạng JSON

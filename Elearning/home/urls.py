@@ -106,10 +106,9 @@ urlpatterns = [
     path('notifications/mark_as_read/<int:notification_id>/', views.mark_notification_as_read, name='mark_notification_as_read'),
 
 
-    path('profile/create/', views.profile_create, name='profile_create'),
-    # Nếu dùng AJAX:
-    path('profile/create/ajax/', views.profile_create_ajax, name='profile_create_ajax'),
-    path('profile/', views.profile_list, name='profile_list'),
+    #quản lý hồ sơ
+    path('quanlyhoso/add-profile/', views.add_profile, name='add_profile'),
+    path('quanlyhoso/get-profiles/', views.get_profiles, name='get_profiles'),
 
 ]
 
