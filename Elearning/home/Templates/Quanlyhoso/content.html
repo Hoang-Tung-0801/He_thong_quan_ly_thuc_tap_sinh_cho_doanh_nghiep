@@ -135,9 +135,10 @@
       </div>
       <div class="card-body">
         <form id="profileManagementForm">
+          {% csrf_token %} 
           <div class="mb-3">
-            <label for="id" class="form-label">Mã nhân viên</label>
-            <input type="text" class="form-control" id="id" placeholder="Nhập mã nhân viên" required>
+            <label for="id" class="form-label">Mã thực tập sinh</label>
+            <input type="text" class="form-control" id="id" placeholder="Nhập mã thực tập sinh" required>
           </div>
           <div class="mb-3">
             <label for="fullName" class="form-label">Họ và tên</label>
@@ -216,7 +217,7 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Mã nhân viên</th>
+                <th>Mã thực tập sinh</th>
                 <th>Họ và tên</th>
                 <th>Ngày sinh</th>
                 <th>Giới tính</th>
@@ -273,6 +274,7 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
     // Mảng lưu trữ hồ sơ
@@ -417,9 +419,13 @@
     // Cập nhật danh sách hồ sơ khi trang được tải
     updateProfileList();
    
+   
     
   </script>
+  
+  
   <script>
+
     // Lắng nghe sự kiện tìm kiếm
     function filterProfiles() {
       const searchID = document.getElementById('searchID').value;
@@ -482,7 +488,7 @@
       ]);
     
       // Thêm tiêu đề cho sheet
-      wsData.unshift(["Mã nhân viên", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Số điện thoại", "Địa chỉ", "Trình độ học vấn", "Kinh nghiệm làm việc"]);
+      wsData.unshift(["Mã thực tập sinh", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Số điện thoại", "Địa chỉ", "Trình độ học vấn", "Kinh nghiệm làm việc"]);
     
       // Tạo sheet từ dữ liệu
       const ws = XLSX.utils.aoa_to_sheet(wsData);
@@ -492,9 +498,85 @@
     
       // Xuất file Excel
       XLSX.writeFile(wb, "ho_so.xlsx");
+
+      
     }
 
     updateProfileList();
+
+    
+    $(document).ready(function() {
+      $('#profileManagementForm').on('submit', function(e) {
+        e.preventDefault();  // Ngăn form gửi theo cách thông thường
+
+        // Tạo FormData để gửi cả file và dữ liệu
+        const formData = new FormData(this);
+
+        // Gửi dữ liệu bằng AJAX
+        $.ajax({
+          url: 'http://127.0.0.1:8000/quanlyhoso/add-profile/',  // URL của view xử lý form
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.success) {
+              alert(response.message);  // Thông báo thành công
+              clearProfileManagementForm();  // Xóa form sau khi lưu
+              loadProfiles();  // Tải lại danh sách sau khi thêm
+            } 
+          },
+        });
+      });
+    });
+
+    // Hàm xóa form
+    function clearProfileManagementForm() {
+      $('#profileManagementForm')[0].reset();
+    }
+    
+    $(document).ready(function() {
+      loadProfiles();  // Tải dữ liệu khi trang được tải
+    });
+  
+    // Hàm tải danh sách hồ sơ
+    function loadProfiles() {
+      $.ajax({
+        url: 'http://127.0.0.1:8000/quanlyhoso/get-profiles/',  // URL của view lấy dữ liệu
+        type: 'GET',
+        success: function(response) {
+          renderProfiles(response);  // Hiển thị dữ liệu lên bảng
+        },
+      });
+    }
+  
+    // Hàm hiển thị danh sách hồ sơ lên bảng
+    function renderProfiles(profiles) {
+      const profileList = $('#profileList');
+      profileList.empty();  // Xóa dữ liệu cũ
+  
+      profiles.forEach(function(profile) {
+        const row = `
+          <tr>
+            <th>${profile.id}</th>
+            <td>${profile.full_name}</td>
+            <td>${profile.dob}</td>
+            <td>${profile.gender}</td>
+            <td>${profile.email}</td>
+            <td>${profile.phone}</td>
+            <td>${profile.address}</td>
+            <td>${profile.education}</td>
+            <td>${profile.workExperience}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editProfile('${profile.id}')">Sửa</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteProfile('${profile.id}')">Xóa</button>
+            </td>
+          </tr>
+        `;
+        profileList.append(row);  // Thêm hàng mới vào bảng
+      });
+    }
+      
   </script>
 </body>
 </html>

@@ -112,6 +112,12 @@ urlpatterns = [
     # navbar
     path('notifications/', views.get_notifications, name='get_notifications'),
     path('notifications/mark_as_read/<int:notification_id>/', views.mark_notification_as_read, name='mark_notification_as_read'),
+
+
+    #quản lý hồ sơ
+    path('quanlyhoso/add-profile/', views.add_profile, name='add_profile'),
+    path('quanlyhoso/get-profiles/', views.get_profiles, name='get_profiles'),
+
 ]
 
 # Phục vụ file media trong môi trường DEBUG

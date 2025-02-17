@@ -29,9 +29,15 @@ from django.views.decorators.http import require_http_methods
 from django.db import models
 from django.utils.dateparse import parse_date, parse_time
 from django.views.decorators.http import require_POST
+<<<<<<< HEAD
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
+=======
+from .forms import ProfileForm
+from .models import Profile
+
+>>>>>>> 780c59e7f740410ec07ea64deb26a725879531c3
 logger = logging.getLogger(__name__)
 
 # Hàm gửi email xác thực tài khoản
@@ -1278,7 +1284,7 @@ def get_interview_api(request, pk):
 @require_http_methods(["GET", "POST"])
 def training_program_api(request):
     if request.method == 'GET':
-        programs = TrainingProgram.objects.all().select_related('trainer')
+        programs = TrainingProgram.objects.all().prefetch_related('interns')
         data = [{
             "id": p.id,
             "name": p.name,
@@ -1378,6 +1384,7 @@ def mark_notification_as_read(request, notification_id):
         return JsonResponse({'status': 'success'})
     except Notification.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
+<<<<<<< HEAD
     
 @require_http_methods(["GET"])
 def get_report(request, report_id):
@@ -1412,3 +1419,39 @@ def delete_report(request, report_id):
     except ObjectDoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Báo cáo không tồn tại.'}, status=404)
     
+=======
+
+#
+@login_required
+def add_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)  # Xử lý dữ liệu và file
+        if form.is_valid():
+            form.save()  # Lưu dữ liệu vào database
+            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được lưu thành công!'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ!'})
+
+@login_required
+def get_profiles(request):
+    profiles = Profile.objects.all()  # Lấy tất cả hồ sơ từ database
+    data = []  # Tạo một list để chứa dữ liệu
+
+    # Duyệt qua từng hồ sơ và thêm vào list
+    for profile in profiles:
+        data.append({
+            'id': profile.id,
+            'full_name': profile.full_name,
+            'dob': profile.dob.strftime('%Y-%m-%d'),  # Định dạng ngày tháng
+            'gender': profile.gender,
+            'email': profile.email,
+            'phone': profile.phone,
+            'address': profile.address,
+            'education': profile.education,
+            'workExperience': profile.workExperience,
+            'documents': profile.documents.url if profile.documents else None,  # Lấy URL file nếu có
+        })
+
+    return JsonResponse(data, safe=False)  # Trả về dữ liệu dưới dạng JSON
+>>>>>>> 780c59e7f740410ec07ea64deb26a725879531c3
