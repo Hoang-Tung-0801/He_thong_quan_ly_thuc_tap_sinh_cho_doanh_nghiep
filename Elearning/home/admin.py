@@ -140,11 +140,10 @@ class AttendanceAdmin(admin.ModelAdmin):
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('intern', 'title', 'submitted_date', 'reviewed_by', 'is_final')
-    list_filter = ('submitted_date', 'is_final')
-    readonly_fields = ('submitted_date',)
-    search_fields = ('title', 'intern__full_name')
-    date_hierarchy = 'submitted_date'
+    list_display = ('title', 'reviewed_by', 'review_date')
+    list_filter = ('reviewed_by', 'review_date')
+    search_fields = ('title', 'content')
+    ordering = ['-review_date']  # Sắp xếp theo ngày đánh giá giảm dần
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):

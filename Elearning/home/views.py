@@ -29,7 +29,9 @@ from django.views.decorators.http import require_http_methods
 from django.db import models
 from django.utils.dateparse import parse_date, parse_time
 from django.views.decorators.http import require_POST
-
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.core.exceptions import ObjectDoesNotExist
 logger = logging.getLogger(__name__)
 
 # Hàm gửi email xác thực tài khoản
@@ -114,7 +116,7 @@ def quanlituyendung(request):
 
     # Xử lý phân trang danh sách chiến dịch tuyển dụng
     recruitments_list = Recruitment.objects.all().order_by('-posted_date')
-    paginator = Paginator(recruitments_list, 14)  # 10 items per page
+    paginator = Paginator(recruitments_list, 14)  # 14 items per page
     page = request.GET.get('page')
     
     try:
@@ -125,7 +127,7 @@ def quanlituyendung(request):
         recruitments = paginator.page(paginator.num_pages)
 
     # Xử lý tìm kiếm và lọc ứng viên
-    candidates = Candidate.objects.all()
+    candidates = Candidate.objects.all().order_by('-applied_date')
     candidate_search = request.GET.get('candidateSearch', '')
     candidate_filter = request.GET.get('candidateFilter', 'all')
 
@@ -139,8 +141,8 @@ def quanlituyendung(request):
     elif candidate_filter == 'interviewed':
         candidates = candidates.filter(status='interviewed')
 
-    # Phân trang danh sách ứng viên
-    candidate_paginator = Paginator(candidates, 4)  # 10 ứng viên mỗi trang
+    # Phân trang danh sách ứng viên (chỉ cho phần quản lý ứng viên)
+    candidate_paginator = Paginator(candidates, 4)  # 4 ứng viên mỗi trang
     candidate_page = request.GET.get('candidate_page')
     try:
         candidates = candidate_paginator.page(candidate_page)
@@ -149,16 +151,27 @@ def quanlituyendung(request):
     except EmptyPage:
         candidates = candidate_paginator.page(candidate_paginator.num_pages)
 
+    # Lấy tất cả ứng viên cho phần đánh giá
+    all_candidates = Candidate.objects.all().order_by('-applied_date')
+
+    # Lấy danh sách đánh giá ứng viên
+    evaluations = CandidateEvaluation.objects.select_related('candidate', 'evaluator').all().order_by('-evaluation_date')
+
+    # Lấy danh sách báo cáo
+    reports = Report.objects.all().order_by('-submitted_date')
+
     # Chuẩn bị context
     context = {
         'form': form,
         'recruitments': recruitments,
-        'candidates': candidates,
+        'candidates': candidates,  # Chỉ dùng cho phần quản lý
+        'all_candidates': all_candidates,  # Dùng cho phần đánh giá
+        'evaluations': evaluations,  # Danh sách đánh giá
         'candidate_search': candidate_search,
         'candidate_filter': candidate_filter,
+        'reports': reports,  # Thêm biến reports vào context
     }
     context.update(get_user_groups_context(request.user))
-    
     return render(request, 'Quanlituyendung/quanlituyendung.html', context)
 
 # Trang lịch phỏng vấn (chỉ HR, Admin, và Internship Coordinators)
@@ -373,6 +386,24 @@ def reset_password(request, uidb64, token):
         messages.error(request, 'Liên kết đặt lại mật khẩu không hợp lệ.')
         return redirect('home')
     
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            form = PasswordChangeForm(request.user, data)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Cập nhật session để người dùng không bị đăng xuất
+                return JsonResponse({'status': 'success', 'message': 'Mật khẩu đã được thay đổi thành công!'})
+            else:
+                # In ra lỗi để kiểm tra
+                print(form.errors)  # In ra lỗi để xem lý do
+                return JsonResponse({'status': 'error', 'message': form.errors}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'error', 'message': 'Yêu cầu không hợp lệ.'}, status=400)
+
 # Quản lý thông báo
 @login_required
 def notification_list(request):
@@ -527,38 +558,18 @@ def update_profile(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            full_name = data.get('fullName')
-            email = data.get('email')
-            phone = data.get('phone')
-            address = data.get('address')
-            date_of_birth = data.get('date_of_birth')  # Lấy ngày sinh
-            bio = data.get('bio')
+            user = request.user  # Lấy thông tin người dùng hiện tại
 
-            # Validate email
-            try:
-                validate_email(email)
-            except ValidationError:
-                return JsonResponse({'status': 'error', 'message': 'Email không hợp lệ.'}, status=400)
+            # Cập nhật thông tin
+            user.first_name = data.get('firstName', user.first_name)
+            user.last_name = data.get('lastName', user.last_name)
+            user.email = data.get('email', user.email)
+            user.save()
 
-            # Get the intern profile
-            intern = Intern.objects.get(user=request.user)
-
-            # Update profile fields
-            intern.first_name, intern.last_name = full_name.split(' ', 1) if ' ' in full_name else (full_name, '')
-            intern.email = email
-            intern.phone = phone
-            intern.address = address
-            intern.date_of_birth = date_of_birth  # Cập nhật ngày sinh
-            intern.bio = bio
-
-            intern.save()
-
-            return JsonResponse({'status': 'success', 'message': 'Hồ sơ đã được cập nhật thành công!'})
-
+            return JsonResponse({'status': 'success', 'message': 'Thông tin đã được cập nhật thành công!'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
+    return JsonResponse({'status': 'error', 'message': 'Yêu cầu không hợp lệ.'}, status=400)
 
 @login_required
 def view_badges(request):
@@ -670,14 +681,6 @@ def event_delete(request, pk):
     messages.success(request, 'Sự kiện đã được xóa thành công.')
     return redirect('event_list')
 
-# Quản lý báo cáo
-@login_required
-def report_list(request):
-    reports = Report.objects.filter(user=request.user)
-    context = get_user_groups_context(request.user)
-    context['reports'] = reports
-    return render(request, 'home/report_list.html', context)
-
 @login_required
 def report_detail(request, pk):
     report = get_object_or_404(Report, pk=pk, user=request.user)
@@ -756,28 +759,36 @@ def create_job_post(request):
 
         return redirect('quanlituyendung')
     
-@login_required
-def manage_candidates(request):
-    candidates = Candidate.objects.all()
-    context = {
-        'candidates': candidates,
-    }
-    return render(request, 'Lichphongvan/manage_candidates.html', context)
 
-
-@login_required
+@require_POST
 def generate_report(request):
-    if request.method == 'POST':
-        report_type = request.POST.get('reportType')
-        content = request.POST.get('reportContent')
-        Report.objects.create(
-            report_type=report_type,
-            generated_by=request.user,
-            content=content
-        )
-        messages.success(request, 'Báo cáo đã được tạo thành công.')
-        return redirect('quanlituyendung')
-    
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+    review_notes = request.POST.get('review_notes', '')
+
+    if not title or not content:
+        return JsonResponse({'status': 'error', 'message': 'Vui lòng điền đầy đủ thông tin.'})
+
+    # Tạo báo cáo
+    report = Report(
+        title=title,
+        content=content,
+        review_notes=review_notes,
+        user=request.user,  # Người tạo báo cáo
+        reviewed_by=request.user,  # Người đánh giá là tài khoản hiện tại
+        review_date=timezone.now(),  # Ngày đánh giá là thời gian hiện tại
+    )
+    report.save()
+
+    return JsonResponse({'status': 'success', 'message': 'Báo cáo đã được tạo thành công!'})
+
+@login_required
+def report_list(request):
+    reports = Report.objects.filter(user=request.user)
+    print(reports)  # In ra danh sách báo cáo để kiểm tra
+    context = {'reports': reports}
+    return render(request, 'home/report_list.html', context)
+
 @login_required
 def integrate_system(request):
     if request.method == 'POST':
@@ -840,7 +851,8 @@ def create_recruitment(request):
     
 @login_required
 def manage_candidates(request):
-    candidates = Candidate.objects.all()
+    # Sắp xếp các ứng viên theo ngày ứng tuyển giảm dần
+    candidates = Candidate.objects.all().order_by('-applied_date')
 
     # Tìm kiếm
     candidate_search = request.GET.get('candidateSearch', '')
@@ -864,50 +876,71 @@ def manage_candidates(request):
         'candidate_search': candidate_search,
         'candidate_filter': candidate_filter,
     }
-    return render(request, 'manage_candidates.html', context)
+    return render(request, 'Quanlituyendung/quanlituyendung.html', context)
 
-@login_required
+@csrf_exempt
 def schedule_interview(request):
     if request.method == 'POST':
-        form = InterviewForm(request.POST)
-        if form.is_valid():
-            interview = form.save(commit=False)
-            interview.interviewer = request.user
-            interview.save()
-            messages.success(request, 'Lịch phỏng vấn đã được tạo thành công!')
-            return redirect('schedule_interview')
-    else:
-        form = InterviewForm()
+        data = json.loads(request.body)
+        candidate_id = data.get('candidate_id')
+        interview_date = data.get('interview_date')
+        interview_time = data.get('interview_time')
+        location = data.get('location')
+        notes = data.get('notes')
+        interviewer_id = request.user.id  # Lấy ID của người dùng hiện tại
 
-    candidates = Candidate.objects.all()
-    context = {
-        'form': form,
-        'candidates': candidates,
-        'is_hr_manager': request.user.groups.filter(name='HR Managers').exists(),
-        'is_internship_coordinator': request.user.groups.filter(name='Internship Coordinators').exists(),
-        'is_admin': request.user.is_superuser,
-    }
-    return render(request, 'Lichphongvan/lichphongvan.html', context)
+        try:
+            candidate = Candidate.objects.get(id=candidate_id)
+            interviewer = User.objects.get(id=interviewer_id)
+            interview = Interview.objects.create(
+                candidate=candidate,
+                interview_date=interview_date,
+                interview_time=interview_time,
+                interviewer=interviewer,
+                location=location,
+                notes=notes,
+            )
+            return JsonResponse({"message": "Lịch phỏng vấn đã được tạo thành công!", "id": interview.id}, status=201)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Phương thức không được hỗ trợ"}, status=405)
 
 @login_required
 def evaluate_candidate(request, candidate_id):
-    candidate = get_object_or_404(Candidate, id=candidate_id)
-
     if request.method == 'POST':
+        candidate = get_object_or_404(Candidate, id=candidate_id)
+        evaluation_text = request.POST.get('candidateEvaluation')
         evaluation_score = request.POST.get('evaluationScore')
-        comments = request.POST.get('candidateEvaluation')
 
-        # Tạo đánh giá ứng viên
-        CandidateEvaluation.objects.create(
-            candidate=candidate,
-            evaluator=request.user,
-            score=evaluation_score,
-            comments=comments
-        )
-        messages.success(request, 'Đánh giá đã được lưu thành công.')
-        return redirect('manage_candidates')
+        # Kiểm tra dữ liệu đầu vào
+        if not evaluation_text or not evaluation_score:
+            messages.error(request, 'Vui lòng điền đầy đủ thông tin.')
+            return JsonResponse({'status': 'error', 'message': 'Vui lòng điền đầy đủ thông tin.'}, status=400)
 
-    return redirect('manage_candidates') 
+        try:
+            # Chuyển đổi điểm số sang kiểu số nguyên
+            evaluation_score = int(evaluation_score)
+
+            # Kiểm tra xem điểm số có hợp lệ không
+            if evaluation_score < 0 or evaluation_score > 100:
+                messages.error(request, 'Điểm số phải nằm trong khoảng từ 0 đến 100.')
+                return JsonResponse({'status': 'error', 'message': 'Điểm số phải nằm trong khoảng từ 0 đến 100.'}, status=400)
+
+            # Tạo hoặc cập nhật đánh giá
+            evaluation, created = CandidateEvaluation.objects.update_or_create(
+                candidate=candidate,
+                evaluator=request.user,
+                defaults={
+                    'comments': evaluation_text,
+                    'score': evaluation_score,
+                }
+            )
+            messages.success(request, '✅ Đánh giá đã được lưu thành công.')
+            return JsonResponse({'status': 'success', 'message': 'Đánh giá đã được lưu thành công.'})
+        except Exception as e:
+            messages.error(request, f'Có lỗi xảy ra: {str(e)}')
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'error', 'message': 'Yêu cầu không hợp lệ.'}, status=400)
 
 @login_required
 def interview_list(request):
@@ -934,18 +967,6 @@ def edit_interview(request, pk):
     }
     return render(request, 'Lichphongvan/edit_interview.html', context)
 
-@login_required
-def delete_interview(request, pk):
-    interview = get_object_or_404(Interview, pk=pk)
-    if request.method == 'POST':
-        interview.delete()
-        messages.success(request, 'Lịch phỏng vấn đã được xóa thành công!')
-        return redirect('schedule_interview')
-
-    context = {
-        'interview': interview,
-    }
-    return render(request, 'Lichphongvan/delete_interview.html', context)
 
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -1115,18 +1136,16 @@ def update_communication(request, pk):
 @login_required
 def get_profile(request):
     try:
-        intern = Intern.objects.get(user=request.user)
+        user = request.user  # Lấy thông tin người dùng hiện tại
         profile_data = {
-            'fullName': f"{intern.first_name} {intern.last_name}",
-            'email': intern.email,
-            'phone': intern.phone,
-            'address': intern.address,
-            'date_of_birth': intern.date_of_birth.strftime('%Y-%m-%d'),  # Định dạng ngày
-            'bio': intern.bio,
+            'username': user.username,
+            'firstName': user.first_name,
+            'lastName': user.last_name,
+            'email': user.email,
         }
         return JsonResponse({'status': 'success', 'data': profile_data})
-    except Intern.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Profile not found.'}, status=404)
+    except User.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Không tìm thấy thông tin người dùng.'}, status=404)
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -1172,75 +1191,75 @@ def schedule_interview_api(request):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-def get_interviews_api(request):
-    interviews = Interview.objects.all().select_related('candidate', 'interviewer')
-    data = [{
-        'id': interview.id,
-        'candidate_id': interview.candidate.id,  # Thêm trường này
-        'candidate_name': interview.candidate.name,
-        'interview_date': interview.interview_date.strftime("%Y-%m-%d"),
-        'interview_time': interview.interview_time.strftime("%H:%M"),  # Bỏ giây
-        'interviewer_name': interview.interviewer.get_full_name() or interview.interviewer.username,
-        'location': interview.location,
-        'notes': interview.notes
-    } for interview in interviews]
+def get_interviews(request):
+    interviews = Interview.objects.all()
+    data = [
+        {
+            "id": interview.id,
+            "candidate_id": interview.candidate.id,
+            "candidate_name": interview.candidate.name,
+            "interview_date": interview.interview_date,
+            "interview_time": interview.interview_time,
+            "interviewer_name": interview.interviewer.username,
+            "location": interview.location,
+            "notes": interview.notes,
+        }
+        for interview in interviews
+    ]
     return JsonResponse(data, safe=False)
 
 @csrf_exempt
-@require_http_methods(["PUT"])
-def update_interview_api(request, pk):
-    try:
-        interview = Interview.objects.get(pk=pk)
+def update_interview(request, pk):
+    if request.method == 'PUT':
         data = json.loads(request.body)
-        
-        # Chuyển đổi chuỗi thành đối tượng date/time
-        interview_date = parse_date(data.get('interview_date'))
-        interview_time = parse_time(data.get('interview_time'))
-        
-        if interview_date:
+        interview_date = data.get('interview_date')
+        interview_time = data.get('interview_time')
+        location = data.get('location')
+        notes = data.get('notes')
+
+        try:
+            interview = Interview.objects.get(id=pk)
             interview.interview_date = interview_date
-        if interview_time:
             interview.interview_time = interview_time
-        
-        interview.location = data.get('location', interview.location)
-        interview.notes = data.get('notes', interview.notes)
-        
-        if 'candidate_id' in data:
-            interview.candidate = get_object_or_404(Candidate, pk=data['candidate_id'])
-        
-        interview.save()
-        
-        return JsonResponse({
-            "status": "success",
-            "data": {
-                "id": interview.id,
-                "candidate_name": interview.candidate.name,
-                "interview_date": interview.interview_date.isoformat(),
-                "interview_time": interview.interview_time.strftime("%H:%M"),
-                "location": interview.location,
-                "notes": interview.notes
-            }
-        })
-    except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)}, status=400)
+            interview.location = location
+            interview.notes = notes
+            interview.save()
+            return JsonResponse({"message": "Lịch phỏng vấn đã được cập nhật thành công!"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Phương thức không được hỗ trợ"}, status=405)
 
 @csrf_exempt
-@require_http_methods(["DELETE"])
-def delete_interview_api(request, pk):
+def delete_interview(request, pk):
+    if request.method == 'DELETE':
+        try:
+            interview = Interview.objects.get(id=pk)
+            interview.delete()
+            return JsonResponse({"message": "Lịch phỏng vấn đã được xóa thành công!"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Phương thức không được hỗ trợ"}, status=405)
+
+def get_interview_detail(request, pk):
     try:
-        interview = Interview.objects.get(pk=pk)
-        interview.delete()
-        return JsonResponse({'status': 'success'})
+        interview = Interview.objects.get(id=pk)
+        data = {
+            "id": interview.id,
+            "candidate_id": interview.candidate.id,
+            "candidate_name": interview.candidate.name,
+            "interview_date": interview.interview_date,
+            "interview_time": interview.interview_time,
+            "interviewer_name": interview.interviewer.username,
+            "location": interview.location,
+            "notes": interview.notes,
+        }
+        return JsonResponse(data)
     except Interview.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Interview not found'}, status=404)
+        return JsonResponse({"error": "Interview not found"}, status=404)
     
-@require_http_methods(["GET"])
-def get_candidates_api(request):
+def get_candidates(request):
     candidates = Candidate.objects.all()
-    data = [{
-        'id': candidate.id,
-        'name': candidate.name
-    } for candidate in candidates]
+    data = [{"id": candidate.id, "name": candidate.name} for candidate in candidates]
     return JsonResponse(data, safe=False)
 
 def get_interview_api(request, pk):
@@ -1359,3 +1378,37 @@ def mark_notification_as_read(request, notification_id):
         return JsonResponse({'status': 'success'})
     except Notification.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
+    
+@require_http_methods(["GET"])
+def get_report(request, report_id):
+    report = Report.objects.get(id=report_id)
+    data = {
+        'title': report.title,
+        'content': report.content,
+        'review_notes': report.review_notes,
+    }
+    return JsonResponse(data)
+
+@require_POST
+def update_report(request, report_id):
+    report = Report.objects.get(id=report_id)
+    report.title = request.POST.get('title')
+    report.content = request.POST.get('content')
+    report.review_notes = request.POST.get('review_notes')
+    report.save()
+    return JsonResponse({'status': 'success', 'message': 'Báo cáo đã được cập nhật!'})
+    
+@require_POST
+def delete_report(request, report_id):
+    try:
+        report = Report.objects.get(id=report_id)
+        
+        # Kiểm tra quyền xóa
+        if report.user != request.user and not request.user.is_superuser:
+            return JsonResponse({'status': 'error', 'message': 'Bạn không có quyền xóa báo cáo này.'}, status=403)
+        
+        report.delete()
+        return JsonResponse({'status': 'success', 'message': 'Báo cáo đã được xóa!'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Báo cáo không tồn tại.'}, status=404)
+    

@@ -193,7 +193,7 @@
             <h5 class="card-title">Danh sách Chiến dịch Tuyển dụng</h5>
           </div>
           <div class="card-body">
-            <table class="table table-striped">
+            <table class="table table-striped bang_tuyendung"> <!-- Updated class here -->
               <thead>
                 <tr>
                   <th>Vị trí</th>
@@ -213,8 +213,8 @@
                       <td>{{ recruitment.posted_date|date:"d/m/Y" }}</td>
                       <td>{{ recruitment.deadline|date:"d/m/Y" }}</td>
                       <td>
-                        <span class="badge {% if recruitment.get_status == 'Đang hoạt động' %}bg-success{% else %}bg-danger{% endif %}">
-                          {{ recruitment.get_status }}
+                        <span class="badge {% if recruitment.status == 'Đang hoạt động' %}bg-success{% else %}bg-danger{% endif %}">
+                          {{ recruitment.status }}
                         </span>
                       </td>
                     </tr>
@@ -263,8 +263,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
   
   <!-- Modal for Recruitment Details -->
   <div class="modal fade" id="recruitmentDetailModal" tabindex="-1" aria-labelledby="recruitmentDetailModalLabel" aria-hidden="true">
@@ -290,91 +288,90 @@
   </div>
 
     <!-- Quản lý Ứng viên -->
-  <div class="card">
-    <div class="card-header">
-      <h5 class="card-title">Quản lý Ứng viên</h5>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <!-- Cột bên trái: Form Tìm kiếm & Lọc Ứng viên -->
-        <div class="col-md-5">
-          <form method="get" action="{% url 'quanlituyendung' %}">
-            <div class="mb-3">
-              <label for="candidateSearch" class="form-label">🔎 Tìm kiếm Ứng viên</label>
-              <input type="text" class="form-control" id="candidateSearch" name="candidateSearch" placeholder="Nhập tên hoặc email ứng viên" value="{{ candidate_search }}">
-            </div>
-            <div class="mb-3">
-              <label for="candidateFilter" class="form-label">📌 Lọc Ứng viên</label>
-              <select class="form-select" id="candidateFilter" name="candidateFilter">
-                <option value="all" {% if candidate_filter == 'all' %}selected{% endif %}>Tất cả</option>
-                <option value="new" {% if candidate_filter == 'new' %}selected{% endif %}>Ứng viên Mới</option>
-                <option value="interviewed" {% if candidate_filter == 'interviewed' %}selected{% endif %}>Đã Phỏng vấn</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-success">🔍 Tìm kiếm</button>
-          </form>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Quản lý Ứng viên</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Cột bên trái: Form Tìm kiếm & Lọc Ứng viên -->
+          <div class="col-md-5">
+            <form method="get" action="{% url 'quanlituyendung' %}">
+              <div class="mb-3">
+                <label for="candidateSearch" class="form-label">🔎 Tìm kiếm Ứng viên</label>
+                <input type="text" class="form-control" id="candidateSearch" name="candidateSearch" placeholder="Nhập tên hoặc email ứng viên" value="{{ candidate_search }}">
+              </div>
+              <div class="mb-3">
+                <label for="candidateFilter" class="form-label">📌 Lọc Ứng viên</label>
+                <select class="form-select" id="candidateFilter" name="candidateFilter">
+                  <option value="all" {% if candidate_filter == 'all' %}selected{% endif %}>Tất cả</option>
+                  <option value="new" {% if candidate_filter == 'new' %}selected{% endif %}>Ứng viên Mới</option>
+                  <option value="interviewed" {% if candidate_filter == 'interviewed' %}selected{% endif %}>Đã Phỏng vấn</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-success">🔍 Tìm kiếm</button>
+            </form>
+          </div>
 
-      <!-- Cột bên phải: Danh sách Ứng viên -->
-      <div class="col-md-7">
-        <table class="table table-striped mt-4">
-          <thead>
-            <tr>
-              <th>Tên ứng viên</th>
-              <th>Email</th>
-              <th>Trạng thái</th>
-              <th>Ngày ứng tuyển</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if candidates %}
-              {% for candidate in candidates %}
+          <!-- Cột bên phải: Danh sách Ứng viên -->
+          <div class="col-md-7">
+            <table class="table table-striped mt-4">
+              <thead>
                 <tr>
-                  <td>{{ candidate.name }}</td>
-                  <td>{{ candidate.email }}</td>
-                  <td>
-                    <span class="badge {% if candidate.status == 'new' %}bg-primary{% else %}bg-success{% endif %}">
-                      {{ candidate.get_status_display }}
-                    </span>
-                  </td>
-                  <td>{{ candidate.applied_date|date:"d/m/Y" }}</td>
+                  <th>Tên ứng viên</th>
+                  <th>Email</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày ứng tuyển</th>
                 </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td colspan="4" class="text-center">Không có ứng viên nào.</td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {% if candidates %}
+                  {% for candidate in candidates %}
+                    <tr>
+                      <td>{{ candidate.name }}</td>
+                      <td>{{ candidate.email }}</td>
+                      <td>
+                        <span class="badge {% if candidate.status == 'new' %}bg-primary{% else %}bg-success{% endif %}">
+                          {{ candidate.get_status_display }}
+                        </span>
+                      </td>
+                      <td>{{ candidate.applied_date|date:"d/m/Y" }}</td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="4" class="text-center">Không có ứng viên nào.</td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
 
-        <!-- Phân trang danh sách ứng viên -->
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            {% if candidates.has_previous %}
-              <li class="page-item">
-                <a class="page-link" href="?candidate_page={{ candidates.previous_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-            {% endif %}
-            <li class="page-item disabled">
-              <span class="page-link">Trang {{ candidates.number }} / {{ candidates.paginator.num_pages }}</span>
-            </li>
-            {% if candidates.has_next %}
-              <li class="page-item">
-                <a class="page-link" href="?candidate_page={{ candidates.next_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </nav>
+            <!-- Phân trang danh sách ứng viên -->
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                {% if candidates.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?candidate_page={{ candidates.previous_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+                <li class="page-item disabled">
+                  <span class="page-link">Trang {{ candidates.number }} / {{ candidates.paginator.num_pages }}</span>
+                </li>
+                {% if candidates.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?candidate_page={{ candidates.next_page_number }}&candidateSearch={{ candidate_search }}&candidateFilter={{ candidate_filter }}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
-
 
     <!-- Đánh giá Ứng viên -->
     <div class="card">
@@ -382,20 +379,34 @@
         <h5 class="card-title">Đánh giá Ứng viên</h5>
       </div>
       <div class="card-body">
-        {% if candidates %}
-          {% for candidate in candidates %}
-            <form method="post" action="{% url 'evaluate_candidate' candidate.id %}">
-              {% csrf_token %}
-              <div class="mb-3">
-                <label for="candidateEvaluation" class="form-label">Đánh giá</label>
-                <textarea class="form-control" id="candidateEvaluation" name="candidateEvaluation" rows="3" placeholder="Nhập đánh giá ứng viên" required></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="evaluationScore" class="form-label">Điểm số</label>
-                <input type="number" class="form-control" id="evaluationScore" name="evaluationScore" placeholder="Nhập điểm số" required>
-              </div>
-              <button type="submit" class="btn btn-success">Lưu Đánh giá</button>
-            </form>
+        {% if all_candidates %}
+          <div class="mb-3">
+            <label for="candidateSelect" class="form-label">Chọn ứng viên để đánh giá</label>
+            <select class="form-select" id="candidateSelect" onchange="showEvaluationForm(this.value)">
+              <option value="">Chọn ứng viên</option>
+              {% for candidate in all_candidates %}
+                <option value="{{ candidate.id }}">{{ candidate.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          {% for candidate in all_candidates %}
+            <div id="evaluationForm-{{ candidate.id }}" class="evaluation-form" style="display: none;">
+              <h4>Đánh giá {{ candidate.name }}</h4>
+              <form method="post" action="{% url 'evaluate_candidate' candidate.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="candidateEvaluation-{{ candidate.id }}" class="form-label">Đánh giá</label>
+                  <textarea class="form-control" id="candidateEvaluation-{{ candidate.id }}" name="candidateEvaluation" rows="3" placeholder="Nhập đánh giá ứng viên" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="evaluationScore-{{ candidate.id }}" class="form-label">Điểm số (0-100)</label>
+                  <input type="number" class="form-control" id="evaluationScore-{{ candidate.id }}" name="evaluationScore" min="0" max="100" placeholder="Nhập điểm số" required>
+                </div>
+                <button type="submit" class="btn btn-success">Lưu Đánh giá</button>
+              </form>
+              <hr>
+            </div>
           {% endfor %}
         {% else %}
           <p class="text-center">Không có ứng viên nào để đánh giá.</p>
@@ -403,27 +414,111 @@
       </div>
     </div>
 
-    <!-- Báo cáo và Phân tích -->
+    <!-- Bảng danh sách Đánh giá Ứng viên -->
     <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Danh sách Đánh giá Ứng viên</h5>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Tên Ứng viên</th>
+              <th>Điểm số</th>
+              <th>Nhận xét</th>
+              <th>Ngày Đánh giá</th>
+              <th>Người Đánh giá</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if evaluations %}
+              {% for evaluation in evaluations %}
+                <tr>
+                  <td>{{ evaluation.candidate.name }}</td>
+                  <td>{{ evaluation.score }}</td>
+                  <td>{{ evaluation.comments }}</td>
+                  <td>{{ evaluation.evaluation_date|date:"d/m/Y" }}</td>
+                  <td>{{ evaluation.evaluator.username }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary" onclick="editEvaluation({{ evaluation.candidate.id }}, {{ evaluation.score }}, '{{ evaluation.comments }}')">Sửa</button>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="6" class="text-center">Không có đánh giá nào.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Báo cáo và Phân tích -->
+    <div class="card mt-4">
       <div class="card-header">
         <h5 class="card-title">Báo cáo và Phân tích</h5>
       </div>
       <div class="card-body">
-        <form method="post" action="{% url 'generate_report' %}">
+        <form method="post" action="{% url 'generate_report' %}" id="reportForm">
           {% csrf_token %}
           <div class="mb-3">
-            <label for="reportType" class="form-label">Loại Báo cáo</label>
-            <select class="form-select" id="reportType" name="reportType" required>
-              <option value="performance">Hiệu quả Chiến dịch</option>
-              <option value="candidate">Thống kê Ứng viên</option>
-            </select>
+            <label for="reportTitle" class="form-label">Tiêu đề:</label>
+            <input type="text" class="form-control" id="reportTitle" name="title" required>
           </div>
           <div class="mb-3">
-            <label for="reportContent" class="form-label">Nội dung</label>
-            <textarea class="form-control" id="reportContent" name="reportContent" rows="3" placeholder="Nhập nội dung báo cáo" required></textarea>
+            <label for="reportContent" class="form-label">Nội dung:</label>
+            <textarea class="form-control" id="reportContent" name="content" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="reportNotes" class="form-label">Nhận xét:</label>
+            <textarea class="form-control" id="reportNotes" name="review_notes" rows="3"></textarea>
           </div>
           <button type="submit" class="btn btn-success">Tạo Báo cáo</button>
         </form>
+      </div>
+    </div>
+
+    <!-- Danh sách Báo cáo -->
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="card-title">Danh sách Báo cáo</h5>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Tiêu đề</th>
+              <th>Nội dung</th>
+              <th>Người đánh giá</th>
+              <th>Ngày đánh giá</th>
+              <th>Nhận xét</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="reportTableBody">
+            {% if reports %}
+              {% for report in reports %}
+                <tr>
+                  <td>{{ report.title }}</td>
+                  <td>{{ report.content }}</td>
+                  <td>{{ report.reviewed_by.username }}</td>
+                  <td>{{ report.review_date|date:"d/m/Y H:i" }}</td>
+                  <td>{{ report.review_notes|default:"Chưa có" }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary" onclick="editReport({{ report.id }})">Sửa</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteReport({{ report.id }})">Xóa</button>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="6" class="text-center">Chưa có báo cáo nào.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -451,6 +546,7 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     // Dark Mode Toggle
     document.addEventListener('change', function(event) {
@@ -464,7 +560,7 @@
       }
     });
     document.addEventListener('DOMContentLoaded', function() {
-      const rows = document.querySelectorAll('table tbody tr');
+      const rows = document.querySelectorAll('.bang_tuyendung tbody tr');
       rows.forEach(row => {
         row.addEventListener('click', function() {
           const position = row.cells[0].innerText;
@@ -486,6 +582,136 @@
         });
       });
     });
+
+  // Hiển thị form đánh giá khi chọn ứng viên
+  function showEvaluationForm(candidateId) {
+    // Ẩn tất cả các form đánh giá
+    const forms = document.querySelectorAll('.evaluation-form');
+    forms.forEach(form => form.style.display = 'none');
+
+    // Hiển thị form đánh giá cho ứng viên đã chọn
+    if (candidateId) {
+      const form = document.getElementById('evaluationForm-' + candidateId);
+      if (form) {
+        form.style.display = 'block';
+      }
+    }
+  }
+
+  // Chỉnh sửa đánh giá
+  function editEvaluation(candidateId, score, comments) {
+    // Ẩn tất cả các form đánh giá trước khi hiển thị form hiện tại
+    showEvaluationForm(candidateId);
+
+    // Điền thông tin vào form
+    document.getElementById('evaluationScore-' + candidateId).value = score;
+    document.getElementById('candidateEvaluation-' + candidateId).value = comments;
+  }
+
+  // Xử lý submit form đánh giá bằng AJAX
+  $(document).ready(function() {
+    $('.evaluation-form form').on('submit', function(e) {
+      e.preventDefault(); // Ngăn form submit bình thường
+
+      const form = $(this);
+      const url = form.attr('action');
+      const data = form.serialize();
+
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        success: function(response) {
+          if (response.status === 'success') {
+            alert(response.message); // Thông báo thành công
+            form[0].reset(); // Reset form
+            location.reload(); // Tải lại trang để cập nhật danh sách
+          } else {
+            alert('Có lỗi xảy ra: ' + response.message); // Thông báo lỗi
+          }
+        },
+        error: function(response) {
+          console.log(response); // Log response để debug
+          alert('Có lỗi xảy ra khi lưu đánh giá.'); // Thông báo lỗi chung
+        }
+      });
+    });
+  });
+
+  // Xử lý sự kiện khi chọn ứng viên từ dropdown
+  document.getElementById('candidateSelect').addEventListener('change', function() {
+    const candidateId = this.value;
+    showEvaluationForm(candidateId);
+  });
+
+
+   // Hàm chỉnh sửa báo cáo
+   function editReport(reportId) {
+    fetch(`/get_report/${reportId}/`)
+      .then(response => response.json())
+      .then(data => {
+        // Điền dữ liệu vào form
+        document.getElementById('reportTitle').value = data.title;
+        document.getElementById('reportContent').value = data.content;
+        document.getElementById('reportNotes').value = data.review_notes;
+
+        // Cập nhật action của form để chỉnh sửa báo cáo
+        const form = document.getElementById('reportForm');
+        form.action = `/update_report/${reportId}/`;
+      })
+      .catch(error => console.error('Lỗi:', error));
+  }
+
+  // Hàm xóa báo cáo
+  function deleteReport(reportId) {
+    if (confirm('Bạn có chắc chắn muốn xóa báo cáo này không?')) {
+        fetch(`/delete_report/${reportId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    location.reload(); // Tải lại trang sau khi xóa
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Lỗi:', error));
+    }
+}
+
+  // Xử lý submit form bằng AJAX
+  document.getElementById('reportForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Ngăn form submit bình thường
+
+    const form = e.target;
+    const url = form.action;
+    const method = form.method;
+    const formData = new FormData(form);
+
+    fetch(url, {
+      method: method,
+      body: formData,
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert(data.message); // Thông báo thành công
+          location.reload(); // Tải lại trang để cập nhật danh sách báo cáo
+        } else {
+          alert(data.message); // Thông báo lỗi
+        }
+      })
+      .catch(error => console.error('Lỗi:', error));
+  });
   </script>
 </body>
 </html>

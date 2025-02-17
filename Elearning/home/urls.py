@@ -68,6 +68,7 @@ urlpatterns = [
     # Quản lý hồ sơ cá nhân
     path('update-profile/', views.update_profile, name='update_profile'),
     path('get-profile/', views.get_profile, name='get_profile'),
+    path('change-password/', views.change_password, name='change_password'),
 
     # Quản lý điểm danh
     path('attendances/', views.attendance_list, name='attendance_list'),
@@ -89,13 +90,20 @@ urlpatterns = [
     path('quanlituyendung/generate-report/', views.generate_report, name='generate_report'),
     path('quanlituyendung/integrate-system/', views.integrate_system, name='integrate_system'),
     path('quanlituyendung/manage-permissions/', views.manage_permissions, name='manage_permissions'),
+    path('get_report/<int:report_id>/', views.get_report, name='get_report'),
+    path('update_report/<int:report_id>/', views.update_report, name='update_report'),
+    path('delete_report/<int:report_id>/', views.delete_report, name='delete_report'),
+    path('reports/', views.report_list, name='report_list'),  # Thêm đường dẫn này
 
     # Lịch phỏng vấn
     path('lichphongvan/', views.interview_list, name='lichphongvan'),
-    path('lichphongvan/schedule/', views.schedule_interview, name='schedule_interview'),
-    path('lichphongvan/edit/<int:pk>/', views.edit_interview, name='edit_interview'),
-    path('lichphongvan/delete/<int:pk>/', views.delete_interview, name='delete_interview'),
-    
+    path('api/get-candidates/', views.get_candidates, name='get_candidates'),
+    path('api/get-interviews/', views.get_interviews, name='get_interviews'),
+    path('api/schedule-interview/', views.schedule_interview, name='schedule_interview'),
+    path('api/update-interview/<int:pk>/', views.update_interview, name='update_interview'),
+    path('api/delete-interview/<int:pk>/', views.delete_interview, name='delete_interview'),
+    path('api/get-interviews/<int:pk>/', views.get_interview_detail, name='get_interview_detail'),
+
     #theo dõi hiệu suất
     path('api/performances/', views.performance_api, name='performance_api'),
     path('api/performances/<int:pk>/', views.performance_detail_api, name='performance_detail_api'),

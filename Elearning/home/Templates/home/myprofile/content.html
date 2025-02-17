@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -11,38 +10,15 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <!-- Custom CSS -->
   <style>
-    /* Dark Mode Placeholder Styles */
-    .dark-mode ::placeholder {
-        color: #a0a0a0;
-        opacity: 1;
-    }
-
-    .dark-mode :-ms-input-placeholder {
-        color: #a0a0a0;
-    }
-
-    .dark-mode ::-ms-input-placeholder {
-        color: #a0a0a0;
-    }
     body {
       background-color: #f8f9fa;
       font-family: 'Arial', sans-serif;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    body.dark-mode {
-      background-color: #121212;
-      color: #ffffff;
     }
     .card {
       border: none;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .dark-mode .card {
-      background-color: #1e1e1e;
-      color: #ffffff;
     }
     .card-header {
       background-color: #007bff;
@@ -50,38 +26,19 @@
       border-radius: 10px 10px 0 0;
       padding: 15px;
     }
-    .dark-mode .card-header {
-      background-color: #0d6efd;
-    }
-    .btn-success {
-      background-color: #28a745;
+    .btn-primary {
+      background-color: #007bff;
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
-      transition: background-color 0.3s;
     }
-    .btn-success:hover {
-      background-color: #218838;
-    }
-    .btn-warning {
-      background-color: #ffc107;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-    .btn-warning:hover {
-      background-color: #e0a800;
+    .btn-primary:hover {
+      background-color: #0056b3;
     }
     .form-control {
       border-radius: 5px;
       border: 1px solid #ddd;
       padding: 10px;
-    }
-    .dark-mode .form-control {
-      background-color: #2d2d2d;
-      border-color: #444;
-      color: #ffffff;
     }
     .form-control:focus {
       border-color: #007bff;
@@ -91,138 +48,188 @@
       font-weight: bold;
       color: #333;
     }
-    .dark-mode .form-label {
-      color: #ffffff;
-    }
-    .form-check-label {
-      color: #555;
-    }
-    .dark-mode .form-check-label {
-      color: #ffffff;
-    }
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    .dropdown-menu {
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Dark Mode Styles for Select Options */
-    .dark-mode .form-select {
-        background-color: #2d2d2d;
-        border-color: #444;
-        color: #ffffff;
-    }
-
-    .dark-mode .form-select option {
-        background-color: #1e1e1e;
-        color: #ffffff;
-    }
   </style>
 </head>
 <body>
   <div class="container mt-5">
-    <div class="card">
+    <!-- Thông tin cá nhân -->
+    <div class="card mb-4">
       <div class="card-header">
-        <h5 class="card-title">My Profile</h5>
+        <h5 class="card-title">Thông tin cá nhân</h5>
       </div>
       <div class="card-body">
         <form id="profileForm">
           <div class="mb-3">
-            <label for="fullName" class="form-label">Họ và tên</label>
-            <input type="text" class="form-control" id="fullName" placeholder="Nhập họ và tên" required>
+            <label for="firstName" class="form-label">Tên</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Nhập tên" required>
           </div>
           <div class="mb-3">
-            <label for="date_of_birth" class="form-label">Ngày sinh</label>
-            <input type="date" class="form-control" id="date_of_birth" required>
+            <label for="lastName" class="form-label">Họ</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Nhập họ" required>
           </div>
           <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label">Địa chỉ email</label>
             <input type="email" class="form-control" id="email" placeholder="Nhập email" required>
           </div>
+          <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Đổi mật khẩu -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Đổi mật khẩu</h5>
+      </div>
+      <div class="card-body">
+        <form id="changePasswordForm">
           <div class="mb-3">
-            <label for="phone" class="form-label">Số điện thoại</label>
-            <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại" required>
+            <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+            <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
           </div>
           <div class="mb-3">
-            <label for="address" class="form-label">Địa chỉ</label>
-            <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" required>
+            <label for="newPassword" class="form-label">Mật khẩu mới</label>
+            <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới" required>
           </div>
           <div class="mb-3">
-            <label for="bio" class="form-label">Giới thiệu bản thân</label>
-            <textarea class="form-control" id="bio" rows="3" placeholder="Nhập giới thiệu bản thân"></textarea>
+            <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Xác nhận mật khẩu mới" required>
           </div>
-          <button type="submit" class="btn btn-success">Cập nhật</button>
+          <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
         </form>
       </div>
     </div>
   </div>
 
   <script>
-    // Hàm lấy thông tin hồ sơ
+    // Hàm lấy thông tin cá nhân
     function fetchProfile() {
-      fetch('/get-profile/')
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            document.getElementById('fullName').value = data.data.fullName;
-            document.getElementById('email').value = data.data.email;
-            document.getElementById('phone').value = data.data.phone;
-            document.getElementById('address').value = data.data.address;
-            document.getElementById('date_of_birth').value = data.data.date_of_birth;  // Điền ngày sinh
-            document.getElementById('bio').value = data.data.bio;
-          } else {
-            alert(data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+        fetch('/get-profile/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('firstName').value = data.data.firstName;
+                    document.getElementById('lastName').value = data.data.lastName;
+                    document.getElementById('email').value = data.data.email;
+                } else {
+                    alert(data.message || 'Không tìm thấy thông tin người dùng.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
-    // Hàm cập nhật hồ sơ
+    // Hàm cập nhật thông tin cá nhân
     document.getElementById('profileForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+        };
+
+        fetch('/update-profile/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);
+                fetchProfile();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    // Hàm đổi mật khẩu
+    document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
       event.preventDefault();
 
-      // Lấy giá trị từ form
       const formData = {
-        fullName: document.getElementById('fullName').value,
-        date_of_birth: document.getElementById('date_of_birth').value,  // Lấy ngày sinh
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        address: document.getElementById('address').value,
-        bio: document.getElementById('bio').value,
+          old_password: document.getElementById('currentPassword').value,
+          new_password1: document.getElementById('newPassword').value,
+          new_password2: document.getElementById('confirmPassword').value,
       };
 
-      // Gửi dữ liệu đến server
-      fetch('/update-profile/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': '{{ csrf_token }}' 
-        },
-        body: JSON.stringify(formData)
+      if (!formData.old_password) {
+          alert('Mật khẩu hiện tại không được để trống.');
+          return;
+      }
+
+      if (formData.new_password1 !== formData.new_password2) {
+          alert('Mật khẩu mới và xác nhận mật khẩu không khớp.');
+          return;
+      }
+
+      fetch('/change-password/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify(formData)
       })
       .then(response => response.json())
       .then(data => {
-        if (data.status === 'success') {
-          alert(data.message);
-          fetchProfile();
-        } else {
-          alert(data.message);
-        }
+          if (data.status === 'success') {
+              alert(data.message);
+              document.getElementById('changePasswordForm').reset();
+          } else {
+              alert(typeof data.message === 'string' ? data.message : JSON.stringify(data.message));
+          }
       })
       .catch(error => {
-        console.error('Error:', error);
+          console.error('Error:', error);
       });
     });
 
+    const formData = {
+      old_password: document.getElementById('currentPassword').value,
+      new_password1: document.getElementById('newPassword').value,
+      new_password2: document.getElementById('confirmPassword').value,
+   };
+
+    fetch('/change-password/', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: JSON.stringify(formData)
+  })
+
+    // Lấy CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+    
+
     // Gọi hàm fetchProfile khi trang được tải
     document.addEventListener('DOMContentLoaded', fetchProfile);
-  </script>
+</script>
 </body>
 </html>

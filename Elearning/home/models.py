@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
+from django.conf import settings
 
 # Validator cho số điện thoại
 phone_validator = RegexValidator(
@@ -425,6 +426,9 @@ class Candidate(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-applied_date']  
+
 
 class Interview(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name="Ứng viên")
@@ -445,8 +449,8 @@ class CandidateEvaluation(models.Model):
     score = models.PositiveIntegerField(verbose_name="Điểm số")
     comments = models.TextField(verbose_name="Nhận xét")
 
-    def __str__(self):
-        return f"Đánh giá {self.candidate.name} bởi {self.evaluator.username}"
+    class Meta:
+        unique_together = ['candidate', 'evaluator']
 
 
 class Integration(models.Model):
@@ -480,15 +484,17 @@ class UserPermission(models.Model):
         return f"{self.user.username} - {self.get_role_display()}"
 
 
+from django.db import models
+from django.contrib.auth.models import User
+
 class Report(models.Model):
-    intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="reports")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reports", default=1)  # Đặt giá trị mặc định
     title = models.CharField(max_length=200, verbose_name="Tiêu đề")
     content = models.TextField(verbose_name="Nội dung")
-    submitted_date = models.DateTimeField(auto_now_add=True, verbose_name="Ngày nộp", editable=False)
+    submitted_date = models.DateTimeField(auto_now_add=True, verbose_name="Ngày nộp", editable=False)  # Thêm trường này
     reviewed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Người đánh giá", related_name="reviewed_reports")
     review_date = models.DateTimeField(null=True, blank=True, verbose_name="Ngày đánh giá")
     review_notes = models.TextField(blank=True, null=True, verbose_name="Nhận xét")
-    is_final = models.BooleanField(default=False, verbose_name="Báo cáo cuối kỳ", db_index=True)
 
     def __str__(self):
         return self.title
@@ -496,7 +502,7 @@ class Report(models.Model):
     class Meta:
         verbose_name = "Báo cáo"
         verbose_name_plural = "Báo cáo"
-        ordering = ['-submitted_date']
+        ordering = ['-submitted_date']  # Sắp xếp theo ngày nộp
 
 
 class InternshipOffer(models.Model):

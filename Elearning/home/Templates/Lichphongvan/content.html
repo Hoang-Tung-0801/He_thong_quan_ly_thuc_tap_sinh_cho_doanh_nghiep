@@ -215,25 +215,41 @@
     try {
         isEditMode = true;
         currentEditId = id;
-        
-        const response = await fetch(`/api/get-interviews/${id}/`);
+
+        const csrfToken = getCookie('csrftoken');
+        const response = await fetch(`/api/get-interviews/${id}/`, {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const interview = await response.json();
-        
-        // Định dạng lại thời gian nếu cần
-        const [timeHours, timeMinutes] = interview.interview_time.split(':');
+
+        const timeParts = interview.interview_time.split(':');
+        const timeHours = timeParts[0] || '00';
+        const timeMinutes = timeParts[1] || '00';
         const formattedTime = `${timeHours.padStart(2, '0')}:${timeMinutes.padStart(2, '0')}`;
-        
-        document.getElementById('interviewCandidate').value = interview.candidate_id;
-        document.getElementById('interviewDate').value = interview.interview_date;
-        document.getElementById('interviewTime').value = formattedTime;
-        document.getElementById('interviewLocation').value = interview.location;
-        document.getElementById('interviewNotes').value = interview.notes;
-        
-        document.querySelector('#submitButton').textContent = 'Cập nhật';
+
+        document.querySelector('#interviewCandidate').value = interview.candidate_id || '';
+        document.querySelector('#interviewDate').value = interview.interview_date || '';
+        document.querySelector('#interviewTime').value = formattedTime;
+        document.querySelector('#interviewLocation').value = interview.location || '';
+        document.querySelector('#interviewNotes').value = interview.notes || '';
+
+        const submitButton = document.querySelector('#submitButton');
+        if (submitButton) {
+            submitButton.textContent = 'Cập nhật';
+        }
     } catch (error) {
         alert('Lỗi tải dữ liệu: ' + error.message);
     }
-  }
+}
 
   function getCookie(name) {
     let cookieValue = null;
