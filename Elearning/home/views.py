@@ -16,7 +16,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.password_validation import validate_password
 import logging
-from .models import Intern, TrainingProgram, Task, Notification, Performance, Feedback, Department, Project, Attendance, Report, Event,Recruitment,JobPost,Candidate,Interview,CandidateEvaluation,UserPermission,Integration,Report,Communication
+from .models import Intern, TrainingProgram, Task, Notification, Performance, Feedback, Department, Project, Attendance, Report, Event,Recruitment,JobPost,Candidate,Interview,CandidateEvaluation,UserPermission,Integration,Report,Communication,Profile
 from django import forms
 from .utils import get_user_groups_context
 from .forms import RecruitmentForm
@@ -33,7 +33,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ProfileForm
-from .models import Profile
+from django.db.models import Q
+
 logger = logging.getLogger(__name__)
 
 # Hàm gửi email xác thực tài khoản
@@ -1501,79 +1502,84 @@ def get_profiles(request):
 
     return JsonResponse(data, safe=False)  # Trả về dữ liệu dưới dạng JSON
 
-def get_hosothuctapsinh(request):
-    if request.method == 'GET':
-        profiles = Intern.objects.all().values(
-            'id', 'first_name', 'last_name', 'email', 'phone', 'address', 
-            'date_of_birth', 'university', 'major', 'start_date', 'end_date', 
-            'status', 'is_active', 'department_id', 'user_id'
+def intern_list(request):
+    # Lấy các tham số từ query string
+    search = request.GET.get('search', '')
+    status = request.GET.get('status', '')
+    department_id = request.GET.get('department', '')
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 10)
+
+    # Lấy tất cả thực tập sinh
+    interns = Intern.objects.all()
+
+    # Áp dụng bộ lọc tìm kiếm
+    if search:
+        interns = interns.filter(
+            Q(full_name__icontains=search) | 
+            Q(email__icontains=search) |
+            Q(phone__icontains=search)
         )
-        return JsonResponse(list(profiles), safe=False)
-    elif request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            user = User.objects.get(id=data['user_id']) if data['user_id'] else None
-            intern = Intern.objects.create(
-                user=user,  # Đảm bảo rằng bạn đang lưu user vào trường user
-                first_name=data['first_name'],
-                last_name=data['last_name'],
-                email=data['email'],
-                phone=data['phone'],
-                address=data['address'],
-                date_of_birth=data['date_of_birth'],
-                university=data['university'],
-                major=data['major'],
-                start_date=data['start_date'],
-                end_date=data['end_date'],
-                status=data['status'],
-                is_active=data['is_active'],
-                department_id=data['department_id']
-            )
-            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được lưu thành công!'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ'})
 
+    # Áp dụng bộ lọc trạng thái
+    if status:
+        interns = interns.filter(status=status)
 
-def edit_hosothuctapsinh(request, profile_id):
+    # Áp dụng bộ lọc phòng ban
+    if department_id:
+        interns = interns.filter(department_id=department_id)
+
+    # Phân trang
+    paginator = Paginator(interns, per_page)
+    page_obj = paginator.get_page(page)
+
+    # Chuẩn bị dữ liệu trả về
+    data = {
+        'interns': [
+            {
+                'id': intern.id,
+                'full_name': intern.full_name,
+                'email': intern.email,
+                'phone': intern.phone,
+                'department': intern.department.name if intern.department else 'N/A',
+                'status': intern.get_status_display(),
+            }
+            for intern in page_obj
+        ],
+        'total': paginator.count,
+        'page': page_obj.number,
+        'per_page': per_page,
+    }
+    return JsonResponse(data)
+
+def intern_detail(request, intern_id):
+    intern = get_object_or_404(Intern, id=intern_id)
+    data = {
+        'id': intern.id,
+        'full_name': intern.full_name,
+        'email': intern.email,
+        'phone': intern.phone,
+        'department': intern.department.name if intern.department else 'N/A',
+        'status': intern.get_status_display(),
+    }
+    return JsonResponse(data)
+
+# View để chỉnh sửa thực tập sinh
+def intern_edit(request, intern_id):
+    intern = get_object_or_404(Intern, id=intern_id)
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            intern = get_object_or_404(Intern, id=profile_id)
-            
-            # Cập nhật các trường mà không cập nhật ID
-            intern.first_name = data.get('first_name', intern.first_name)
-            intern.last_name = data.get('last_name', intern.last_name)
-            intern.email = data.get('email', intern.email)
-            intern.phone = data.get('phone', intern.phone)
-            intern.address = data.get('address', intern.address)
-            intern.date_of_birth = data.get('date_of_birth', intern.date_of_birth)
-            intern.university = data.get('university', intern.university)
-            intern.major = data.get('major', intern.major)
-            intern.start_date = data.get('start_date', intern.start_date)
-            intern.end_date = data.get('end_date', intern.end_date)
-            intern.status = data.get('status', intern.status)
-            intern.is_active = data.get('is_active', intern.is_active)
-            intern.department_id = data.get('department_id', intern.department_id)
-            
-            # Không cập nhật user
-            # user_id = data.get('user_id')
-            # if user_id:
-            #     try:
-            #         user = User.objects.get(id=user_id)
-            #         intern.user = user
-            #     except User.DoesNotExist:
-            #         return JsonResponse({'success': False, 'message': 'Người dùng không tồn tại.'}, status=400)
-            
-            intern.save()
-            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được cập nhật thành công!'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)}, status=500)
-    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ'}, status=400)
+        intern.first_name = request.POST.get('first_name')
+        intern.last_name = request.POST.get('last_name')
+        intern.email = request.POST.get('email')
+        intern.phone = request.POST.get('phone')
+        intern.save()
+        return JsonResponse({'success': True, 'message': 'Intern updated successfully!'})
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
-def delete_hosothuctapsinh(request, profile_id):
-    if request.method == 'DELETE':
-        intern = get_object_or_404(Intern, id=profile_id)
+# View để xóa thực tập sinh
+def intern_delete(request, intern_id):
+    intern = get_object_or_404(Intern, id=intern_id)
+    if request.method == 'POST':
         intern.delete()
-        return JsonResponse({'success': True, 'message': 'Hồ sơ đã được xóa thành công!'})
-    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ'})
+        return JsonResponse({'success': True, 'message': 'Intern deleted successfully!'})
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})

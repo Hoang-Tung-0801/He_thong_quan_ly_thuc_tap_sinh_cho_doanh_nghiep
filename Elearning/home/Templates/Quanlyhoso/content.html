@@ -1,15 +1,12 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý Thực tập sinh</title>
-  <!-- Bootstrap CSS -->
+  <title>Quản lý Tuyển dụng</title>
+  <meta name="csrf-token" content="{{ csrf_token }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     /* Dark Mode Placeholder Styles */
     .dark-mode ::placeholder {
@@ -24,15 +21,18 @@
     .dark-mode ::-ms-input-placeholder {
         color: #a0a0a0;
     }
+
     body {
       background-color: #f8f9fa;
       font-family: 'Arial', sans-serif;
       transition: background-color 0.3s, color 0.3s;
     }
+
     body.dark-mode {
       background-color: #121212;
       color: #ffffff;
     }
+
     .card {
       border: none;
       border-radius: 10px;
@@ -40,19 +40,23 @@
       margin-bottom: 20px;
       transition: background-color 0.3s, color 0.3s;
     }
+
     .dark-mode .card {
       background-color: #1e1e1e;
       color: #ffffff;
     }
+
     .card-header {
       background-color: #007bff;
       color: white;
       border-radius: 10px 10px 0 0;
       padding: 15px;
     }
+
     .dark-mode .card-header {
       background-color: #0d6efd;
     }
+
     .btn-success {
       background-color: #28a745;
       border: none;
@@ -60,9 +64,11 @@
       border-radius: 5px;
       transition: background-color 0.3s;
     }
+
     .btn-success:hover {
       background-color: #218838;
     }
+
     .btn-warning {
       background-color: #ffc107;
       border: none;
@@ -70,42 +76,53 @@
       border-radius: 5px;
       transition: background-color 0.3s;
     }
+
     .btn-warning:hover {
       background-color: #e0a800;
     }
+
     .form-control {
       border-radius: 5px;
       border: 1px solid #ddd;
       padding: 10px;
+      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     }
+
     .dark-mode .form-control {
       background-color: #2d2d2d;
       border-color: #444;
       color: #ffffff;
     }
+
     .form-control:focus {
       border-color: #007bff;
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
+
     .form-label {
       font-weight: bold;
       color: #333;
     }
+
     .dark-mode .form-label {
       color: #ffffff;
     }
+
     .form-check-label {
       color: #555;
     }
+
     .dark-mode .form-check-label {
       color: #ffffff;
     }
+
     .avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       cursor: pointer;
     }
+
     .dropdown-menu {
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -123,246 +140,204 @@
         color: #ffffff;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      loadProfiles();
+  <div class="container mt-4">
+    <h2 class="mb-4">Quản lý Hồ sơ Thực tập sinh</h2>
     
-      // Thêm xử lý sự kiện submit cho form
-      $('#profileManagementForm').on('submit', function(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của form
-        saveProfile();
-      });
-    });
-    
-    function saveProfile() {
-      $.ajax({
-          url: '/quanlyhoso/get-hosothuctapsinh/',
-          method: 'POST',
-          contentType: 'application/json',
-          headers: {
-              'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
-          },
-          data: JSON.stringify({
-              first_name: $('#first_name').val(),
-              last_name: $('#last_name').val(),
-              email: $('#email').val(),
-              phone: $('#phone').val(),
-              address: $('#address').val(),
-              date_of_birth: $('#date_of_birth').val(),
-              university: $('#university').val(),
-              major: $('#major').val(),
-              start_date: $('#start_date').val(),
-              end_date: $('#end_date').val(),
-              status: $('#status').val(),
-              is_active: $('#is_active').is(':checked'),
-              department_id: $('#department_id').val()
-              // Không gửi user_id
-          }),
-          success: function(response) {
-              alert(response.message);
-              loadProfiles();
-          },
-          error: function(xhr, status, error) {
-              alert('Có lỗi xảy ra: ' + error);
-          }
-      });
-  }
-  
-    function editProfile(profile_id) {
-      $.ajax({
-          url: `/quanlyhoso/get-hosothuctapsinh/${profile_id}/`,
-          method: 'GET',
-          success: function(profile) {
-              // Điền thông tin vào form
-              $('#profile_id').val(profile.id);
-              $('#user_id').val(profile.user_id);
-              $('#first_name').val(profile.first_name);
-              $('#last_name').val(profile.last_name);
-              $('#email').val(profile.email);
-              $('#phone').val(profile.phone);
-              $('#address').val(profile.address);
-              $('#date_of_birth').val(profile.date_of_birth);
-              $('#university').val(profile.university);
-              $('#major').val(profile.major);
-              $('#start_date').val(profile.start_date);
-              $('#end_date').val(profile.end_date);
-              $('#status').val(profile.status);
-              $('#is_active').prop('checked', profile.is_active);
-              $('#department_id').val(profile.department_id);
-          },
-          error: function(xhr, status, error) {
-              alert('Có lỗi xảy ra: ' + error);
-          }
-      });
-  }
-    
-    function loadProfiles() {
-      $.ajax({
-        url: '/quanlyhoso/get-hosothuctapsinh/',
-        method: 'GET',
-        success: function(data) {
-          let profileList = $('#profileList');
-          profileList.empty();
-          data.forEach(function(profile) {
-            let row = `
-              <tr>
-                <td>${profile.id}</td>
-                <td>${profile.first_name} ${profile.last_name}</td>
-                <td>${profile.date_of_birth}</td>
-                <td>${profile.email}</td>
-                <td>${profile.phone}</td>
-                <td>${profile.address}</td>
-                <td>${profile.university}</td>
-                <td>${profile.major}</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" onclick="editProfile(${profile.id}, ${profile.department_id})">Sửa</button>
-                  <button class="btn btn-sm btn-danger" onclick="deleteProfile(${profile.id})">Xóa</button>
-                </td>
-              </tr>
-            `;
-            profileList.append(row);
-          });
-        }
-      });
-    }
-    
-  
-    
-    function deleteProfile(profile_id) {
-      if (confirm('Bạn có chắc chắn muốn xóa hồ sơ này không?')) {
-        $.ajax({
-          url: `/quanlyhoso/delete-hosothuctapsinh/${profile_id}/`,
-          method: 'DELETE',
-          headers: {
-            'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val() // Thêm CSRF token
-          },
-          success: function(response) {
-            alert(response.message);
-            loadProfiles();
-          },
-          error: function(xhr, status, error) {
-            alert('Có lỗi xảy ra: ' + error);
-          }
-        });
-      }
-    }
-    
-    function clearProfileManagementForm() {
-      $('#profileManagementForm')[0].reset();
-    }
-    
-    function exportToExcel() {
-      let wb = XLSX.utils.table_to_book(document.getElementById('profileList'), {sheet: "Profiles"});
-      XLSX.writeFile(wb, 'profiles.xlsx');
-    }
-  </script>
-  <div class="container mt-5">
-    <!-- Quản lý Hồ sơ -->
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-header">
-        <h5 class="card-title">Quản lý Thực tập sinh</h5>
+        <i class="fas fa-filter"></i> Tìm kiếm & Lọc
       </div>
       <div class="card-body">
-        <form id="profileManagementForm">
-          {% csrf_token %} 
-          <input type="hidden" id="profile_id" name="profile_id" value="">
-          <input type="hidden" id="user_id" name="user_id" value="">
-          <div class="mb-3">
-            <label for="user_id" class="form-label">ID Tài khoản người dùng</label>
-            <input type="number" class="form-control" id="user_id" placeholder="Nhập ID người dùng" required>
-        </div>
-          <div class="mb-3">
-            <label for="first_name" class="form-label">Tên</label>
-            <input type="text" class="form-control" id="first_name" placeholder="Nhập tên" required>
+        <form id="filter-form" class="row g-3">
+          <div class="col-md-4">
+            <label for="search" class="form-label">Tìm kiếm</label>
+            <input type="text" class="form-control" id="search" name="search" placeholder="Nhập tên hoặc email...">
           </div>
-          <div class="mb-3">
-            <label for="last_name" class="form-label">Họ</label>
-            <input type="text" class="form-control" id="last_name" placeholder="Nhập họ" required>
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Nhập email" required>
-          </div>
-          <div class="mb-3">
-            <label for="phone" class="form-label">Số điện thoại</label>
-            <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại" required>
-          </div>
-          <div class="mb-3">
-            <label for="address" class="form-label">Địa chỉ</label>
-            <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" required>
-          </div>
-          <div class="mb-3">
-            <label for="date_of_birth" class="form-label">Ngày sinh</label>
-            <input type="date" class="form-control" id="date_of_birth" placeholder="Nhập ngày sinh" required>
-          </div>
-          <div class="mb-3">
-            <label for="university" class="form-label">Trường đại học</label>
-            <input type="text" class="form-control" id="university" placeholder="Nhập trường đại học" required>
-          </div>
-          <div class="mb-3">
-            <label for="major" class="form-label">Chuyên ngành</label>
-            <input type="text" class="form-control" id="major" placeholder="Nhập chuyên ngành" required>
-          </div>
-          <div class="mb-3">
-            <label for="start_date" class="form-label">Ngày bắt đầu</label>
-            <input type="date" class="form-control" id="start_date" placeholder="Nhập ngày bắt đầu" required>
-          </div>
-          <div class="mb-3">
-            <label for="end_date" class="form-label">Ngày kết thúc</label>
-            <input type="date" class="form-control" id="end_date" placeholder="Nhập ngày kết thúc" required>
-          </div>
-          <div class="mb-3">
+          <div class="col-md-4">
             <label for="status" class="form-label">Trạng thái</label>
-            <select class="form-control" id="status" required>
+            <select class="form-select" id="status" name="status">
+              <option value="">Tất cả</option>
               <option value="active">Đang thực tập</option>
               <option value="completed">Đã hoàn thành</option>
               <option value="terminated">Đã chấm dứt</option>
             </select>
           </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="is_active">
-            <label class="form-check-label" for="is_active">Đang hoạt động</label>
+          <div class="col-md-4">
+            <label for="department" class="form-label">Phòng ban</label>
+            <select class="form-select" id="department" name="department">
+              <option value="">Tất cả</option>
+              {% for department in departments %}
+              <option value="{{ department.id }}">{{ department.name }}</option>
+              {% endfor %}
+            </select>
           </div>
-          <div class="mb-3">
-            <label for="department_id" class="form-label">Phòng ban</label>
-            <input type="text" class="form-control" id="department_id" placeholder="Nhập phòng ban">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Lọc</button>
+            <button type="reset" class="btn btn-secondary">Đặt lại</button>
           </div>
-          <button type="submit" class="btn btn-success">Lưu</button>
-          <button type="button" class="btn btn-warning" onclick="clearProfileManagementForm()">Hủy</button>
         </form>
+      </div>
+    </div>
 
-        <div class="mt-4">
-          <h6>Danh sách Thực tập sinh</h6>
-          <table class="table table-bordered">
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-users"></i> Danh sách Thực tập sinh
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover" id="intern-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Họ và tên</th>
-                <th>Ngày sinh</th>
-                <th>Email</th>
-                <th>Số điện thoại</th>
-                <th>Địa chỉ</th>
-                <th>Trường đại học</th>
-                <th>Chuyên ngành</th>
-                <th>Hành động</th>
+                <th scope="col">#</th>
+                <th scope="col">Họ và Tên</th>
+                <th scope="col">Email</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Phòng ban</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Hành động</th>
               </tr>
             </thead>
-            <tbody id="profileList">
-              <!-- Dữ liệu sẽ được thêm vào đây -->
+            <tbody id="intern-body">
+              <!-- Intern data will be populated here via AJAX -->
             </tbody>
           </table>
-          <div class="mt-4">
-            <button class="btn btn-primary" onclick="exportToExcel()">Xuất danh sách ra Excel</button>
-          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    $(document).ready(function() {
+      // Hàm để lấy CSRF token
+      function getCSRFToken() {
+          return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      }
+  
+      // Hàm để tải danh sách thực tập sinh
+      function fetchInterns() {
+          $.ajax({
+              url: '{% url "intern_list" %}',
+              type: 'GET',
+              data: $('#filter-form').serialize(),
+              success: function(data) {
+                  $('#intern-body').empty();
+                  if (data.interns.length > 0) {
+                      $.each(data.interns, function(index, intern) {
+                          $('#intern-body').append(`
+                              <tr>
+                                  <th scope="row">${index + 1}</th>
+                                  <td>${intern.full_name}</td>
+                                  <td>${intern.email}</td>
+                                  <td>${intern.phone}</td>
+                                  <td>${intern.department}</td>
+                                  <td>
+                                      <span class="badge bg-${intern.status === 'Đang thực tập' ? 'success' : intern.status === 'Đã hoàn thành' ? 'info' : 'danger'}">
+                                          ${intern.status}
+                                      </span>
+                                  </td>
+                                  <td>
+                                      <button class="btn btn-sm btn-info" onclick="viewIntern(${intern.id})" title="Xem chi tiết">
+                                          <i class="fas fa-eye"></i>
+                                      </button>
+                                      <button class="btn btn-sm btn-warning" onclick="editIntern(${intern.id})" title="Chỉnh sửa">
+                                          <i class="fas fa-edit"></i>
+                                      </button>
+                                      <button class="btn btn-sm btn-danger" onclick="deleteIntern(${intern.id})" title="Xóa">
+                                          <i class="fas fa-trash"></i>
+                                      </button>
+                                  </td>
+                              </tr>
+                          `);
+                      });
+                  } else {
+                      $('#intern-body').append(`
+                          <tr>
+                              <td colspan="7" class="text-center text-danger">
+                                  <strong>Không tìm thấy thực tập sinh nào phù hợp với tiêu chí tìm kiếm.</strong>
+                              </td>
+                          </tr>
+                      `);
+                  }
+              },
+              error: function(xhr, status, error) {
+                  console.error("Lỗi khi tải danh sách thực tập sinh:", error);
+              }
+          });
+      }
+  
+      // Ngăn chặn hành động mặc định của form và tải dữ liệu thông qua AJAX
+      $('#filter-form').on('submit', function(event) {
+          event.preventDefault(); // Ngăn chặn việc gửi form mặc định
+          fetchInterns(); // Tải dữ liệu thông qua AJAX
+      });
+  
+      // Hàm xem chi tiết thực tập sinh
+      window.viewIntern = function(internId) {
+          $.ajax({
+              url: `/api/intern/${internId}/`,
+              type: 'GET',
+              success: function(data) {
+                  alert(`Chi tiết Thực tập sinh:\nHọ và tên: ${data.full_name}\nEmail: ${data.email}\nSố điện thoại: ${data.phone}\nPhòng ban: ${data.department}`);
+              },
+              error: function(xhr, status, error) {
+                  console.error("Lỗi khi xem chi tiết:", error);
+              }
+          });
+      }
+  
+      // Hàm chỉnh sửa thực tập sinh
+      window.editIntern = function(internId) {
+          const firstName = prompt("Nhập họ:");
+          const lastName = prompt("Nhập tên:");
+          const email = prompt("Nhập email:");
+          const phone = prompt("Nhập số điện thoại:");
+          if (firstName && lastName && email && phone) {
+              $.ajax({
+                  url: `/api/intern/edit/${internId}/`,
+                  type: 'POST',
+                  data: {
+                      first_name: firstName,
+                      last_name: lastName,
+                      email: email,
+                      phone: phone,
+                      csrfmiddlewaretoken: getCSRFToken()
+                  },
+                  success: function(response) {
+                      alert(response.message);
+                      fetchInterns();
+                  },
+                  error: function(xhr, status, error) {
+                      console.error("Lỗi khi chỉnh sửa:", error);
+                  }
+              });
+          }
+      }
+  
+      // Hàm xóa thực tập sinh
+      window.deleteIntern = function(internId) {
+          if (confirm("Bạn có chắc chắn muốn xóa thực tập sinh này không?")) {
+              $.ajax({
+                  url: `/api/intern/delete/${internId}/`,
+                  type: 'POST',
+                  data: {
+                      csrfmiddlewaretoken: getCSRFToken()
+                  },
+                  success: function(response) {
+                      alert(response.message);
+                      fetchInterns();
+                  },
+                  error: function(xhr, status, error) {
+                      console.error("Lỗi khi xóa:", error);
+                  }
+              });
+          }
+      }
+  
+      // Tải danh sách thực tập sinh khi trang được tải
+      fetchInterns();
+  });
+      </script>
 </body>
 </html>

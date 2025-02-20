@@ -115,9 +115,10 @@ urlpatterns = [
 
 
     #quản lý hồ sơ
-    path('quanlyhoso/get-hosothuctapsinh/', views.get_hosothuctapsinh, name='get_hosothuctapsinh'),
-    path('quanlyhoso/get-hosothuctapsinh/<int:profile_id>/', views.get_hosothuctapsinh, name='get_hosothuctapsinh'),
-    path('quanlyhoso/delete-hosothuctapsinh/<int:profile_id>/', views.delete_hosothuctapsinh, name='delete_hosothuctapsinh'),
+    path('api/interns/', views.intern_list, name='intern_list'),
+    path('api/intern/<int:intern_id>/', views.intern_detail, name='intern_detail'),
+    path('api/intern/edit/<int:intern_id>/', views.intern_edit, name='intern_edit'),
+    path('api/intern/delete/<int:intern_id>/', views.intern_delete, name='intern_delete'),
 
     #quản lý báo cáo và phân tích
 ]

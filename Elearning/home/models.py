@@ -65,11 +65,12 @@ class Intern(models.Model):
 
     def save(self, *args, **kwargs):
         self.full_name = f"{self.first_name} {self.last_name}"
+        self.clean()
         super().save(*args, **kwargs)
 
-def clean(self):
-    if self.start_date and self.end_date and self.start_date > self.end_date:
-        raise ValidationError("Ngày bắt đầu không thể lớn hơn ngày kết thúc.")
+    def clean(self):
+        if self.start_date and self.end_date and self.start_date > self.end_date:
+            raise ValidationError("Ngày bắt đầu không thể lớn hơn ngày kết thúc.")
 
     def get_absolute_url(self):
         return reverse('intern_detail', args=[str(self.id)])
