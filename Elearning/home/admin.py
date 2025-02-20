@@ -95,8 +95,7 @@ class TrainingProgramAdmin(admin.ModelAdmin):
         }),
     )
     filter_horizontal = ('interns',)
-    list_select_related = ('trainer',)
-    raw_id_fields = ('trainer',)
+    list_select_related = ()
 
 @admin.register(Performance)
 class PerformanceAdmin(admin.ModelAdmin):
@@ -158,20 +157,14 @@ class AttendanceAdmin(admin.ModelAdmin):
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
-<<<<<<< HEAD
-    list_display = ('title', 'reviewed_by', 'review_date')
-    list_filter = ('reviewed_by', 'review_date')
-    search_fields = ('title', 'content')
-    ordering = ['-review_date']  # Sắp xếp theo ngày đánh giá giảm dần
-=======
-    list_display = ('intern', 'title', 'submitted_date', 'reviewed_by', 'is_final')
-    list_filter = ('submitted_date', 'is_final')
+    list_display = ('title', 'user', 'submitted_date', 'reviewed_by', 'review_date')
+    list_filter = ('submitted_date', 'reviewed_by', 'review_date')
+    search_fields = ('title', 'content', 'user__username')
+    ordering = ['-submitted_date']  # Sắp xếp theo ngày nộp giảm dần
     readonly_fields = ('submitted_date',)
-    search_fields = ('title', 'intern__full_name')
     date_hierarchy = 'submitted_date'
-    list_select_related = ('intern', 'reviewed_by')
-    raw_id_fields = ('intern', 'reviewed_by')
->>>>>>> 780c59e7f740410ec07ea64deb26a725879531c3
+    list_select_related = ('user', 'reviewed_by')
+    raw_id_fields = ('user', 'reviewed_by')
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):

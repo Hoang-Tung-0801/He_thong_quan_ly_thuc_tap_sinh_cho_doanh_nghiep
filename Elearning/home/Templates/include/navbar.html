@@ -110,34 +110,27 @@
     const notificationDropdown = document.getElementById('notificationDropdown');
     const notificationList = document.getElementById('notificationList');
     const notificationCount = document.getElementById('notificationCount');
-  
+
     // Hàm tải thông báo
     function loadNotifications() {
       // Hiển thị trạng thái "Đang tải..."
       notificationList.innerHTML = '<li><div class="dropdown-item text-center p-2">Đang tải...</div></li>';
-  
+
       // Gọi API để lấy thông báo
       fetch('/notifications/')
         .then(response => {
-          console.log('Response:', response);  // Log response
           if (!response.ok) {
               throw new Error(`Lỗi HTTP: ${response.status}`);
           }
           return response.json();
         })
         .then(data => {
-          console.log('Data:', data);  // Log dữ liệu nhận được
-          // Kiểm tra dữ liệu
-          if (!data.notifications || !Array.isArray(data.notifications)) {
-            throw new Error('Dữ liệu thông báo không hợp lệ');
-          }
-  
           // Cập nhật số lượng thông báo
           notificationCount.textContent = data.notifications.length;
-  
+
           // Xóa nội dung cũ
           notificationList.innerHTML = '';
-  
+
           // Thêm thông báo vào dropdown
           if (data.notifications.length > 0) {
             data.notifications.forEach(notification => {
@@ -154,7 +147,7 @@
               `;
               notificationList.appendChild(notificationItem);
             });
-  
+
             // Thêm nút "Xem tất cả thông báo"
             const viewAllItem = document.createElement('li');
             viewAllItem.innerHTML = `
@@ -163,7 +156,7 @@
             `;
             notificationList.appendChild(viewAllItem);
           } else {
-            // Hiển thị thông báo nếu không có thông báo
+            // // Hiển thị thông báo nếu không có thông báo
             notificationList.innerHTML = '<li><div class="dropdown-item text-center p-2">Không có thông báo mới</div></li>';
           }
         })
@@ -177,13 +170,9 @@
       });
     }
 
-    fetch('/notifications/', {
-      method: 'GET',
-      headers: {
-          'X-CSRFToken': '{{ csrf_token }}', // Thêm CSRF token
-      },
-  })
-  
+    // Tải thông báo ngay khi trang được tải
+    loadNotifications();
+
     // Tải thông báo khi dropdown được mở
     notificationDropdown.addEventListener('click', loadNotifications);
   });

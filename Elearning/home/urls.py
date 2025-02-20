@@ -115,9 +115,11 @@ urlpatterns = [
 
 
     #quản lý hồ sơ
-    path('quanlyhoso/add-profile/', views.add_profile, name='add_profile'),
-    path('quanlyhoso/get-profiles/', views.get_profiles, name='get_profiles'),
+    path('quanlyhoso/get-hosothuctapsinh/', views.get_hosothuctapsinh, name='get_hosothuctapsinh'),
+    path('quanlyhoso/get-hosothuctapsinh/<int:profile_id>/', views.get_hosothuctapsinh, name='get_hosothuctapsinh'),
+    path('quanlyhoso/delete-hosothuctapsinh/<int:profile_id>/', views.delete_hosothuctapsinh, name='delete_hosothuctapsinh'),
 
+    #quản lý báo cáo và phân tích
 ]
 
 # Phục vụ file media trong môi trường DEBUG

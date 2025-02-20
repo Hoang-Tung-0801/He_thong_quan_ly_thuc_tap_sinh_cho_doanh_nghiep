@@ -4,13 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý Chương trình Đào tạo</title>
+  <title>Quản lý Thực tập sinh</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <!-- Custom CSS -->
-  
   <style>
     /* Dark Mode Placeholder Styles */
     .dark-mode ::placeholder {
@@ -127,35 +126,164 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      loadProfiles();
+    
+      // Thêm xử lý sự kiện submit cho form
+      $('#profileManagementForm').on('submit', function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+        saveProfile();
+      });
+    });
+    
+    function saveProfile() {
+      $.ajax({
+          url: '/quanlyhoso/get-hosothuctapsinh/',
+          method: 'POST',
+          contentType: 'application/json',
+          headers: {
+              'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+          },
+          data: JSON.stringify({
+              first_name: $('#first_name').val(),
+              last_name: $('#last_name').val(),
+              email: $('#email').val(),
+              phone: $('#phone').val(),
+              address: $('#address').val(),
+              date_of_birth: $('#date_of_birth').val(),
+              university: $('#university').val(),
+              major: $('#major').val(),
+              start_date: $('#start_date').val(),
+              end_date: $('#end_date').val(),
+              status: $('#status').val(),
+              is_active: $('#is_active').is(':checked'),
+              department_id: $('#department_id').val()
+              // Không gửi user_id
+          }),
+          success: function(response) {
+              alert(response.message);
+              loadProfiles();
+          },
+          error: function(xhr, status, error) {
+              alert('Có lỗi xảy ra: ' + error);
+          }
+      });
+  }
+  
+    function editProfile(profile_id) {
+      $.ajax({
+          url: `/quanlyhoso/get-hosothuctapsinh/${profile_id}/`,
+          method: 'GET',
+          success: function(profile) {
+              // Điền thông tin vào form
+              $('#profile_id').val(profile.id);
+              $('#user_id').val(profile.user_id);
+              $('#first_name').val(profile.first_name);
+              $('#last_name').val(profile.last_name);
+              $('#email').val(profile.email);
+              $('#phone').val(profile.phone);
+              $('#address').val(profile.address);
+              $('#date_of_birth').val(profile.date_of_birth);
+              $('#university').val(profile.university);
+              $('#major').val(profile.major);
+              $('#start_date').val(profile.start_date);
+              $('#end_date').val(profile.end_date);
+              $('#status').val(profile.status);
+              $('#is_active').prop('checked', profile.is_active);
+              $('#department_id').val(profile.department_id);
+          },
+          error: function(xhr, status, error) {
+              alert('Có lỗi xảy ra: ' + error);
+          }
+      });
+  }
+    
+    function loadProfiles() {
+      $.ajax({
+        url: '/quanlyhoso/get-hosothuctapsinh/',
+        method: 'GET',
+        success: function(data) {
+          let profileList = $('#profileList');
+          profileList.empty();
+          data.forEach(function(profile) {
+            let row = `
+              <tr>
+                <td>${profile.id}</td>
+                <td>${profile.first_name} ${profile.last_name}</td>
+                <td>${profile.date_of_birth}</td>
+                <td>${profile.email}</td>
+                <td>${profile.phone}</td>
+                <td>${profile.address}</td>
+                <td>${profile.university}</td>
+                <td>${profile.major}</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="editProfile(${profile.id}, ${profile.department_id})">Sửa</button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteProfile(${profile.id})">Xóa</button>
+                </td>
+              </tr>
+            `;
+            profileList.append(row);
+          });
+        }
+      });
+    }
+    
+  
+    
+    function deleteProfile(profile_id) {
+      if (confirm('Bạn có chắc chắn muốn xóa hồ sơ này không?')) {
+        $.ajax({
+          url: `/quanlyhoso/delete-hosothuctapsinh/${profile_id}/`,
+          method: 'DELETE',
+          headers: {
+            'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val() // Thêm CSRF token
+          },
+          success: function(response) {
+            alert(response.message);
+            loadProfiles();
+          },
+          error: function(xhr, status, error) {
+            alert('Có lỗi xảy ra: ' + error);
+          }
+        });
+      }
+    }
+    
+    function clearProfileManagementForm() {
+      $('#profileManagementForm')[0].reset();
+    }
+    
+    function exportToExcel() {
+      let wb = XLSX.utils.table_to_book(document.getElementById('profileList'), {sheet: "Profiles"});
+      XLSX.writeFile(wb, 'profiles.xlsx');
+    }
+  </script>
   <div class="container mt-5">
     <!-- Quản lý Hồ sơ -->
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title">Quản lý Hồ sơ</h5>
+        <h5 class="card-title">Quản lý Thực tập sinh</h5>
       </div>
       <div class="card-body">
         <form id="profileManagementForm">
           {% csrf_token %} 
+          <input type="hidden" id="profile_id" name="profile_id" value="">
+          <input type="hidden" id="user_id" name="user_id" value="">
           <div class="mb-3">
-            <label for="id" class="form-label">Mã thực tập sinh</label>
-            <input type="text" class="form-control" id="id" placeholder="Nhập mã thực tập sinh" required>
+            <label for="user_id" class="form-label">ID Tài khoản người dùng</label>
+            <input type="number" class="form-control" id="user_id" placeholder="Nhập ID người dùng" required>
+        </div>
+          <div class="mb-3">
+            <label for="first_name" class="form-label">Tên</label>
+            <input type="text" class="form-control" id="first_name" placeholder="Nhập tên" required>
           </div>
           <div class="mb-3">
-            <label for="fullName" class="form-label">Họ và tên</label>
-            <input type="text" class="form-control" id="fullName" placeholder="Nhập họ và tên" required>
-          </div>
-          <div class="mb-3">
-            <label for="dob" class="form-label">Ngày sinh</label>
-            <input type="date" class="form-control" id="dob" placeholder="Nhập ngày sinh" required>
-          </div>
-          <div class="mb-3">
-            <label for="gender" class="form-label">Giới tính</label>
-            <select class="form-control" id="gender" required>
-              <option value="" disabled selected>Chọn giới tính</option>
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-              <option value="Khác">Khác</option>
-            </select>
+            <label for="last_name" class="form-label">Họ</label>
+            <input type="text" class="form-control" id="last_name" placeholder="Nhập họ" required>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -170,97 +298,63 @@
             <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" required>
           </div>
           <div class="mb-3">
-            <label for="education" class="form-label">Trình độ học vấn</label>
-            <input type="text" class="form-control" id="education" placeholder="Nhập trình độ học vấn" required>
+            <label for="date_of_birth" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="date_of_birth" placeholder="Nhập ngày sinh" required>
           </div>
           <div class="mb-3">
-            <label for="workExperience" class="form-label">Kinh nghiệm làm việc</label>
-            <textarea class="form-control" id="workExperience" rows="3" placeholder="Nhập kinh nghiệm làm việc"></textarea>
+            <label for="university" class="form-label">Trường đại học</label>
+            <input type="text" class="form-control" id="university" placeholder="Nhập trường đại học" required>
           </div>
           <div class="mb-3">
-            <label for="documents" class="form-label">Tài liệu đính kèm</label>
-            <input type="file" class="form-control" id="documents" multiple>
+            <label for="major" class="form-label">Chuyên ngành</label>
+            <input type="text" class="form-control" id="major" placeholder="Nhập chuyên ngành" required>
+          </div>
+          <div class="mb-3">
+            <label for="start_date" class="form-label">Ngày bắt đầu</label>
+            <input type="date" class="form-control" id="start_date" placeholder="Nhập ngày bắt đầu" required>
+          </div>
+          <div class="mb-3">
+            <label for="end_date" class="form-label">Ngày kết thúc</label>
+            <input type="date" class="form-control" id="end_date" placeholder="Nhập ngày kết thúc" required>
+          </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Trạng thái</label>
+            <select class="form-control" id="status" required>
+              <option value="active">Đang thực tập</option>
+              <option value="completed">Đã hoàn thành</option>
+              <option value="terminated">Đã chấm dứt</option>
+            </select>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="is_active">
+            <label class="form-check-label" for="is_active">Đang hoạt động</label>
+          </div>
+          <div class="mb-3">
+            <label for="department_id" class="form-label">Phòng ban</label>
+            <input type="text" class="form-control" id="department_id" placeholder="Nhập phòng ban">
           </div>
           <button type="submit" class="btn btn-success">Lưu</button>
           <button type="button" class="btn btn-warning" onclick="clearProfileManagementForm()">Hủy</button>
         </form>
 
-
         <div class="mt-4">
-          <h6>Tìm kiếm</h6>
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <input type="text" id="searchID" class="form-control" placeholder="Tìm theo ID">
-            </div>
-            <div class="col-md-3 mb-3">
-              <input type="text" id="searchName" class="form-control" placeholder="Tìm theo Họ và tên">
-            </div>
-            <div class="col-md-3 mb-3">
-              <input type="date" id="searchDOB" class="form-control" placeholder="Tìm theo ngày sinh">
-            </div>
-            <div class="col-md-2 mb-3">
-              <select id="searchGender" class="form-select">
-                <option value="">Tìm theo Giới tính</option>
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
-              </select>
-            </div>
-            <div class="col-md-3" id="searchButtonWrapper">
-              <button class="btn btn-success" onclick="filterProfiles()">Tìm kiếm</button>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Danh sách Hồ sơ -->
-        <div class="mt-4">
-          <h6>Danh sách Hồ sơ</h6>
+          <h6>Danh sách Thực tập sinh</h6>
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Mã thực tập sinh</th>
+                <th>ID</th>
                 <th>Họ và tên</th>
                 <th>Ngày sinh</th>
-                <th>Giới tính</th>
                 <th>Email</th>
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
-                <th>Trình độ học vấn</th>
-                <th>Kinh nghiệm làm việc</th>
+                <th>Trường đại học</th>
+                <th>Chuyên ngành</th>
                 <th>Hành động</th>
               </tr>
             </thead>
             <tbody id="profileList">
-             <!-- Dữ liệu mẫu -->
-              <tr>
-                <th>T01</th>
-                <td>Nguyễn Văn A</td>
-                <td>20/12/2000</td>
-                <td>Nam</td>
-                <td>nguyenvana@example.com</td>
-                <td>0123456789</td>
-                <td>Hà Nội</td>
-                <td>Đại học</td>
-                <td>2 năm kinh nghiệm lập trình</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" onclick="editProfile(0)">Sửa</button>
-                  <button class="btn btn-sm btn-danger" onclick="deleteProfile(0)">Xóa</button>
-                </td>
-              </tr>
-              <tr>
-                <th>T02</th>
-                <td>Trần Thị B</td>
-                <td>16/02/2000</td>
-                <td>Nữ</td>
-                <td>tranthib@example.com</td>
-                <td>0987654321</td>
-                <td>TP.HCM</td>
-                <td>Cao đẳng</td>
-                <td>1 năm kinh nghiệm thiết kế</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" onclick="editProfile(1)">Sửa</button>
-                  <button class="btn btn-sm btn-danger" onclick="deleteProfile(1)">Xóa</button>
-                </td>
-              </tr>
+              <!-- Dữ liệu sẽ được thêm vào đây -->
             </tbody>
           </table>
           <div class="mt-4">
@@ -270,313 +364,5 @@
       </div>
     </div>
   </div>
-
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <script>
-    // Mảng lưu trữ hồ sơ
-    let profiles = [
-      {
-        id: "T01",
-        fullName: "Nguyễn Văn A",
-        dob: "20/12/2000",
-        gender: "Nam",
-        email: "nguyenvana@example.com",
-        phone: "0123456789",
-        address: "Hà Nội",
-        education: "Đại học",
-        workExperience: "2 năm kinh nghiệm lập trình",
-        documents: []
-      },
-      {
-        id: "T02",
-        fullName: "Trần Thị B",
-        dob: "16/02/2000",
-        gender: "Nữ",
-        email: "tranthib@example.com",
-        phone: "0987654321",
-        address: "TP.HCM",
-        education: "Cao đẳng",
-        workExperience: "1 năm kinh nghiệm thiết kế",
-        documents: []
-      }
-    ];
-
-    // Hàm định dạng ngày
-    function formatDate(dateString) {
-      const dateParts = dateString.split('-'); // Tách chuỗi ngày
-      return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`; // Trả về định dạng dd/mm/yyyy
-    }
-
-    // Hàm thêm hồ sơ
-    document.getElementById('profileManagementForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      // Lấy giá trị từ form
-      const id = document.getElementById('id').value;
-      const fullName = document.getElementById('fullName').value;
-      const dob = document.getElementById('dob').value; // Ngày sinh ở định dạng yyyy-mm-dd
-      const gender = document.getElementById('gender').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const address = document.getElementById('address').value;
-      const education = document.getElementById('education').value;
-      const workExperience = document.getElementById('workExperience').value;
-      const documents = document.getElementById('documents').files;
-
-      // Định dạng ngày sinh trước khi lưu vào mảng
-      const formattedDob = formatDate(dob); // Định dạng ngày sinh
-
-      // Thêm hồ sơ vào mảng
-      profiles.push({
-        id: id,
-        fullName: fullName,
-        dob: formattedDob, // Lưu ngày đã định dạng
-        gender: gender,
-        email: email,
-        phone: phone,
-        address: address,
-        education: education,
-        workExperience: workExperience,
-        documents: documents
-      });
-
-      localStorage.setItem('profiles', JSON.stringify(profiles));
-      // Cập nhật danh sách hồ sơ
-      updateProfileList();
-
-      // Thông báo thành công
-      alert('Hồ sơ đã được lưu thành công!');
-
-      // Xóa form sau khi thêm
-      clearProfileManagementForm();
-    });
-
-    // Hàm cập nhật danh sách hồ sơ
-    function updateProfileList() {
-      const profileList = document.getElementById('profileList');
-      profileList.innerHTML = ''; // Xóa nội dung cũ
-
-      profiles.forEach((profile, index) => {
-        const row = `
-          <tr>
-            <td>${profile.id}</td>
-            <td>${profile.fullName}</td>
-            <td>${profile.dob}</td> <!-- Ngày sinh đã được định dạng -->
-            <td>${profile.gender}</td>
-            <td>${profile.email}</td>
-            <td>${profile.phone}</td>
-            <td>${profile.address}</td>
-            <td>${profile.education}</td>
-            <td>${profile.workExperience}</td>
-            <td>
-              <button class="btn btn-sm btn-primary" onclick="editProfile(${index})">Sửa</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteProfile(${index})">Xóa</button>
-            </td>
-          </tr>
-        `;
-        profileList.innerHTML += row;
-      });
-    }
-
-    // Cập nhật danh sách hồ sơ khi trang được tải
-    updateProfileList();
-
-    // Hàm xóa hồ sơ
-    function deleteProfile(index) {
-      if (confirm('Bạn có chắc chắn muốn xóa hồ sơ này không?')) {
-        profiles.splice(index, 1); // Xóa hồ sơ khỏi mảng
-        updateProfileList(); // Cập nhật danh sách
-      }
-    }
-
-    // Hàm chỉnh sửa hồ sơ
-    function editProfile(index) {
-      const profile = profiles[index];
-      document.getElementById('id').value = profile.id;
-      document.getElementById('fullName').value = profile.fullName;
-      document.getElementById('dob').value = profile.dob;
-      document.getElementById('gender').value = profile.gender;
-      document.getElementById('email').value = profile.email;
-      document.getElementById('phone').value = profile.phone;
-      document.getElementById('address').value = profile.address;
-      document.getElementById('education').value = profile.education;
-      document.getElementById('workExperience').value = profile.workExperience;
-
-      // Xóa hồ sơ cũ khỏi mảng
-      profiles.splice(index, 1);
-      updateProfileList();
-    }
-
-    // Hàm xóa form
-    function clearProfileManagementForm() {
-      document.getElementById('profileManagementForm').reset();
-    }
-
-    // Cập nhật danh sách hồ sơ khi trang được tải
-    updateProfileList();
-   
-   
-    
-  </script>
-  
-  
-  <script>
-
-    // Lắng nghe sự kiện tìm kiếm
-    function filterProfiles() {
-      const searchID = document.getElementById('searchID').value;
-      const searchName = document.getElementById('searchName').value.toLowerCase();
-      const searchDOB = document.getElementById('searchDOB').value;
-      const searchGender = document.getElementById('searchGender').value;
-    
-      const filteredProfiles = profiles.filter(profile => {
-        const matchesID = !searchID || profile.id === searchID;
-        const matchesName = !searchName || profile.fullName.toLowerCase().includes(searchName);
-        const matchesDOB = !searchDOB || profile.dob === searchDOB;
-        const matchesGender = !searchGender || profile.gender === searchGender;
-        return matchesID && matchesName && matchesDOB && matchesGender;
-      });
-    
-      displayFilteredProfiles(filteredProfiles);
-    }
-    
-    function displayFilteredProfiles(filteredProfiles) {
-      const profileList = document.getElementById('profileList');
-      profileList.innerHTML = ''; // Xóa nội dung cũ
-    
-      filteredProfiles.forEach((profile, index) => {
-        const row = `
-          <tr>
-            <td>${profile.id}</td>
-            <td>${profile.fullName}</td>
-            <td>${profile.dob}</td>
-            <td>${profile.gender}</td>
-            <td>${profile.email}</td>
-            <td>${profile.phone}</td>
-            <td>${profile.address}</td>
-            <td>${profile.education}</td>
-            <td>${profile.workExperience}</td>
-            <td>
-              <button class="btn btn-sm btn-primary" onclick="editProfile(${index})">Sửa</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteProfile(${index})">Xóa</button>
-            </td>
-          </tr>
-        `;
-        profileList.innerHTML += row;
-      });
-    }
-
-    function exportToExcel() {
-      // Tạo một workbook mới
-      const wb = XLSX.utils.book_new();
-      
-      // Chuyển đổi dữ liệu hồ sơ thành định dạng sheet
-      const wsData = profiles.map(profile => [
-        profile.id,
-        profile.fullName,
-        profile.dob,
-        profile.gender,
-        profile.email,
-        profile.phone,
-        profile.address,
-        profile.education,
-        profile.workExperience
-      ]);
-    
-      // Thêm tiêu đề cho sheet
-      wsData.unshift(["Mã thực tập sinh", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Số điện thoại", "Địa chỉ", "Trình độ học vấn", "Kinh nghiệm làm việc"]);
-    
-      // Tạo sheet từ dữ liệu
-      const ws = XLSX.utils.aoa_to_sheet(wsData);
-    
-      // Thêm sheet vào workbook
-      XLSX.utils.book_append_sheet(wb, ws, "Hồ sơ");
-    
-      // Xuất file Excel
-      XLSX.writeFile(wb, "ho_so.xlsx");
-
-      
-    }
-
-    updateProfileList();
-
-    
-    $(document).ready(function() {
-      $('#profileManagementForm').on('submit', function(e) {
-        e.preventDefault();  // Ngăn form gửi theo cách thông thường
-
-        // Tạo FormData để gửi cả file và dữ liệu
-        const formData = new FormData(this);
-
-        // Gửi dữ liệu bằng AJAX
-        $.ajax({
-          url: 'http://127.0.0.1:8000/quanlyhoso/add-profile/',  // URL của view xử lý form
-          type: 'POST',
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function(response) {
-            if (response.success) {
-              alert(response.message);  // Thông báo thành công
-              clearProfileManagementForm();  // Xóa form sau khi lưu
-              loadProfiles();  // Tải lại danh sách sau khi thêm
-            } 
-          },
-        });
-      });
-    });
-
-    // Hàm xóa form
-    function clearProfileManagementForm() {
-      $('#profileManagementForm')[0].reset();
-    }
-    
-    $(document).ready(function() {
-      loadProfiles();  // Tải dữ liệu khi trang được tải
-    });
-  
-    // Hàm tải danh sách hồ sơ
-    function loadProfiles() {
-      $.ajax({
-        url: 'http://127.0.0.1:8000/quanlyhoso/get-profiles/',  // URL của view lấy dữ liệu
-        type: 'GET',
-        success: function(response) {
-          renderProfiles(response);  // Hiển thị dữ liệu lên bảng
-        },
-      });
-    }
-  
-    // Hàm hiển thị danh sách hồ sơ lên bảng
-    function renderProfiles(profiles) {
-      const profileList = $('#profileList');
-      profileList.empty();  // Xóa dữ liệu cũ
-  
-      profiles.forEach(function(profile) {
-        const row = `
-          <tr>
-            <th>${profile.id}</th>
-            <td>${profile.full_name}</td>
-            <td>${profile.dob}</td>
-            <td>${profile.gender}</td>
-            <td>${profile.email}</td>
-            <td>${profile.phone}</td>
-            <td>${profile.address}</td>
-            <td>${profile.education}</td>
-            <td>${profile.workExperience}</td>
-            <td>
-              <button class="btn btn-sm btn-primary" onclick="editProfile('${profile.id}')">Sửa</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteProfile('${profile.id}')">Xóa</button>
-            </td>
-          </tr>
-        `;
-        profileList.append(row);  // Thêm hàng mới vào bảng
-      });
-    }
-      
-  </script>
 </body>
 </html>

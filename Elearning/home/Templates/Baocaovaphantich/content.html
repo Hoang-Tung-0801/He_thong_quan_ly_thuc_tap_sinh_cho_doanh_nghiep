@@ -1,10 +1,9 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý Chương trình Đào tạo</title>
+  <title>Báo cáo và Phân tích</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
@@ -142,472 +141,72 @@
   }
     
   </style>
-  
 </head>
 <body>
   <div class="container mt-5">
-    <!-- Báo cáo và Phân tích -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">Báo cáo và Phân tích</h5>
-      </div>
-      <div class="card-body">
-        <form id="reportAnalysisForm">
-          <div class="mb-3">
-            <label for="reportType" class="form-label">Loại báo cáo</label>
-            <select class="form-select" id="reportType" required>
-              <option value="">Chọn loại báo cáo</option>
-              <option value="Hiệu suất">Hiệu suất</option>
-              <option value="Điểm danh">Điểm danh</option>
-              <option value="Phản hồi">Phản hồi</option>
-              <option value="Tỷ lệ hoàn thành">Tỷ lệ hoàn thành</option>
-            </select>
+    <h1 class="text-center mb-4">Báo cáo và Phân tích</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Thống kê Thực tập sinh</h5>
           </div>
-          <div class="mb-3">
-            <label for="reportPeriod" class="form-label">Kỳ báo cáo</label>
-            <input type="text" class="form-control" id="reportPeriod" placeholder="Nhập kỳ báo cáo" required>
+          <div class="card-body">
+            <p><strong>Tổng số thực tập sinh:</strong> {{ total_interns }}</p>
+            <p><strong>Đang thực tập:</strong> {{ active_interns }}</p>
+            <p><strong>Đã hoàn thành:</strong> {{ completed_interns }}</p>
+            <p><strong>Đã chấm dứt:</strong> {{ terminated_interns }}</p>
           </div>
-          <div class="mb-3">
-            <label for="reportDetails" class="form-label">Chi tiết báo cáo</label>
-            <textarea class="form-control" id="reportDetails" rows="3" placeholder="Nhập chi tiết báo cáo"></textarea>
-          </div>
-          <button type="submit" class="btn btn-success">Tạo báo cáo</button>
-          <button type="button" class="btn btn-warning" onclick="clearReportAnalysisForm()">Hủy</button>
-        </form>
-
-        <!-- Danh sách Báo cáo và Phân tích -->
-        <div class="mt-4">
-          <h6>Danh sách Báo cáo và Phân tích</h6>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Loại báo cáo</th>
-                <th>Kỳ báo cáo</th>
-                <th>Chi tiết</th>
-                <th>Hành động</th>
-              </tr>
-            </thead>
-            <tbody id="reportAnalysisList">
-              <!-- Dữ liệu mẫu -->
-              <tr>
-                <td>Hiệu suất</td>
-                <td>Tháng 10/2023</td>
-                <td>Báo cáo hiệu suất tháng 10/2023</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" onclick="editReportAnalysis(0)">Sửa</button>
-                  <button class="btn btn-sm btn-danger" onclick="deleteReportAnalysis(0)">Xóa</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Điểm danh</td>
-                <td>Tháng 9/2023</td>
-                <td>Báo cáo điểm danh tháng 9/2023</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" onclick="editReportAnalysis(1)">Sửa</button>
-                  <button class="btn btn-sm btn-danger" onclick="deleteReportAnalysis(1)">Xóa</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button id="exportExcelBtn" class="btn btn-success mt-3">Xuất ra Excel</button>
         </div>
-        <!-- Modal -->
-          <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="detailModalLabel">Chi tiết Phân tích</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <p id="detailContent"></p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>
-              </div>
-            </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Thống kê Đánh giá Hiệu suất</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Điểm trung bình:</strong> {{ average_score|floatformat:2 }}</p>
+            <p><strong>Xuất sắc:</strong> {{ excellent_performances }}</p>
+            <p><strong>Tốt:</strong> {{ good_performances }}</p>
+            <p><strong>Trung bình:</strong> {{ average_performances }}</p>
+            <p><strong>Kém:</strong> {{ poor_performances }}</p>
+            <p><strong>Rất kém:</strong> {{ very_poor_performances }}</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="container mt-5">
-      <div class="card mt-4">
-        <div class="card-header">
-          <h5 class="card-title">Phân tích chi tiết</h5>
-        </div>
-        <div class="card-body">
-          <!-- Tabs for Detailed Analysis -->
-          <ul class="nav nav-tabs" id="analysisTabs" role="tablist">
-            <li class="nav-item">
-              <button class="nav-link active" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills" type="button" role="tab">Thành tích đạt được</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link" id="student-participation-tab" data-bs-toggle="tab" data-bs-target="#student-participation" type="button" role="tab">Mức độ chuyên cần</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link" id="intern-performance-tab" data-bs-toggle="tab" data-bs-target="#intern-performance" type="button" role="tab">Hiệu suất Intern</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link" id="intern-feedback-tab" data-bs-toggle="tab" data-bs-target="#intern-feedback" type="button" role="tab">Phản hồi Intern</button>
-            </li>
-          </ul>
-          <div class="tab-content mt-4">
-            <!-- Phân tích Kỹ năng -->
-            <div class="tab-pane fade show active" id="skills" role="tabpanel">
-              <form id="skillsForm">
-                <div class="mb-3">
-                  <label for="internNameSkills" class="form-label">Tên Intern</label>
-                  <input type="text" class="form-control" id="internNameSkills" placeholder="Nhập tên Intern" required>
-                </div>
-                <div class="mb-3">
-                  <label for="skillsAcquired" class="form-label">Thành tích đã đạt được</label>
-                  <textarea class="form-control" id="skillsAcquired" rows="3" placeholder="Nhập danh sách thành tích đạt được" required></textarea>
-                </div>
-              </form>
-            </div>
-    
-            <!-- Phân tích Mức độ Tham gia -->
-            <div class="tab-pane fade" id="student-participation" role="tabpanel">
-              <form id="studentParticipationForm">
-                <div class="mb-3">
-                  <label for="totalSessions" class="form-label">Tổng số buổi</label>
-                  <input type="number" class="form-control" id="totalSessions" placeholder="Nhập tổng số buổi" required min="1">
-                </div>
-                <div class="mb-3">
-                  <label for="participationSessions" class="form-label">Số buổi tham gia</label>
-                  <input type="number" class="form-control" id="participationSessions" placeholder="Nhập số buổi" required min="0">
-                </div>
-                <button type="submit" class="btn btn-success">Phân tích mức độ chuyên cần</button>
-              </form>
-            </div>
-    
-            <!-- Phân tích Hiệu suất Intern -->
-            <div class="tab-pane fade" id="intern-performance" role="tabpanel">
-              <form id="internPerformanceForm">
-                <div class="mb-3">
-                  <label for="assignedTasks" class="form-label">Số công việc được giao</label>
-                  <input type="number" class="form-control" id="assignedTasks" placeholder="Nhập số công việc" required min="1">
-                </div>
-                <div class="mb-3">
-                  <label for="completedTasks" class="form-label">Số công việc đã hoàn thành</label>
-                  <input type="number" class="form-control" id="completedTasks" placeholder="Nhập số công việc hoàn thành" required min="0">
-                </div>
-                <button type="submit" class="btn btn-success">Phân tích Hiệu suất</button>
-              </form>
-            </div>
-    
-            <!-- Phản hồi Từ Intern -->
-            <div class="tab-pane fade" id="intern-feedback" role="tabpanel">
-              <form id="internFeedbackForm">
-                <div class="mb-3">
-                  <label for="internComments" class="form-label">Phản hồi của Intern</label>
-                  <textarea class="form-control" id="internComments" rows="3" placeholder="Nhập phản hồi" required></textarea>
-                </div>
-              </form>
-            </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Phân tích Chương trình Đào tạo</h5>
           </div>
-    
-          <!-- Phần hiển thị nội dung tất cả các tab -->
-          <div id="allContent" class="mt-4" style="display: none;">
-            <h6>Nội dung tất cả các phần:</h6>
-            <div id="allSkillsContent"></div>
-            <div id="allParticipationContent"></div>
-            <div id="allPerformanceContent"></div>
-            <div id="allFeedbackContent"></div>
+          <div class="card-body">
+            <p><strong>Tổng số chương trình đào tạo:</strong> {{ total_training_programs }}</p>
+            <p><strong>Đang hoạt động:</strong> {{ active_training_programs }}</p>
+            <p><strong>Đã hoàn thành:</strong> {{ completed_training_programs }}</p>
+            <p><strong>Đã hủy:</strong> {{ cancelled_training_programs }}</p>
           </div>
         </div>
-        <button class="btn btn-info" id="viewAllBtn">Xem tất cả</button>
-        <button id="exportBtn">Xuất file Word</button>
-        <div id="allContent" style="display:none;">
-            <div id="allSkillsContent"></div>
-            <div id="allParticipationContent"></div>
-            <div id="allPerformanceContent"></div>
-            <div id="allFeedbackContent"></div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Phân tích Dự án</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Tổng số dự án:</strong> {{ total_projects }}</p>
+            <p><strong>Đang thực hiện:</strong> {{ active_projects }}</p>
+            <p><strong>Đã hoàn thành:</strong> {{ completed_projects }}</p>
+            <p><strong>Đã hủy:</strong> {{ cancelled_projects }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-  <script>
-    // Mảng lưu trữ báo cáo và phân tích
-    let reports = [
-      {
-        reportType: "Hiệu suất",
-        reportPeriod: "Tháng 10/2023",
-        reportDetails: "Báo cáo hiệu suất tháng 10/2023"
-      },
-      {
-        reportType: "Điểm danh",
-        reportPeriod: "Tháng 9/2023",
-        reportDetails: "Báo cáo điểm danh tháng 9/2023"
-      }
-    ];
-
-    // Hàm thêm báo cáo và phân tích
-    document.getElementById('reportAnalysisForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      // Lấy giá trị từ form
-      const reportType = document.getElementById('reportType').value;
-      const reportPeriod = document.getElementById('reportPeriod').value;
-      const reportDetails = document.getElementById('reportDetails').value;
-
-      // Thêm báo cáo và phân tích vào mảng
-      reports.push({
-        reportType: reportType,
-        reportPeriod: reportPeriod,
-        reportDetails: reportDetails
-      });
-
-      // Cập nhật danh sách báo cáo và phân tích
-      updateReportAnalysisList();
-
-      // Thông báo thành công
-      alert('Báo cáo và phân tích đã được tạo thành công!');
-
-      // Xóa form sau khi thêm
-      clearReportAnalysisForm();
-    });
-
-    // Hàm cập nhật danh sách báo cáo và phân tích
-    function updateReportAnalysisList() {
-      const reportAnalysisList = document.getElementById('reportAnalysisList');
-      reportAnalysisList.innerHTML = ''; // Xóa nội dung cũ
-
-      reports.forEach((report, index) => {
-        const row = `
-          <tr>
-            <td>${report.reportType}</td>
-            <td>${report.reportPeriod}</td>
-            <td>${report.reportDetails}</td>
-            <td>
-              <button class="btn btn-sm btn-primary" onclick="editReportAnalysis(${index})">Sửa</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteReportAnalysis(${index})">Xóa</button>
-            </td>
-          </tr>
-        `;
-        reportAnalysisList.innerHTML += row;
-      });
-    }
-
-    // Hàm xóa báo cáo và phân tích
-    function deleteReportAnalysis(index) {
-      if (confirm('Bạn có chắc chắn muốn xóa báo cáo và phân tích này không?')) {
-        reports.splice(index, 1); // Xóa báo cáo và phân tích khỏi mảng
-        updateReportAnalysisList(); // Cập nhật danh sách
-      }
-    }
-
-    // Hàm chỉnh sửa báo cáo và phân tích
-    function editReportAnalysis(index) {
-      const report = reports[index];
-      document.getElementById('reportType').value = report.reportType;
-      document.getElementById('reportPeriod').value = report.reportPeriod;
-      document.getElementById('reportDetails').value = report.reportDetails;
-
-      // Xóa báo cáo và phân tích cũ khỏi mảng
-      reports.splice(index, 1);
-      updateReportAnalysisList();
-    }
-
-    // Hàm xóa form
-    function clearReportAnalysisForm() {
-      document.getElementById('reportAnalysisForm').reset();
-    }
-
-    // Cập nhật danh sách báo cáo và phân tích khi trang được tải
-    updateReportAnalysisList();
-
-    document.getElementById('internPerformanceForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const internName = document.getElementById('internName').value;
-      const assignedTasks = parseInt(document.getElementById('assignedTasks').value);
-      const completedTasks = parseInt(document.getElementById('completedTasks').value);
-      if (completedTasks > assignedTasks) {
-        alert("Số công việc hoàn thành không được lớn hơn số công việc giao!");
-        return;
-      }
-      const completionRate = ((completedTasks / assignedTasks) * 100).toFixed(2);
-      alert(`Intern ${internName} có tỷ lệ hoàn thành công việc là ${completionRate}%`);
-    });
-
-    document.getElementById('studentParticipationForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const studentName = document.getElementById('studentName').value;
-      const participationSessions = parseInt(document.getElementById('participationSessions').value);
-      const totalSessions = parseInt(document.getElementById('totalSessions').value);
-      const participationRate = ((participationSessions / totalSessions) * 100).toFixed(2);
-      alert(`Intern ${studentName} có mức độ tham gia là ${participationRate}%`);
-    });
-
-    function clearReportAnalysisForm() {
-      document.getElementById('reportAnalysisForm').reset();
-    }
-
-    function updateReportAnalysisList() {
-      const reportAnalysisList = document.getElementById('reportAnalysisList');
-      reportAnalysisList.innerHTML = ''; // Xóa nội dung cũ
-    
-      reports.forEach((report, index) => {
-        const row = `
-          <tr>
-            <td>${report.reportType}</td>
-            <td>${report.reportPeriod}</td>
-            <td>${report.reportDetails}</td>
-            <td>
-              <button class="btn btn-sm btn-primary" onclick="editReportAnalysis(${index})">Sửa</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteReportAnalysis(${index})">Xóa</button>
-              <button class="btn btn-sm btn-info" onclick="viewReportDetails(${index})">Xem Chi tiết</button>
-            </td>
-          </tr>
-        `;
-        reportAnalysisList.innerHTML += row;
-      });
-
-    }
-
-    function viewReportDetails(index) {
-      const report = reports[index];
-      const detailContent = `
-        <strong>Loại báo cáo:</strong> ${report.reportType}<br>
-        <strong>Kỳ báo cáo:</strong> ${report.reportPeriod}<br>
-        <strong>Chi tiết:</strong> ${report.reportDetails}
-      `;
-      document.getElementById('detailContent').innerHTML = detailContent;
-    
-      // Hiển thị modal
-      const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-      modal.show();
-    }
-
-    let participationRate = 0; // Biến lưu trữ phần trăm tham gia
-    let performanceRate = 0; // Biến lưu trữ phần trăm hoàn thành
-
-  // Tính toán phần trăm tham gia
-  document.getElementById('studentParticipationForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Ngăn chặn gửi form
-
-    const participationSessions = parseInt(document.getElementById('participationSessions').value) || 0;
-    const totalSessions = parseInt(document.getElementById('totalSessions').value) || 1; // Đảm bảo không chia cho 0
-    participationRate = ((participationSessions / totalSessions) * 100).toFixed(2); // Tính phần trăm tham gia
-
-    alert(`Phần trăm tham gia: ${participationRate}%`); // Hiển thị phần trăm tham gia
-  });
-
-  // Tính toán phần trăm hoàn thành công việc
-  document.getElementById('internPerformanceForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Ngăn chặn gửi form
-
-    const assignedTasks = parseInt(document.getElementById('assignedTasks').value) || 1; // Đảm bảo không chia cho 0
-    const completedTasks = parseInt(document.getElementById('completedTasks').value) || 0;
-    performanceRate = ((completedTasks / assignedTasks) * 100).toFixed(2); // Tính phần trăm hoàn thành
-
-    alert(`Phần trăm hoàn thành: ${performanceRate}%`); // Hiển thị phần trăm hoàn thành
-  });
-
-
-  document.getElementById('viewAllBtn').addEventListener('click', function() {
-    const allContent = document.getElementById('allContent');
-    const allSkillsContent = document.getElementById('allSkillsContent');
-    const allParticipationContent = document.getElementById('allParticipationContent');
-    const allPerformanceContent = document.getElementById('allPerformanceContent');
-    const allFeedbackContent = document.getElementById('allFeedbackContent');
-
-    // Lấy dữ liệu từ các form
-    const internNameSkills = document.getElementById('internNameSkills').value;
-    const skillsAcquired = document.getElementById('skillsAcquired').value;
-    const participationSessions = document.getElementById('participationSessions').value;
-    const totalSessions = document.getElementById('totalSessions').value;
-    const assignedTasks = document.getElementById('assignedTasks').value;
-    const completedTasks = document.getElementById('completedTasks').value;
-    const internComments = document.getElementById('internComments').value;
-
-    // Hiển thị nội dung
-    allSkillsContent.innerHTML = `<strong>Thành tích đạt được:</strong><br>Tên Intern: ${internNameSkills}<br>Thành tích: ${skillsAcquired}`;
-    allParticipationContent.innerHTML = `<strong>Mức độ chuyên cần:</strong><br>Tổng số buổi: ${totalSessions}<br>Số buổi tham gia: ${participationSessions}<br>Phần trăm tham gia: ${participationRate}%`;
-    allPerformanceContent.innerHTML = `<strong>Hiệu suất Intern:</strong><br>Số công việc được giao: ${assignedTasks}<br>Số công việc đã hoàn thành: ${completedTasks}<br>Phần trăm hoàn thành: ${performanceRate}%`;
-    allFeedbackContent.innerHTML = `<strong>Phản hồi của Intern:</strong><br>Phản hồi: ${internComments}`;
-
-    allContent.style.display = 'block'; // Hiển thị phần nội dung tất cả
-
-  });
-
-    function exportToWord() {
-      const allSkillsContent = document.getElementById('allSkillsContent').innerHTML;
-      const allParticipationContent = document.getElementById('allParticipationContent').innerHTML;
-      const allPerformanceContent = document.getElementById('allPerformanceContent').innerHTML;
-      const allFeedbackContent = document.getElementById('allFeedbackContent').innerHTML;
-
-      const content = `
-          <html>
-              <head>
-                  <meta charset="utf-8">
-                  <title>Intern Report</title>
-              </head>
-              <body>
-                  <h1>Báo cáo Intern</h1>
-                  ${allSkillsContent}
-                  <br>
-                  ${allParticipationContent}
-                  <br>
-                  ${allPerformanceContent}
-                  <br>
-                  ${allFeedbackContent}
-              </body>
-          </html>
-      `;
-
-      const blob = new Blob([content], {
-          type: 'application/msword'
-      });
-
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Phan_tich_chi_tiet_intern.doc';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-  }
-
-  // Thêm sự kiện cho nút xuất file
-  document.getElementById('exportBtn').addEventListener('click', function() {
-    exportToWord();
-  });
-
-  document.getElementById('exportExcelBtn').addEventListener('click', function() {
-    // Lấy dữ liệu từ bảng
-    const table = document.getElementById('reportAnalysisList');
-    const rows = Array.from(table.rows);
-    
-    // Tạo một mảng để chứa dữ liệu, bỏ cột cuối cùng (Hành động)
-    const data = rows.map(row => {
-        const cells = Array.from(row.cells);
-        return cells.slice(0, -1).map(cell => cell.innerText); // Bỏ cột cuối cùng
-    });
-
-    // Thêm tiêu đề của bảng (nếu cần)
-    const headers = ["Loại báo cáo", "Kỳ báo cáo", "Chi tiết"];
-    data.unshift(headers);
-
-    // Tạo workbook và worksheet
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet(data);
-
-    // Thêm worksheet vào workbook
-    XLSX.utils.book_append_sheet(wb, ws, "Báo cáo");
-
-    // Xuất file Excel
-    XLSX.writeFile(wb, "bao_cao.xlsx");
-});
-
-  </script>
-
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

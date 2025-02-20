@@ -63,25 +63,13 @@ WSGI_APPLICATION = 'Elearning.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-<<<<<<< HEAD
         'NAME': 'data',  
         'USER': 'root',      
         'PASSWORD': '123456', 
         'HOST': '127.0.0.1',  
-        'PORT': '3306',      
-=======
-        'NAME': config('DB_NAME', default='db'),
-        'USER': config('DB_USER', default='root'),
-        'PASSWORD': config('DB_PASSWORD', default='root'),
-        'HOST': config('DB_HOST', default='127.0.0.1'),
-        'PORT': config('DB_PORT', default='3306'),
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        'PORT': '3306',  
         },
->>>>>>> 780c59e7f740410ec07ea64deb26a725879531c3
     }
-}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

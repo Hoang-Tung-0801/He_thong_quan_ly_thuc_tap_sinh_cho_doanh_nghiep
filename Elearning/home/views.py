@@ -29,15 +29,11 @@ from django.views.decorators.http import require_http_methods
 from django.db import models
 from django.utils.dateparse import parse_date, parse_time
 from django.views.decorators.http import require_POST
-<<<<<<< HEAD
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
-=======
 from .forms import ProfileForm
 from .models import Profile
-
->>>>>>> 780c59e7f740410ec07ea64deb26a725879531c3
 logger = logging.getLogger(__name__)
 
 # Hàm gửi email xác thực tài khoản
@@ -210,9 +206,60 @@ def quanlyhoso(request):
     return render(request, 'Quanlyhoso/quanlyhoso.html', context)
 
 # Trang báo cáo và phân tích (chỉ HR và Admin)
+from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
+from .models import Intern, Performance, TrainingProgram, Project
+
 @user_passes_test(lambda u: is_hr(u) or u.is_superuser)
 def baocaovaphantich(request):
+    # Lấy context từ get_user_groups_context
     context = get_user_groups_context(request.user)
+    
+    # Lấy dữ liệu từ các model
+    total_interns = Intern.objects.count()
+    active_interns = Intern.objects.filter(status='active').count()
+    completed_interns = Intern.objects.filter(status='completed').count()
+    terminated_interns = Intern.objects.filter(status='terminated').count()
+
+    average_score = Performance.objects.aggregate(models.Avg('score'))['score__avg']
+    excellent_performances = Performance.objects.filter(rating=5).count()
+    good_performances = Performance.objects.filter(rating=4).count()
+    average_performances = Performance.objects.filter(rating=3).count()
+    poor_performances = Performance.objects.filter(rating=2).count()
+    very_poor_performances = Performance.objects.filter(rating=1).count()
+
+    total_training_programs = TrainingProgram.objects.count()
+    active_training_programs = TrainingProgram.objects.filter(status='active').count()
+    completed_training_programs = TrainingProgram.objects.filter(status='completed').count()
+    cancelled_training_programs = TrainingProgram.objects.filter(status='cancelled').count()
+
+    total_projects = Project.objects.count()
+    active_projects = Project.objects.filter(status='in_progress').count()
+    completed_projects = Project.objects.filter(status='completed').count()
+    cancelled_projects = Project.objects.filter(status='cancelled').count()
+
+    # Thêm dữ liệu thống kê vào context
+    context.update({
+        'total_interns': total_interns,
+        'active_interns': active_interns,
+        'completed_interns': completed_interns,
+        'terminated_interns': terminated_interns,
+        'average_score': average_score,
+        'excellent_performances': excellent_performances,
+        'good_performances': good_performances,
+        'average_performances': average_performances,
+        'poor_performances': poor_performances,
+        'very_poor_performances': very_poor_performances,
+        'total_training_programs': total_training_programs,
+        'active_training_programs': active_training_programs,
+        'completed_training_programs': completed_training_programs,
+        'cancelled_training_programs': cancelled_training_programs,
+        'total_projects': total_projects,
+        'active_projects': active_projects,
+        'completed_projects': completed_projects,
+        'cancelled_projects': cancelled_projects,
+    })
+
     return render(request, 'Baocaovaphantich/baocaovaphantich.html', context)
 
 # Trang cấu hình hệ thống (chỉ admin)
@@ -1384,7 +1431,7 @@ def mark_notification_as_read(request, notification_id):
         return JsonResponse({'status': 'success'})
     except Notification.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
-<<<<<<< HEAD
+
     
 @require_http_methods(["GET"])
 def get_report(request, report_id):
@@ -1419,7 +1466,6 @@ def delete_report(request, report_id):
     except ObjectDoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Báo cáo không tồn tại.'}, status=404)
     
-=======
 
 #
 @login_required
@@ -1454,4 +1500,80 @@ def get_profiles(request):
         })
 
     return JsonResponse(data, safe=False)  # Trả về dữ liệu dưới dạng JSON
->>>>>>> 780c59e7f740410ec07ea64deb26a725879531c3
+
+def get_hosothuctapsinh(request):
+    if request.method == 'GET':
+        profiles = Intern.objects.all().values(
+            'id', 'first_name', 'last_name', 'email', 'phone', 'address', 
+            'date_of_birth', 'university', 'major', 'start_date', 'end_date', 
+            'status', 'is_active', 'department_id', 'user_id'
+        )
+        return JsonResponse(list(profiles), safe=False)
+    elif request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user = User.objects.get(id=data['user_id']) if data['user_id'] else None
+            intern = Intern.objects.create(
+                user=user,  # Đảm bảo rằng bạn đang lưu user vào trường user
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+                email=data['email'],
+                phone=data['phone'],
+                address=data['address'],
+                date_of_birth=data['date_of_birth'],
+                university=data['university'],
+                major=data['major'],
+                start_date=data['start_date'],
+                end_date=data['end_date'],
+                status=data['status'],
+                is_active=data['is_active'],
+                department_id=data['department_id']
+            )
+            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được lưu thành công!'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ'})
+
+
+def edit_hosothuctapsinh(request, profile_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            intern = get_object_or_404(Intern, id=profile_id)
+            
+            # Cập nhật các trường mà không cập nhật ID
+            intern.first_name = data.get('first_name', intern.first_name)
+            intern.last_name = data.get('last_name', intern.last_name)
+            intern.email = data.get('email', intern.email)
+            intern.phone = data.get('phone', intern.phone)
+            intern.address = data.get('address', intern.address)
+            intern.date_of_birth = data.get('date_of_birth', intern.date_of_birth)
+            intern.university = data.get('university', intern.university)
+            intern.major = data.get('major', intern.major)
+            intern.start_date = data.get('start_date', intern.start_date)
+            intern.end_date = data.get('end_date', intern.end_date)
+            intern.status = data.get('status', intern.status)
+            intern.is_active = data.get('is_active', intern.is_active)
+            intern.department_id = data.get('department_id', intern.department_id)
+            
+            # Không cập nhật user
+            # user_id = data.get('user_id')
+            # if user_id:
+            #     try:
+            #         user = User.objects.get(id=user_id)
+            #         intern.user = user
+            #     except User.DoesNotExist:
+            #         return JsonResponse({'success': False, 'message': 'Người dùng không tồn tại.'}, status=400)
+            
+            intern.save()
+            return JsonResponse({'success': True, 'message': 'Hồ sơ đã được cập nhật thành công!'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ'}, status=400)
+
+def delete_hosothuctapsinh(request, profile_id):
+    if request.method == 'DELETE':
+        intern = get_object_or_404(Intern, id=profile_id)
+        intern.delete()
+        return JsonResponse({'success': True, 'message': 'Hồ sơ đã được xóa thành công!'})
+    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ'})

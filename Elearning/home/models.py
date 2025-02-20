@@ -30,7 +30,6 @@ class Department(models.Model):
 
 
 class Intern(models.Model):
-    # Thông tin cơ bản của thực tập sinh
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Tài khoản", related_name="intern")
     first_name = models.CharField(max_length=100, verbose_name="Tên")
     last_name = models.CharField(max_length=100, verbose_name="Họ")
@@ -68,9 +67,9 @@ class Intern(models.Model):
         self.full_name = f"{self.first_name} {self.last_name}"
         super().save(*args, **kwargs)
 
-    def clean(self):
-        if self.start_date and self.end_date and self.start_date > self.end_date:
-            raise ValidationError("Ngày bắt đầu không thể lớn hơn ngày kết thúc.")
+def clean(self):
+    if self.start_date and self.end_date and self.start_date > self.end_date:
+        raise ValidationError("Ngày bắt đầu không thể lớn hơn ngày kết thúc.")
 
     def get_absolute_url(self):
         return reverse('intern_detail', args=[str(self.id)])
@@ -187,7 +186,6 @@ class TrainingProgram(models.Model):
         verbose_name = "Chương trình đào tạo"
         verbose_name_plural = "Chương trình đào tạo"
         ordering = ['-start_date']
-
 
 class Performance(models.Model):
     intern = models.ForeignKey(Intern, on_delete=models.CASCADE, verbose_name="Thực tập sinh", related_name="performances")
@@ -483,9 +481,6 @@ class UserPermission(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.get_role_display()}"
 
-
-from django.db import models
-from django.contrib.auth.models import User
 
 class Report(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reports", default=1)  # Đặt giá trị mặc định

@@ -1,325 +1,160 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trang chủ</title>
+  <title>Trang chủ - Hệ thống quản lý thực tập sinh</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    .small-chart {
-      width: 100%; /* Chiều rộng 100% của container */
-      height: 300px; /* Chiều cao cố định */
+    .card {
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .chart-container {
+      max-width: 400px;
+      margin: 0 auto;
     }
   </style>
 </head>
 <body>
-  <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row">
-      <!-- Phần "Chúc mừng Quản lý!" -->
-      <div class="col-xxl-8 mb-4">
-        <div class="card">
-          <div class="d-flex align-items-start row">
-            <div class="col-sm-7">
-              <div class="card-body">
-                <h5 class="card-title text-primary mb-3">
-                  {% if is_admin %}
-                    Chúc mừng Admin! 🎉
-                  {% elif is_hr_manager %}
-                    Chúc mừng Quản lý Nhân sự! 🎉
-                  {% elif is_intern %}
-                    Chúc mừng Thực tập sinh! 🎉
-                  {% elif is_internship_coordinator %}
-                    Chúc mừng Điều phối viên Thực tập! 🎉
-                  {% elif is_mentor %}
-                    Chúc mừng Người hướng dẫn! 🎉
-                  {% else %}
-                    Chúc mừng! 🎉
-                  {% endif %}
-                </h5>
-                <p class="mb-3">Bạn đã hoàn thành {{ completed_tasks }} công việc hôm nay!</p>
-                <p class="mb-3">Bạn còn {{ remaining_tasks }} công việc hôm nay!</p>
-                <a href="javascript:;" class="btn btn-sm btn-outline-primary">Xem huy hiệu</a>
-                <a href="javascript:;" class="btn btn-sm btn-outline-primary">Bắt đầu công việc còn lại</a>
-              </div>
-            </div>
-            <div class="col-sm-5 text-center text-sm-left">
-              <div class="card-body pb-0 px-0 px-md-6">
-                <img src="{% static 'home/assets/img/illustrations/man-with-laptop.png' %}" height="175" class="scaleX-n1-rtl" alt="View Badge User" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Phần lấp đầy khoảng trống -->
-      <div class="col-12 col-md-4 mb-4">
-        <div class="row">
-          <!-- Thêm Card thông báo hoặc thông tin nhanh -->
-          <div class="col-12 mb-4">
-            <div class="card h-100">
-              <div class="card-header">
-                <h5 class="card-title mb-0">Hoạt động gần đây</h5>
-              </div>
-              <div class="card-body">
-                <ul class="list-unstyled mb-0">
-                  <li class="d-flex mb-3">
-                    <div class="avatar flex-shrink-0 me-3">
-                      <span class="avatar-initial rounded bg-label-warning"><i class="bx bx-task bx-sm"></i></span>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Công việc mới được giao</h6>
-                      <small class="text-muted">2 giờ trước</small>
-                    </div>
-                  </li>
-                  <li class="d-flex mb-3">
-                    <div class="avatar flex-shrink-0 me-3">
-                      <span class="avatar-initial rounded bg-label-info"><i class="bx bx-message-alt bx-sm"></i></span>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Phản hồi từ mentor</h6>
-                      <small class="text-muted">5 phản hồi mới</small>
-                    </div>
-                  </li>
-                  <li class="d-flex">
-                    <div class="avatar flex-shrink-0 me-3">
-                      <span class="avatar-initial rounded bg-label-success"><i class="bx bx-check-circle bx-sm"></i></span>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Công việc hoàn thành</h6>
-                      <small class="text-muted">15/20 công việc</small>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- Nội dung chính -->
+  <div class="container mt-4">
+    <h1 class="text-center">Chào mừng đến với Hệ thống Quản lý Thực tập sinh</h1>
 
-      <!-- Thông tin tóm tắt nhanh -->
-      <div class="col-12 col-md-4 mb-4">
-        <div class="row">
-          <div class="col-11 mb-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <h5 class="card-title mb-4">Thông tin tóm tắt nhanh</h5>
-                <ul class="list-unstyled mb-0">
-                  <li class="d-flex mb-3">
-                    <div class="avatar flex-shrink-0 me-3">
-                      <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-user bx-sm"></i></span>
-                    </div>
-                    <div>
-                      <h6 class="mb-0">Sinh viên đang hoạt động</h6>
-                      <small class="text-muted">{{ active_interns }}</small>
-                    </div>
-                  </li>
-                  <li class="d-flex mb-3">
-                    <div class="avatar flex-shrink-0 me-3">
-                      <span class="avatar-initial rounded bg-label-info"><i class="bx bx-book bx-sm"></i></span>
-                    </div>
-                    <div>
-                      <h6 class="mb-0">Chương trình đào tạo</h6>
-                      <small class="text-muted">{{ training_programs }}</small>
-                    </div>
-                  </li>
-                  <li class="d-flex">
-                    <div class="avatar flex-shrink-0 me-3">
-                      <span class="avatar-initial rounded bg-label-success"><i class="bx bx-check-circle bx-sm"></i></span>
-                    </div>
-                    <div>
-                      <h6 class="mb-0">Tỷ lệ hoàn thành công việc</h6>
-                      <small class="text-muted">{{ completion_rate }}%</small>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Thông báo mới nhất -->
-      <div class="col-12 col-md-4 mb-4">
-        <div class="row">
-          <div class="col-12 mb-4">
-            <div class="card h-100">
-              <div class="card-header">
-                <h5 class="card-title mb-0">Thông báo mới nhất</h5>
-              </div>
-              <div class="card-body">
-                <ul class="list-unstyled mb-0">
-                  {% for notification in latest_notifications %}
-                  <li class="d-flex mb-3">
-                    <div class="avatar flex-shrink-0 me-3">
-                      <span class="avatar-initial rounded bg-label-{{ notification.notification_type }}"><i class="bx bx-{{ notification.icon }} bx-sm"></i></span>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">{{ notification.title }}</h6>
-                      <small class="text-muted">{{ notification.created_at|timesince }} trước</small>
-                    </div>
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-4 mb-4">
-        <div class="row">
-          <!-- Công việc đã hoàn thành -->
-          <div class="col-6 mb-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="mb-0">Công việc đã hoàn thành</h6>
-                    <small class="text-muted">Hôm nay</small>
-                  </div>
-                  <div class="avatar">
-                    <span class="avatar-initial rounded bg-label-success"><i class="bx bx-check-circle bx-sm"></i></span>
-                  </div>
-                </div>
-                <h4 class="card-title mb-0 mt-3">{{ completed_tasks }}/{{ total_tasks }}</h4>
-                <small class="text-success fw-medium"><i class="bx bx-chevron-up"></i> {{ completion_rate }}%</small>
-              </div>
-            </div>
-          </div>
-
-          <!-- Interns đang hoạt động -->
-          <div class="col-6 mb-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="mb-0">Interns đang hoạt động</h6>
-                    <small class="text-muted">Hiện tại</small>
-                  </div>
-                  <div class="avatar">
-                    <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-user bx-sm"></i></span>
-                  </div>
-                </div>
-                <h4 class="card-title mb-0 mt-3">{{ active_interns }}</h4>
-                <small class="text-success fw-medium"><i class="bx bx-chevron-up"></i> 10%</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Biểu đồ cột -->
-      <div class="col-12 col-xxl-8 mb-4">
-        <div class="card h-100">
-          <div class="card-header">
-            <h5 class="card-title mb-0">Tiến độ công việc</h5>
-          </div>
+    <!-- Thống kê nhanh -->
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-header">Thực tập sinh đang hoạt động</div>
           <div class="card-body">
-            <canvas id="barChart" class="small-chart"></canvas>
+            <h5 class="card-title">{{ active_interns }}</h5>
+            <p class="card-text">Số lượng thực tập sinh hiện tại đang tham gia chương trình.</p>
           </div>
         </div>
       </div>
-
-      <!-- Phần "Nhiệm vụ chính" -->
-      <div class="col-12 col-md-8 col-lg-12 col-xxl-4 mb-4">
-        <div class="row">
-          <div class="col-12 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title mb-4">Nhiệm vụ chính</h5>
-                <ul class="list-group list-group-flush">
-                  {% for task in main_tasks %}
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ task.title }}
-                    <span class="badge bg-{{ task.status_color }} rounded-pill">{{ task.progress }}%</span>
-                  </li>
-                  {% endfor %}
-                </ul>
-                <div class="mt-3">
-                  <a href="javascript:;" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Biểu đồ Donut -->
-      <div class="col-12 col-md-6 col-lg-4 mb-4">
-        <div class="card h-100">
-          <div class="card-header">
-            <h5 class="card-title mb-0">Tỷ lệ hoàn thành chương trình</h5>
-          </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+          <div class="card-header">Chương trình đào tạo</div>
           <div class="card-body">
-            <canvas id="donutChart"></canvas>
-            <div class="text-center mt-3">
-              <p class="mb-1">Tổng số chương trình: <strong>{{ training_programs }}</strong></p>
-              <p class="mb-0">Hoàn thành: <strong>{{ completed_training_programs }}</strong></p>
-            </div>
+            <h5 class="card-title">{{ training_programs }}</h5>
+            <p class="card-text">Tổng số chương trình đào tạo đã được thiết lập.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+          <div class="card-header">Công việc đã hoàn thành</div>
+          <div class="card-body">
+            <h5 class="card-title">{{ completed_tasks }}</h5>
+            <p class="card-text">Số lượng công việc đã hoàn thành.</p>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Biểu đồ và thông báo -->
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3>Thống kê công việc</h3>
+        <p>Tổng số công việc: {{ total_tasks }}</p>
+        <p>Công việc còn lại: {{ remaining_tasks }}</p>
+        <p>Tỷ lệ hoàn thành: {{ completion_rate|floatformat:2 }}%</p>
+        <div class="chart-container">
+          <canvas id="taskCompletionChart"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3>Thông báo mới nhất</h3>
+        <ul class="list-group">
+          {% for notification in latest_notifications %}
+            <li class="list-group-item">
+              <strong>{{ notification.created_at|date:"d/m/Y H:i" }}:</strong> {{ notification.message }}
+            </li>
+          {% empty %}
+            <li class="list-group-item">Không có thông báo mới.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Biểu đồ trạng thái chương trình đào tạo -->
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3>Trạng thái chương trình đào tạo</h3>
+        <p>{{ completed_training_programs }} chương trình đã hoàn thành.</p>
+        <p>{{ remaining_training_programs }} chương trình còn lại.</p>
+        <div class="chart-container">
+          <canvas id="trainingProgramStatusChart"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <!-- Bootstrap JS và dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
-  <!-- Script để tạo biểu đồ Donut -->
+  <!-- Script để vẽ biểu đồ -->
   <script>
-    // Donut Chart
-    const donutChart = new Chart(document.getElementById('donutChart'), {
+    // Biểu đồ trạng thái chương trình đào tạo
+    const trainingProgramStatusChart = new Chart(document.getElementById('trainingProgramStatusChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Đã hoàn thành', 'Còn lại'],
+        datasets: [{
+          label: 'Trạng thái chương trình đào tạo',
+          data: [{{ completed_training_programs }}, {{ remaining_training_programs }}],
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(255, 99, 132, 0.2)'
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 99, 132, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    });
+
+    // Biểu đồ hoàn thành công việc
+    const taskCompletionChart = new Chart(document.getElementById('taskCompletionChart'), {
       type: 'doughnut',
       data: {
-        labels: ['Hoàn thành', 'Chưa hoàn thành'],
+        labels: ['Đã hoàn thành', 'Còn lại'],
         datasets: [{
-          data: [{{ completed_training_programs }}, {{ remaining_training_programs }}],
-          backgroundColor: ['#4caf50', '#ff6384'],
+          label: 'Hoàn thành công việc',
+          data: [{{ completed_tasks }}, {{ remaining_tasks }}],
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
         }]
       },
       options: {
-        responsive: true,
-        plugins: {
-          tooltip: {
-            enabled: true,
-            callbacks: {
-              label: function(context) {
-                return context.label + ': ' + context.raw;
-              }
-            }
-          }
+        animation: {
+          animateScale: true,
+          animateRotate: true
         }
       }
     });
   </script>
 
-  <script>
-    // Khởi tạo biểu đồ cột
-    const barChart = new Chart(document.getElementById('barChart'), {
-      type: 'bar',
-      data: {
-        labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'], // Nhãn trục X
-        datasets: [{
-          label: 'Công việc hoàn thành', // Nhãn dữ liệu
-          data: [12, 19, 3, 5], // Dữ liệu trục Y
-          backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền
-          borderColor: 'rgba(75, 192, 192, 1)', // Màu viền
-          borderWidth: 1 // Độ rộng viền
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true // Bắt đầu trục Y từ 0
-          }
-        }
-      }
-    });
-  </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
