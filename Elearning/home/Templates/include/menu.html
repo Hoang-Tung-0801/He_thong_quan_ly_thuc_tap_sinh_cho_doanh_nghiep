@@ -57,12 +57,14 @@
     {% endif %}
 
     <!-- Giao tiếp & Phản hồi (Tất cả người dùng) -->
-    <li class="menu-item {% if request.path == '/giaotiepvaphanhoi/' %}active{% endif %}">
-      <a href="{% url 'giaotiepvaphanhoi' %}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-message-square-dots"></i>
-        <div class="text-truncate" data-i18n="Basic">Giao tiếp & Phản hồi</div>
-      </a>
-    </li>
+    {% if is_hr_manager or is_mentor or is_internship_coordinator or is_admin %}
+      <li class="menu-item {% if request.path == '/giaotiepvaphanhoi/' %}active{% endif %}">
+        <a href="{% url 'giaotiepvaphanhoi' %}" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-message-square-dots"></i>
+          <div class="text-truncate" data-i18n="Basic">Giao tiếp & Phản hồi</div>
+        </a>
+      </li>
+    {% endif %}
 
     <!-- Quản lý Hồ sơ (HR, Admin, và Internship Coordinators) -->
     {% if is_hr_manager or is_internship_coordinator or is_admin %}
@@ -103,6 +105,14 @@
         </a>
       </li>
     {% endif %}
+
+    <!-- Giao tiếp (Tất cả người dùng) -->
+    <li class="menu-item {% if request.path == '/giaotiep/' %}active{% endif %}">
+      <a href="{% url 'giaotiep' %}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-message-square-dots"></i>
+        <div class="text-truncate" data-i18n="Basic">Thông tin và liên hệ</div>
+      </a>
+    </li>
   </ul>
 </aside>
 

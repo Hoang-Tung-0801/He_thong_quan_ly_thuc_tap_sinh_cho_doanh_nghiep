@@ -5660,3 +5660,1751 @@ INFO 2025-02-20 13:45:12,532 basehttp "POST /quanlyhoso/get-hosothuctapsinh/ HTT
 INFO 2025-02-20 13:45:13,653 basehttp "GET /quanlyhoso/get-hosothuctapsinh/ HTTP/1.1" 200 1904
 INFO 2025-02-20 13:45:17,047 basehttp "POST /quanlyhoso/get-hosothuctapsinh/ HTTP/1.1" 200 42
 INFO 2025-02-20 13:45:18,583 basehttp "GET /quanlyhoso/get-hosothuctapsinh/ HTTP/1.1" 200 1904
+INFO 2025-02-20 14:08:22,146 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 14:09:05,307 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\Elearning\settings.py changed, reloading.
+INFO 2025-02-20 14:09:06,980 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 14:09:10,884 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\Elearning\settings.py changed, reloading.
+INFO 2025-02-20 14:09:12,294 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 14:09:19,351 basehttp "GET / HTTP/1.1" 200 25525
+INFO 2025-02-20 14:09:21,876 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 14:09:32,380 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 30851
+INFO 2025-02-20 14:09:32,999 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 14:14:13,265 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-02-20 14:14:14,436 basehttp "GET /login/ HTTP/1.1" 200 9687
+INFO 2025-02-20 14:14:18,595 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 14:14:18,773 basehttp "GET / HTTP/1.1" 200 27835
+INFO 2025-02-20 14:14:19,238 basehttp "GET /notifications/ HTTP/1.1" 200 21
+ERROR 2025-02-20 14:17:56,842 log Internal Server Error: /quanlituyendung/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.OperationalError: (1054, "Unknown column 'home_report.user_id' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 177, in quanlituyendung
+    return render(request, 'Quanlituyendung/quanlituyendung.html', context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\defaulttags.py", line 326, in render
+    if match:
+       ^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.OperationalError: (1054, "Unknown column 'home_report.user_id' in 'field list'")
+ERROR 2025-02-20 14:17:56,915 basehttp "GET /quanlituyendung/ HTTP/1.1" 500 274307
+INFO 2025-02-20 14:18:00,711 basehttp "GET /lichphongvan/ HTTP/1.1" 200 33721
+INFO 2025-02-20 14:18:00,806 basehttp - Broken pipe from ('127.0.0.1', 51210)
+INFO 2025-02-20 14:18:01,961 basehttp "GET /api/get-candidates/ HTTP/1.1" 200 2
+INFO 2025-02-20 14:18:02,330 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 14:18:02,405 basehttp "GET /api/get-interviews/ HTTP/1.1" 200 2
+INFO 2025-02-20 14:18:02,790 basehttp "GET /chuongtrinhdaotao/ HTTP/1.1" 200 35835
+INFO 2025-02-20 14:18:03,469 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 14:18:03,543 basehttp "GET /api/active-interns/ HTTP/1.1" 200 2
+INFO 2025-02-20 14:18:03,578 basehttp "GET /api/training-programs/ HTTP/1.1" 200 2
+ERROR 2025-02-20 14:18:29,369 log Internal Server Error: /quanlituyendung/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.OperationalError: (1054, "Unknown column 'home_report.user_id' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 177, in quanlituyendung
+    return render(request, 'Quanlituyendung/quanlituyendung.html', context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\defaulttags.py", line 326, in render
+    if match:
+       ^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.OperationalError: (1054, "Unknown column 'home_report.user_id' in 'field list'")
+ERROR 2025-02-20 14:18:29,374 log Internal Server Error: /quanlituyendung/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.OperationalError: (1054, "Unknown column 'home_report.user_id' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 177, in quanlituyendung
+    return render(request, 'Quanlituyendung/quanlituyendung.html', context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\defaulttags.py", line 326, in render
+    if match:
+       ^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.OperationalError: (1054, "Unknown column 'home_report.user_id' in 'field list'")
+ERROR 2025-02-20 14:18:29,440 basehttp "GET /quanlituyendung/ HTTP/1.1" 500 274320
+INFO 2025-02-20 14:18:29,580 basehttp - Broken pipe from ('127.0.0.1', 51247)
+INFO 2025-02-20 14:18:52,932 basehttp "GET /quanlyhoso/ HTTP/1.1" 200 36118
+INFO 2025-02-20 14:18:54,263 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 14:18:54,331 basehttp "GET /quanlyhoso/get-hosothuctapsinh/ HTTP/1.1" 200 2
+INFO 2025-02-20 15:01:11,385 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\models.py changed, reloading.
+INFO 2025-02-20 15:01:15,872 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 15:01:21,794 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\models.py changed, reloading.
+INFO 2025-02-20 15:01:23,335 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 15:36:06,642 autoreload Watching for file changes with StatReloader
+ERROR 2025-02-20 15:36:14,234 log Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 95, in home
+    return render(request, 'home/index.html', context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'giaotiep' not found. 'giaotiep' is not a valid view function or pattern name.
+ERROR 2025-02-20 15:36:14,273 basehttp "GET / HTTP/1.1" 500 196766
+INFO 2025-02-20 15:38:50,306 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-20 15:38:54,650 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 15:38:59,211 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-20 15:39:00,477 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 15:39:06,989 basehttp "GET /giaotiep/ HTTP/1.1" 200 22734
+WARNING 2025-02-20 15:39:07,081 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:39:18,664 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-02-20 15:39:18,690 basehttp "GET /login/ HTTP/1.1" 200 9687
+INFO 2025-02-20 15:39:24,488 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 15:39:24,600 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-20 15:39:25,003 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 15:39:28,399 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-02-20 15:39:28,414 basehttp "GET /login/ HTTP/1.1" 200 9687
+INFO 2025-02-20 15:39:32,349 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 15:39:32,462 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 15:39:32,842 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 15:39:34,535 basehttp "GET /giaotiep/ HTTP/1.1" 200 22734
+WARNING 2025-02-20 15:39:34,599 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:40:04,219 basehttp "GET /giaotiep/ HTTP/1.1" 200 22734
+WARNING 2025-02-20 15:40:04,289 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:43:38,270 basehttp "GET /giaotiep/ HTTP/1.1" 200 22814
+WARNING 2025-02-20 15:43:38,467 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:43:57,163 basehttp "GET /giaotiep/ HTTP/1.1" 200 22836
+WARNING 2025-02-20 15:43:57,248 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:45:10,824 basehttp "GET /giaotiep/ HTTP/1.1" 200 22807
+WARNING 2025-02-20 15:45:10,915 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:45:32,098 basehttp "GET /giaotiep/ HTTP/1.1" 200 23090
+WARNING 2025-02-20 15:45:32,167 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:45:59,394 basehttp "GET /giaotiep/ HTTP/1.1" 200 23206
+WARNING 2025-02-20 15:45:59,488 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:46:02,684 basehttp "GET /giaotiep/ HTTP/1.1" 200 23206
+WARNING 2025-02-20 15:46:02,760 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:46:04,061 basehttp "GET /giaotiep/ HTTP/1.1" 200 23206
+WARNING 2025-02-20 15:46:04,146 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:46:14,200 basehttp - Broken pipe from ('127.0.0.1', 53155)
+INFO 2025-02-20 15:46:14,240 basehttp "GET /giaotiep/ HTTP/1.1" 200 23206
+WARNING 2025-02-20 15:46:14,401 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:46:36,474 basehttp "GET /giaotiep/ HTTP/1.1" 200 23223
+WARNING 2025-02-20 15:46:36,603 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:46:39,257 basehttp "GET /giaotiep/ HTTP/1.1" 200 23223
+WARNING 2025-02-20 15:46:39,331 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:46:43,889 basehttp "GET /giaotiep/ HTTP/1.1" 200 23223
+WARNING 2025-02-20 15:46:43,950 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:00,374 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:00,451 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:14,602 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:14,653 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:17,147 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:17,218 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:32,050 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 15:47:32,537 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 15:47:32,987 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:33,056 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:36,047 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:36,107 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:48,893 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:48,941 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:54,864 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:54,935 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:47:59,603 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:47:59,709 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:48:12,166 basehttp "GET /giaotiep/ HTTP/1.1" 200 23233
+WARNING 2025-02-20 15:48:12,227 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:54:58,727 basehttp "GET /giaotiep/ HTTP/1.1" 200 23356
+WARNING 2025-02-20 15:54:58,868 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:56:27,850 basehttp "GET /giaotiep/ HTTP/1.1" 200 24646
+WARNING 2025-02-20 15:56:28,008 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:56:29,684 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 15:56:29,935 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 15:56:30,627 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 15:56:32,265 basehttp "GET /giaotiep/ HTTP/1.1" 200 24646
+WARNING 2025-02-20 15:56:32,343 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 15:56:33,553 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 15:56:33,675 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 15:56:34,130 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 15:56:36,273 basehttp "GET /giaotiep/ HTTP/1.1" 200 24646
+WARNING 2025-02-20 15:56:36,358 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:04:28,081 basehttp "GET /giaotiep/ HTTP/1.1" 200 24688
+WARNING 2025-02-20 16:04:28,209 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:05:30,836 basehttp "GET /giaotiep/ HTTP/1.1" 200 25271
+WARNING 2025-02-20 16:05:30,966 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:06:57,629 basehttp - Broken pipe from ('127.0.0.1', 55019)
+INFO 2025-02-20 16:06:57,648 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 16:06:57,977 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 16:06:59,051 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 16:07:00,380 basehttp "GET /giaotiep/ HTTP/1.1" 200 24691
+WARNING 2025-02-20 16:07:00,541 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:07:26,168 basehttp "GET /giaotiep/ HTTP/1.1" 200 24700
+WARNING 2025-02-20 16:07:26,267 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:07:38,122 basehttp "GET /giaotiep/ HTTP/1.1" 200 24700
+WARNING 2025-02-20 16:07:38,433 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:07:53,544 basehttp "GET /giaotiep/ HTTP/1.1" 200 24700
+WARNING 2025-02-20 16:07:54,162 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:01,278 basehttp "GET /giaotiep/ HTTP/1.1" 200 24700
+WARNING 2025-02-20 16:08:01,326 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:08,245 basehttp "GET /giaotiep/ HTTP/1.1" 200 24700
+WARNING 2025-02-20 16:08:08,324 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:10,743 basehttp "GET /giaotiep/ HTTP/1.1" 200 24701
+WARNING 2025-02-20 16:08:10,809 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:19,043 basehttp "GET /giaotiep/ HTTP/1.1" 200 24700
+WARNING 2025-02-20 16:08:19,115 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:25,283 basehttp "GET /giaotiep/ HTTP/1.1" 200 24701
+WARNING 2025-02-20 16:08:25,357 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:35,365 basehttp "GET /giaotiep/ HTTP/1.1" 200 24701
+WARNING 2025-02-20 16:08:35,466 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:38,959 basehttp "GET /giaotiep/ HTTP/1.1" 200 24701
+WARNING 2025-02-20 16:08:39,016 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:45,657 basehttp "GET /giaotiep/ HTTP/1.1" 200 24701
+WARNING 2025-02-20 16:08:45,739 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:08:49,512 basehttp "GET /giaotiep/ HTTP/1.1" 200 24701
+WARNING 2025-02-20 16:08:49,572 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:09:06,341 basehttp "GET /giaotiep/ HTTP/1.1" 200 24710
+WARNING 2025-02-20 16:09:06,399 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:09:08,465 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 16:09:08,638 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 16:09:09,441 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 16:09:10,131 basehttp "GET /giaotiep/ HTTP/1.1" 200 24710
+WARNING 2025-02-20 16:09:10,381 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:09:43,244 basehttp "GET /giaotiep/ HTTP/1.1" 200 24021
+WARNING 2025-02-20 16:09:43,420 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:10:18,032 basehttp "GET /giaotiep/ HTTP/1.1" 200 24023
+WARNING 2025-02-20 16:10:18,100 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:10:27,666 basehttp "GET /giaotiep/ HTTP/1.1" 200 24023
+WARNING 2025-02-20 16:10:27,763 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:10:40,127 basehttp "GET /giaotiep/ HTTP/1.1" 200 24023
+WARNING 2025-02-20 16:10:40,216 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:10:57,910 basehttp "GET /giaotiep/ HTTP/1.1" 200 24021
+WARNING 2025-02-20 16:10:57,960 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:11:04,509 basehttp "GET /giaotiep/ HTTP/1.1" 200 24021
+WARNING 2025-02-20 16:11:04,563 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:11:06,758 basehttp "GET /giaotiep/ HTTP/1.1" 200 24022
+WARNING 2025-02-20 16:11:06,820 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:11:18,801 basehttp "GET /giaotiep/ HTTP/1.1" 200 24022
+WARNING 2025-02-20 16:11:18,869 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:11:21,424 basehttp "GET /giaotiep/ HTTP/1.1" 200 24023
+WARNING 2025-02-20 16:11:21,486 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:14:04,785 basehttp "GET /giaotiep/ HTTP/1.1" 200 24176
+WARNING 2025-02-20 16:14:05,046 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:14:10,466 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 16:14:10,902 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 16:14:11,682 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 16:14:13,048 basehttp "GET /giaotiep/ HTTP/1.1" 200 24176
+WARNING 2025-02-20 16:14:13,136 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:14:14,599 basehttp - Broken pipe from ('127.0.0.1', 55404)
+INFO 2025-02-20 16:14:14,639 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 16:14:14,752 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 16:14:15,450 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 16:14:16,137 basehttp "GET /giaotiep/ HTTP/1.1" 200 24176
+WARNING 2025-02-20 16:14:16,246 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:14:53,165 basehttp "GET /giaotiep/ HTTP/1.1" 200 24109
+WARNING 2025-02-20 16:14:53,254 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:15:07,704 basehttp "GET /giaotiep/ HTTP/1.1" 200 24175
+WARNING 2025-02-20 16:15:07,775 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:15:20,823 basehttp "GET /giaotiep/ HTTP/1.1" 200 24176
+WARNING 2025-02-20 16:15:20,901 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:18:33,460 basehttp "GET /giaotiep/ HTTP/1.1" 200 24186
+WARNING 2025-02-20 16:18:33,746 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:18:35,375 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 16:18:35,621 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 16:18:36,898 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 16:18:37,112 basehttp "GET /giaotiep/ HTTP/1.1" 200 24186
+WARNING 2025-02-20 16:18:37,191 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 16:19:33,106 basehttp - Broken pipe from ('127.0.0.1', 55591)
+INFO 2025-02-20 16:19:33,259 basehttp "GET /giaotiep/ HTTP/1.1" 200 24186
+WARNING 2025-02-20 16:19:33,343 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 22:39:22,004 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:39:27,117 basehttp "GET / HTTP/1.1" 302 0
+INFO 2025-02-20 22:39:27,241 basehttp "GET /login/?next=/ HTTP/1.1" 200 9687
+INFO 2025-02-20 22:39:28,869 basehttp "GET /static/home/assets/vendor/fonts/boxicons.css HTTP/1.1" 200 86298
+INFO 2025-02-20 22:39:28,884 basehttp "GET /static/home/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css HTTP/1.1" 200 5020
+INFO 2025-02-20 22:39:28,953 basehttp "GET /static/home/assets/vendor/css/core.css HTTP/1.1" 200 641168
+INFO 2025-02-20 22:39:28,993 basehttp "GET /static/home/assets/vendor/css/theme-default.css HTTP/1.1" 200 31704
+INFO 2025-02-20 22:39:29,017 basehttp "GET /static/home/assets/css/demo.css HTTP/1.1" 200 3026
+INFO 2025-02-20 22:39:29,035 basehttp "GET /static/home/assets/img/illustrations/man-with-laptop.png HTTP/1.1" 200 21060
+INFO 2025-02-20 22:39:29,038 basehttp "GET /static/home/assets/vendor/libs/apex-charts/apex-charts.css HTTP/1.1" 200 18209
+INFO 2025-02-20 22:39:29,367 basehttp "GET /static/home/assets/vendor/libs/popper/popper.js HTTP/1.1" 200 26271
+INFO 2025-02-20 22:39:29,368 basehttp "GET /static/home/assets/js/main.js HTTP/1.1" 200 3846
+INFO 2025-02-20 22:39:29,518 basehttp "GET /static/home/assets/vendor/js/menu.js HTTP/1.1" 200 26161
+INFO 2025-02-20 22:39:29,519 basehttp "GET /static/home/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js HTTP/1.1" 200 45840
+INFO 2025-02-20 22:39:29,524 basehttp "GET /static/home/assets/vendor/js/bootstrap.js HTTP/1.1" 200 353659
+INFO 2025-02-20 22:39:29,524 basehttp "GET /static/home/assets/vendor/libs/jquery/jquery.js HTTP/1.1" 200 328010
+INFO 2025-02-20 22:39:33,199 basehttp "POST /login/?next=/ HTTP/1.1" 302 0
+INFO 2025-02-20 22:39:33,427 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-20 22:39:33,588 basehttp "GET /static/home/assets/img/favicon/1.png HTTP/1.1" 200 3162
+INFO 2025-02-20 22:39:33,590 basehttp "GET /static/home/assets/js/config.js HTTP/1.1" 200 771
+INFO 2025-02-20 22:39:33,646 basehttp "GET /static/home/assets/img/avatars/bear.png HTTP/1.1" 200 29686
+INFO 2025-02-20 22:39:33,682 basehttp "GET /static/home/assets/vendor/js/helpers.js HTTP/1.1" 200 34182
+INFO 2025-02-20 22:39:33,832 basehttp "GET /static/home/assets/js/dashboards-analytics.js HTTP/1.1" 200 19045
+INFO 2025-02-20 22:39:33,939 basehttp "GET /static/home/assets/vendor/libs/apex-charts/apexcharts.js HTTP/1.1" 200 502517
+INFO 2025-02-20 22:39:34,458 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:39:41,402 basehttp "GET /giaotiep/ HTTP/1.1" 200 24186
+WARNING 2025-02-20 22:39:41,504 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 22:42:44,260 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-20 22:42:52,080 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:43:48,879 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-20 22:43:52,096 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:45:27,754 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-20 22:45:31,426 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:45:38,361 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-20 22:45:40,130 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:45:45,044 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-20 22:45:46,323 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:45:51,281 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-20 22:45:53,234 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:45:57,506 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-20 22:45:59,313 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:53:06,243 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-02-20 22:53:06,373 basehttp "GET /login/ HTTP/1.1" 200 9687
+INFO 2025-02-20 22:53:10,443 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 22:53:10,646 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-20 22:53:11,090 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:53:14,142 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 33486
+INFO 2025-02-20 22:53:14,657 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:54:52,133 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 33568
+INFO 2025-02-20 22:54:52,903 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:55:16,205 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 33566
+INFO 2025-02-20 22:55:16,731 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:56:21,561 basehttp "GET /baocaovaphantich/ HTTP/1.1" 200 29396
+INFO 2025-02-20 22:56:22,426 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:56:30,999 basehttp "GET /quanlyhoso/ HTTP/1.1" 200 36443
+INFO 2025-02-20 22:56:31,970 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:56:32,007 basehttp "GET /quanlyhoso/get-hosothuctapsinh/ HTTP/1.1" 200 2
+INFO 2025-02-20 22:56:34,319 basehttp - Broken pipe from ('127.0.0.1', 60108)
+INFO 2025-02-20 22:56:34,331 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 33566
+INFO 2025-02-20 22:56:34,758 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 22:58:23,556 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-20 22:58:27,477 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 22:58:35,445 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-20 22:58:37,035 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 23:01:02,979 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-20 23:01:05,861 autoreload Watching for file changes with StatReloader
+INFO 2025-02-20 23:03:47,804 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34954
+INFO 2025-02-20 23:03:48,652 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:03:58,085 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34954
+INFO 2025-02-20 23:03:58,871 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:05:45,736 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34864
+INFO 2025-02-20 23:05:46,734 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:06:12,025 basehttp "GET /giaotiep/ HTTP/1.1" 200 24875
+WARNING 2025-02-20 23:06:12,209 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:06:17,572 basehttp "GET /giaotiep/ HTTP/1.1" 200 24875
+WARNING 2025-02-20 23:06:17,640 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:07:05,883 basehttp "GET /giaotiep/ HTTP/1.1" 200 24953
+WARNING 2025-02-20 23:07:06,030 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:07:18,335 basehttp "GET /giaotiep/ HTTP/1.1" 200 24953
+WARNING 2025-02-20 23:07:18,426 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:07:26,406 basehttp "GET /giaotiep/ HTTP/1.1" 200 24953
+WARNING 2025-02-20 23:07:26,627 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:07:35,058 basehttp "GET /giaotiep/ HTTP/1.1" 200 24953
+WARNING 2025-02-20 23:07:35,140 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:08:26,402 basehttp "GET /giaotiep/ HTTP/1.1" 200 25716
+WARNING 2025-02-20 23:08:26,530 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:08:38,968 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-20 23:08:39,055 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:08:42,875 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-20 23:08:43,088 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:08:58,056 basehttp "GET /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-20 23:08:58,181 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:09:24,390 basehttp "POST /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-20 23:09:24,476 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:09:29,598 basehttp "GET /giaotiep/ HTTP/1.1" 200 24188
+INFO 2025-02-20 23:09:32,609 basehttp "POST /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-20 23:09:32,676 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:09:34,816 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-20 23:09:35,084 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-20 23:09:35,818 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:09:40,176 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34864
+INFO 2025-02-20 23:09:40,730 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:09:42,902 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34864
+INFO 2025-02-20 23:09:43,471 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:09:48,748 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34864
+INFO 2025-02-20 23:09:49,235 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:09:50,533 basehttp "GET /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-20 23:09:50,667 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:09:58,779 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-20 23:09:59,615 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-20 23:10:01,948 basehttp "GET /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-20 23:10:02,108 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-20 23:10:42,551 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-20 23:10:42,645 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+ERROR 2025-02-20 23:11:08,657 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.ProgrammingError: (1146, "Table 'db.home_comment' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1588, in submit_comment
+    form.save()
+    ~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\forms\models.py", line 554, in save
+    self.instance.save()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 892, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 1161, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 1202, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: (1146, "Table 'db.home_comment' doesn't exist")
+ERROR 2025-02-20 23:11:08,670 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.ProgrammingError: (1146, "Table 'db.home_comment' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1588, in submit_comment
+    form.save()
+    ~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\forms\models.py", line 554, in save
+    self.instance.save()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 892, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 1161, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 1202, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: (1146, "Table 'db.home_comment' doesn't exist")
+INFO 2025-02-20 23:11:08,737 basehttp - Broken pipe from ('127.0.0.1', 60738)
+ERROR 2025-02-20 23:11:08,804 basehttp "POST /giaotiep/ HTTP/1.1" 500 184889
+WARNING 2025-02-20 23:11:09,303 log Not Found: /favicon.ico
+WARNING 2025-02-20 23:11:09,305 basehttp "GET /favicon.ico HTTP/1.1" 404 24903
+INFO 2025-02-21 00:33:47,333 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 00:33:59,993 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 00:34:01,100 basehttp "GET /static/home/assets/vendor/fonts/boxicons.css HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,120 basehttp "GET /static/home/assets/vendor/libs/apex-charts/apex-charts.css HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,128 basehttp "GET /static/home/assets/js/config.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,132 basehttp "GET /static/home/assets/vendor/css/theme-default.css HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,165 basehttp "GET /static/home/assets/img/favicon/1.png HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,183 basehttp "GET /static/home/assets/vendor/css/core.css HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,185 basehttp "GET /static/home/assets/vendor/js/helpers.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,286 basehttp "GET /static/home/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,375 basehttp "GET /static/home/assets/css/demo.css HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,432 basehttp "GET /static/home/assets/img/avatars/bear.png HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,484 basehttp "GET /static/home/assets/vendor/libs/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,484 basehttp "GET /static/home/assets/vendor/js/menu.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,485 basehttp "GET /static/home/assets/vendor/js/bootstrap.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,491 basehttp "GET /static/home/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,497 basehttp "GET /static/home/assets/vendor/libs/apex-charts/apexcharts.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,506 basehttp "GET /static/home/assets/vendor/libs/popper/popper.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,570 basehttp "GET /static/home/assets/js/main.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:01,570 basehttp "GET /static/home/assets/js/dashboards-analytics.js HTTP/1.1" 304 0
+INFO 2025-02-21 00:34:02,389 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 00:34:03,981 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:34:05,687 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:34:11,129 basehttp "GET /giaotiep/ HTTP/1.1" 200 13401
+WARNING 2025-02-21 00:34:11,207 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+ERROR 2025-02-21 00:34:32,309 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.ProgrammingError: (1146, "Table 'db.home_comment' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1588, in submit_comment
+    form.save()
+    ~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\forms\models.py", line 554, in save
+    self.instance.save()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 892, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 1161, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\base.py", line 1202, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\MySQLdb\connections.py", line 265, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: (1146, "Table 'db.home_comment' doesn't exist")
+ERROR 2025-02-21 00:34:32,361 basehttp "POST /giaotiep/ HTTP/1.1" 500 184870
+INFO 2025-02-21 00:52:19,256 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 00:52:24,397 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 00:52:26,442 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:52:28,043 basehttp "GET /giaotiep/ HTTP/1.1" 200 13401
+WARNING 2025-02-21 00:52:28,172 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 00:53:02,663 basehttp "GET /baocaovaphantich/ HTTP/1.1" 200 29396
+INFO 2025-02-21 00:53:02,765 basehttp - Broken pipe from ('127.0.0.1', 62271)
+INFO 2025-02-21 00:53:03,097 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:53:10,037 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 00:53:10,462 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:53:39,862 basehttp "GET /quanlyhoso/ HTTP/1.1" 200 36443
+INFO 2025-02-21 00:53:40,368 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:53:40,399 basehttp "GET /quanlyhoso/get-hosothuctapsinh/ HTTP/1.1" 200 2
+INFO 2025-02-21 00:53:46,948 basehttp - Broken pipe from ('127.0.0.1', 62297)
+INFO 2025-02-21 00:53:46,963 basehttp "GET /giaotiep/ HTTP/1.1" 200 13401
+WARNING 2025-02-21 00:53:47,035 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 00:54:07,755 basehttp "GET /giaotiep/ HTTP/1.1" 200 12637
+WARNING 2025-02-21 00:54:07,810 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 00:54:18,843 basehttp "POST /giaotiep/ HTTP/1.1" 200 12637
+WARNING 2025-02-21 00:54:18,940 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 00:54:27,004 basehttp "GET /giaotiep/ HTTP/1.1" 200 12637
+INFO 2025-02-21 00:54:34,365 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 00:54:34,845 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:54:45,539 basehttp "POST /giaotiep/ HTTP/1.1" 200 12637
+WARNING 2025-02-21 00:54:45,596 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 00:54:47,934 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 00:54:48,444 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:57:18,514 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 00:57:36,036 basehttp "POST /giaotiep/ HTTP/1.1" 200 12637
+WARNING 2025-02-21 00:57:36,489 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 00:57:42,771 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 00:57:43,055 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 00:57:44,171 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:57:48,071 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 00:57:48,862 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:58:13,559 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 00:58:14,091 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 00:58:17,280 basehttp "GET /giaotiep/ HTTP/1.1" 200 13401
+WARNING 2025-02-21 00:58:17,334 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 00:58:17,407 basehttp - Broken pipe from ('127.0.0.1', 62521)
+ERROR 2025-02-21 00:58:33,804 basehttp "POST /giaotiep/ HTTP/1.1" 500 90344
+INFO 2025-02-21 01:01:22,768 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:01:26,689 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:01:29,708 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:01:33,222 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:01:36,364 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+WARNING 2025-02-21 01:01:36,548 log Not Found: /giaotiep/Giaotiepvaphanhoi/content.html
+WARNING 2025-02-21 01:01:36,549 basehttp "GET /giaotiep/Giaotiepvaphanhoi/content.html HTTP/1.1" 404 24987
+INFO 2025-02-21 01:01:54,548 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:01:58,681 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:02:08,558 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:02:10,428 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:02:16,675 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:02:19,756 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:02:22,167 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:02:24,881 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-21 01:02:25,621 log Not Found: /giaotiep/Giaotiepvaphanhoi/content.html
+WARNING 2025-02-21 01:02:25,623 basehttp "GET /giaotiep/Giaotiepvaphanhoi/content.html HTTP/1.1" 404 24987
+WARNING 2025-02-21 01:03:45,385 log Not Found: /giaotiep/Giaotiepvaphanhoi/content.html
+WARNING 2025-02-21 01:03:45,386 basehttp "GET /giaotiep/Giaotiepvaphanhoi/content.html HTTP/1.1" 404 24987
+INFO 2025-02-21 01:03:46,987 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+INFO 2025-02-21 01:04:34,112 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:04:36,147 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:04:39,413 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:04:42,433 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:04:45,567 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:04:47,598 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-21 01:04:48,220 log Not Found: /giaotiep/Giaotiepvaphanhoi/content.html
+WARNING 2025-02-21 01:04:48,222 basehttp "GET /giaotiep/Giaotiepvaphanhoi/content.html HTTP/1.1" 404 24987
+ERROR 2025-02-21 01:04:52,782 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1593, in submit_comment
+    return render(request, 'giaotiep.html', {'form': form})
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: giaotiep.html
+ERROR 2025-02-21 01:04:52,794 basehttp "GET /giaotiep/ HTTP/1.1" 500 85362
+INFO 2025-02-21 01:04:57,486 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:04:57,936 basehttp "GET /notifications/ HTTP/1.1" 200 21
+ERROR 2025-02-21 01:04:59,769 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1593, in submit_comment
+    return render(request, 'giaotiep.html', {'form': form})
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: giaotiep.html
+ERROR 2025-02-21 01:04:59,799 basehttp "GET /giaotiep/ HTTP/1.1" 500 85225
+INFO 2025-02-21 01:05:11,289 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:05:13,098 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:05:13,749 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:05:13,849 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:05:28,254 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:05:31,336 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:05:35,123 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:05:35,193 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:05:59,702 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+WARNING 2025-02-21 01:05:59,806 log Not Found: /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html
+WARNING 2025-02-21 01:05:59,809 basehttp "GET /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html HTTP/1.1" 404 25017
+INFO 2025-02-21 01:06:26,940 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:06:29,004 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-21 01:06:29,925 log Not Found: /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html
+WARNING 2025-02-21 01:06:29,928 basehttp "GET /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html HTTP/1.1" 404 25017
+INFO 2025-02-21 01:06:39,670 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:06:41,543 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-21 01:06:42,112 log Not Found: /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html
+WARNING 2025-02-21 01:06:42,114 basehttp "GET /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html HTTP/1.1" 404 25017
+INFO 2025-02-21 01:06:47,752 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:06:53,944 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:07:08,576 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:07:11,565 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:07:50,100 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:07:51,328 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:07:56,414 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:07:57,890 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:08:01,939 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:08:03,775 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:08:08,049 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:08:09,489 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-21 01:08:12,108 log Not Found: /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html
+WARNING 2025-02-21 01:08:12,111 basehttp "GET /giaotiep/Giaotiepvaphanhoi/giaotiepvaphanhoi.html HTTP/1.1" 404 25017
+ERROR 2025-02-21 01:08:14,346 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1593, in submit_comment
+    return render(request, 'Giaotiep', {'form': form})
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\base.py", line 23, in get_template
+    contents = self.get_contents(origin)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 26, in get_contents
+    return origin.loader.get_contents(origin)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\filesystem.py", line 22, in get_contents
+    with open(origin.name, encoding=self.engine.file_charset) as fp:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\DATA (D)\\Python\\Python web\\Buoi16\\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\\Elearning\\home\\templates\\Giaotiep'
+INFO 2025-02-21 01:08:14,389 basehttp - Broken pipe from ('127.0.0.1', 62924)
+ERROR 2025-02-21 01:08:16,386 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1593, in submit_comment
+    return render(request, 'Giaotiep', {'form': form})
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\base.py", line 23, in get_template
+    contents = self.get_contents(origin)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 26, in get_contents
+    return origin.loader.get_contents(origin)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\filesystem.py", line 22, in get_contents
+    with open(origin.name, encoding=self.engine.file_charset) as fp:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\DATA (D)\\Python\\Python web\\Buoi16\\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\\Elearning\\home\\templates\\Giaotiep'
+INFO 2025-02-21 01:08:16,403 basehttp - Broken pipe from ('127.0.0.1', 62945)
+ERROR 2025-02-21 01:08:16,467 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1593, in submit_comment
+    return render(request, 'Giaotiep', {'form': form})
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\base.py", line 23, in get_template
+    contents = self.get_contents(origin)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 26, in get_contents
+    return origin.loader.get_contents(origin)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\filesystem.py", line 22, in get_contents
+    with open(origin.name, encoding=self.engine.file_charset) as fp:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\DATA (D)\\Python\\Python web\\Buoi16\\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\\Elearning\\home\\templates\\Giaotiep'
+ERROR 2025-02-21 01:08:16,481 basehttp "GET /giaotiep/ HTTP/1.1" 500 117413
+INFO 2025-02-21 01:08:32,755 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:08:35,221 autoreload Watching for file changes with StatReloader
+ERROR 2025-02-21 01:08:35,734 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1593, in submit_comment
+    return render(request, 'Giaotiep', {'form': form})
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\base.py", line 23, in get_template
+    contents = self.get_contents(origin)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\cached.py", line 26, in get_contents
+    return origin.loader.get_contents(origin)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loaders\filesystem.py", line 22, in get_contents
+    with open(origin.name, encoding=self.engine.file_charset) as fp:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\DATA (D)\\Python\\Python web\\Buoi16\\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\\Elearning\\home\\templates\\Giaotiep'
+ERROR 2025-02-21 01:08:35,752 basehttp "GET /giaotiep/ HTTP/1.1" 500 117573
+INFO 2025-02-21 01:08:39,995 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:08:41,536 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:08:42,281 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:08:42,358 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:08:58,050 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:09:00,745 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:09:03,859 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:09:03,941 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:12:13,348 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:12:16,636 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:12:19,369 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:12:21,443 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:13:44,303 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 01:13:46,321 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:14:53,290 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:14:57,512 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:16:01,451 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:16:01,697 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:16:20,950 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:16:21,350 basehttp "GET /binhluan/ HTTP/1.1" 200 33224
+INFO 2025-02-21 01:16:21,903 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:16:44,012 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:16:44,138 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:18:11,999 basehttp - Broken pipe from ('127.0.0.1', 63220)
+INFO 2025-02-21 01:18:12,084 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:18:12,310 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 01:18:13,419 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:18:16,212 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:18:17,080 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:18:25,791 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:18:26,249 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:18:52,257 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:18:52,384 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:22:05,408 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:22:05,584 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:22:05,881 basehttp - Broken pipe from ('127.0.0.1', 63345)
+INFO 2025-02-21 01:23:50,026 basehttp "GET /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-21 01:23:50,100 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:24:09,935 basehttp "POST /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-21 01:24:10,020 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:24:13,493 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:24:13,777 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 01:24:14,393 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:24:16,489 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:24:17,003 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:24:46,955 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:24:47,598 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:24:49,293 basehttp "GET /giaotiep/ HTTP/1.1" 200 23226
+WARNING 2025-02-21 01:24:49,447 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:25:32,149 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:25:32,290 basehttp "GET /binhluan/ HTTP/1.1" 200 33503
+INFO 2025-02-21 01:25:33,225 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:26:00,968 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:26:01,005 basehttp "GET /login/ HTTP/1.1" 200 9687
+INFO 2025-02-21 01:26:01,089 basehttp "GET /static/home/assets/img/illustrations/man-with-laptop.png HTTP/1.1" 304 0
+INFO 2025-02-21 01:26:04,942 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:26:05,132 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-21 01:26:05,538 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:26:07,596 basehttp "GET /giaotiep/ HTTP/1.1" 200 23211
+WARNING 2025-02-21 01:26:07,680 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:26:18,700 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:26:18,863 basehttp "GET /binhluan/ HTTP/1.1" 200 33579
+INFO 2025-02-21 01:26:19,731 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:26:30,240 basehttp "GET /giaotiep/ HTTP/1.1" 200 23211
+INFO 2025-02-21 01:36:19,139 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:36:23,259 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:36:47,002 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:36:50,149 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:36:52,172 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:36:53,672 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:36:55,316 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:36:58,530 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:37:00,347 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:37:01,949 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:37:10,793 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:37:16,784 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:40:28,302 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 01:40:33,216 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-21 01:40:40,842 log Not Found: /binhluan/
+WARNING 2025-02-21 01:40:40,844 basehttp "GET /binhluan/ HTTP/1.1" 404 24885
+ERROR 2025-02-21 01:40:49,249 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1599, in giaotiep
+    return render(request, "giaotiep.html")
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: giaotiep.html
+ERROR 2025-02-21 01:40:49,541 basehttp "GET /giaotiep/ HTTP/1.1" 500 85138
+INFO 2025-02-21 01:41:17,163 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 01:41:19,855 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:41:26,869 basehttp "GET / HTTP/1.1" 200 25574
+INFO 2025-02-21 01:41:28,713 basehttp "GET /static/home/assets/vendor/css/core.css HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,722 basehttp "GET /static/home/assets/vendor/fonts/boxicons.css HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,728 basehttp "GET /static/home/assets/vendor/css/theme-default.css HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,737 basehttp "GET /static/home/assets/css/demo.css HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,738 basehttp "GET /static/home/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,753 basehttp "GET /static/home/assets/img/favicon/1.png HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,801 basehttp "GET /static/home/assets/vendor/libs/apex-charts/apex-charts.css HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,816 basehttp "GET /static/home/assets/vendor/js/helpers.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:28,818 basehttp "GET /static/home/assets/js/config.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,021 basehttp "GET /static/home/assets/img/avatars/bear.png HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,102 basehttp "GET /static/home/assets/vendor/libs/popper/popper.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,109 basehttp "GET /static/home/assets/vendor/js/menu.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,109 basehttp "GET /static/home/assets/vendor/js/bootstrap.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,109 basehttp "GET /static/home/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,109 basehttp "GET /static/home/assets/vendor/libs/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,110 basehttp "GET /static/home/assets/vendor/libs/apex-charts/apexcharts.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,127 basehttp "GET /static/home/assets/js/dashboards-analytics.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:29,136 basehttp "GET /static/home/assets/js/main.js HTTP/1.1" 304 0
+INFO 2025-02-21 01:41:33,634 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:41:35,366 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:41:35,395 basehttp "GET /login/ HTTP/1.1" 200 9687
+INFO 2025-02-21 01:41:40,469 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:41:40,588 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 01:41:40,985 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:41:43,364 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34465
+INFO 2025-02-21 01:41:43,879 basehttp "GET /notifications/ HTTP/1.1" 200 21
+ERROR 2025-02-21 01:41:46,890 log Internal Server Error: /giaotiep/
+Traceback (most recent call last):
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py", line 1599, in giaotiep
+    return render(request, "giaotiep.html")
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: giaotiep.html
+ERROR 2025-02-21 01:41:46,902 basehttp "GET /giaotiep/ HTTP/1.1" 500 85005
+INFO 2025-02-21 01:42:44,494 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:42:47,387 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:42:53,403 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 01:42:54,418 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:43:01,531 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 01:43:04,984 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:43:20,621 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:43:22,137 basehttp "GET /giaotiep/ HTTP/1.1" 200 24188
+WARNING 2025-02-21 01:43:22,396 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:43:22,979 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:48:32,750 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\forms.py changed, reloading.
+INFO 2025-02-21 01:48:35,319 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:48:44,787 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\forms.py changed, reloading.
+INFO 2025-02-21 01:48:45,969 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:49:19,389 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\forms.py changed, reloading.
+INFO 2025-02-21 01:49:20,784 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:49:54,011 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:49:55,562 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:50:08,920 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:50:17,367 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:50:20,069 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:50:21,518 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:50:33,252 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:50:35,648 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:51:39,573 basehttp "GET /giaotiep/ HTTP/1.1" 200 24036
+WARNING 2025-02-21 01:51:39,829 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:55:58,752 basehttp "GET /giaotiep/ HTTP/1.1" 200 23854
+WARNING 2025-02-21 01:55:59,070 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+ERROR 2025-02-21 01:56:09,013 basehttp "POST /giaotiep/ HTTP/1.1" 500 90151
+INFO 2025-02-21 01:57:49,792 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 01:57:53,761 autoreload Watching for file changes with StatReloader
+ERROR 2025-02-21 01:57:58,841 basehttp "POST /giaotiep/ HTTP/1.1" 500 90151
+INFO 2025-02-21 01:58:34,279 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 01:58:37,681 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 01:58:41,091 basehttp "GET /giaotiep/ HTTP/1.1" 200 23854
+WARNING 2025-02-21 01:58:41,364 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:58:48,977 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:58:49,401 basehttp "GET /binhluan/ HTTP/1.1" 200 34649
+INFO 2025-02-21 01:58:50,574 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:59:01,276 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:59:01,296 basehttp "GET /login/ HTTP/1.1" 200 9687
+INFO 2025-02-21 01:59:04,999 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 01:59:05,137 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 01:59:05,560 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:59:13,020 basehttp - Broken pipe from ('127.0.0.1', 64401)
+INFO 2025-02-21 01:59:13,070 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:59:13,724 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:59:15,536 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34606
+INFO 2025-02-21 01:59:16,126 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 01:59:46,841 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:59:46,949 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 01:59:48,387 basehttp "GET /giaotiep/ HTTP/1.1" 200 24952
+WARNING 2025-02-21 01:59:48,439 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:00:21,469 basehttp "GET /giaotiep/ HTTP/1.1" 200 23577
+WARNING 2025-02-21 02:00:21,561 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:03:57,174 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 34714
+INFO 2025-02-21 02:03:57,832 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:05:55,299 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35313
+INFO 2025-02-21 02:05:56,191 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:06:11,420 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35314
+INFO 2025-02-21 02:06:11,741 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:06:22,234 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35314
+INFO 2025-02-21 02:06:22,770 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:06:46,109 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35252
+INFO 2025-02-21 02:06:46,534 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:06:48,461 basehttp "GET /binhluan/ HTTP/1.1" 200 35295
+INFO 2025-02-21 02:06:55,634 basehttp "GET /binhluan/ HTTP/1.1" 200 35295
+INFO 2025-02-21 02:06:58,412 basehttp "GET /binhluan/ HTTP/1.1" 200 35295
+INFO 2025-02-21 02:07:02,042 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35252
+INFO 2025-02-21 02:07:02,691 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:07:03,522 basehttp "GET /binhluan/ HTTP/1.1" 200 35295
+INFO 2025-02-21 02:08:23,640 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\forms.py changed, reloading.
+INFO 2025-02-21 02:08:28,144 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:11:15,653 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35290
+INFO 2025-02-21 02:11:17,147 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:11:25,482 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35290
+INFO 2025-02-21 02:11:26,418 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:11:28,762 basehttp "GET /binhluan/ HTTP/1.1" 200 35333
+INFO 2025-02-21 02:11:31,487 basehttp "GET /binhluan/ HTTP/1.1" 200 35333
+INFO 2025-02-21 02:11:31,609 basehttp "GET /binhluan/ HTTP/1.1" 200 35333
+INFO 2025-02-21 02:11:33,863 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 02:11:35,821 basehttp - Broken pipe from ('127.0.0.1', 64805)
+INFO 2025-02-21 02:11:35,883 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35290
+INFO 2025-02-21 02:11:36,252 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:11:39,673 basehttp "GET /binhluan/ HTTP/1.1" 200 35333
+INFO 2025-02-21 02:11:39,754 basehttp "GET /binhluan/ HTTP/1.1" 200 35333
+INFO 2025-02-21 02:12:00,857 basehttp "GET /giaotiepvaphanhoi/ HTTP/1.1" 200 35243
+INFO 2025-02-21 02:12:01,257 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:12:03,519 basehttp "GET /binhluan/ HTTP/1.1" 200 35286
+INFO 2025-02-21 02:12:04,480 basehttp "GET /binhluan/ HTTP/1.1" 200 35286
+INFO 2025-02-21 02:12:04,654 basehttp "GET /binhluan/ HTTP/1.1" 200 35286
+INFO 2025-02-21 02:12:04,836 basehttp "GET /binhluan/ HTTP/1.1" 200 35286
+INFO 2025-02-21 02:12:04,984 basehttp "GET /binhluan/ HTTP/1.1" 200 35286
+INFO 2025-02-21 02:12:05,138 basehttp "GET /binhluan/ HTTP/1.1" 200 35286
+INFO 2025-02-21 02:12:20,185 basehttp "GET /giaotiep/ HTTP/1.1" 200 23525
+WARNING 2025-02-21 02:12:20,386 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:12:20,424 basehttp - Broken pipe from ('127.0.0.1', 64930)
+INFO 2025-02-21 02:13:02,773 basehttp "GET /giaotiep/ HTTP/1.1" 200 23525
+WARNING 2025-02-21 02:13:02,953 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:13:11,700 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+INFO 2025-02-21 02:13:12,678 basehttp "GET /binhluan/ HTTP/1.1" 200 35091
+INFO 2025-02-21 02:13:13,172 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:17:25,584 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 02:17:28,927 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:17:31,990 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 02:17:33,747 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:17:45,506 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\views.py changed, reloading.
+INFO 2025-02-21 02:17:49,184 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:18:08,136 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 02:18:11,044 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:18:12,608 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 02:18:15,576 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:18:18,608 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 02:18:21,726 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:18:30,426 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 02:18:31,896 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:18:38,361 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 02:18:39,990 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:18:44,145 basehttp "GET /binhluan/ HTTP/1.1" 200 38876
+INFO 2025-02-21 02:18:45,516 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:21:06,836 autoreload C:\DATA (D)\Python\Python web\Buoi16\He_thong_quan_ly_thuc_tap_sinh_cho_doanh_nghiep\Elearning\home\urls.py changed, reloading.
+INFO 2025-02-21 02:21:11,989 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 02:21:17,517 basehttp "GET /giaotiep/ HTTP/1.1" 200 23525
+INFO 2025-02-21 02:21:25,760 basehttp "POST /giaotiep/ HTTP/1.1" 302 0
+INFO 2025-02-21 02:21:26,182 basehttp "GET /binhluan/ HTTP/1.1" 200 39395
+INFO 2025-02-21 02:21:27,624 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:21:32,910 basehttp "GET /binhluan/ HTTP/1.1" 200 39395
+INFO 2025-02-21 02:21:33,725 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:21:39,967 basehttp "GET /binhluan/ HTTP/1.1" 200 39395
+INFO 2025-02-21 02:21:40,347 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:21:46,671 basehttp "GET /binhluan/ HTTP/1.1" 200 39395
+INFO 2025-02-21 02:21:47,093 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:23:00,727 basehttp "GET /binhluan/ HTTP/1.1" 200 39478
+INFO 2025-02-21 02:23:01,521 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:23:15,871 basehttp "GET /binhluan/ HTTP/1.1" 200 39478
+INFO 2025-02-21 02:23:16,388 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:23:22,677 basehttp "GET /binhluan/ HTTP/1.1" 200 39478
+INFO 2025-02-21 02:23:23,040 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:23:38,589 basehttp "GET /giaotiep/ HTTP/1.1" 200 23525
+WARNING 2025-02-21 02:23:38,717 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:23:40,185 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 02:23:40,363 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 02:23:41,060 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:24:48,423 basehttp "GET /giaotiep/ HTTP/1.1" 200 23528
+WARNING 2025-02-21 02:24:48,545 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+WARNING 2025-02-21 02:24:50,183 log Not Found: /giaotiep/login.html
+WARNING 2025-02-21 02:24:50,185 basehttp "GET /giaotiep/login.html HTTP/1.1" 404 25446
+WARNING 2025-02-21 02:25:03,093 log Not Found: /giaotiep/login.html
+WARNING 2025-02-21 02:25:03,098 basehttp "GET /giaotiep/login.html HTTP/1.1" 404 25446
+INFO 2025-02-21 02:25:08,058 basehttp "GET /giaotiep/ HTTP/1.1" 200 23531
+WARNING 2025-02-21 02:25:08,199 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+WARNING 2025-02-21 02:25:09,173 log Not Found: /login.html
+WARNING 2025-02-21 02:25:09,175 basehttp "GET /login.html HTTP/1.1" 404 25419
+WARNING 2025-02-21 02:25:30,319 log Not Found: /login.html
+WARNING 2025-02-21 02:25:30,321 basehttp "GET /login.html HTTP/1.1" 404 25419
+WARNING 2025-02-21 02:25:33,789 log Not Found: /login.html
+WARNING 2025-02-21 02:25:33,790 basehttp "GET /login.html HTTP/1.1" 404 25419
+WARNING 2025-02-21 02:25:42,116 log Not Found: /login.html
+WARNING 2025-02-21 02:25:42,126 basehttp "GET /login.html HTTP/1.1" 404 25419
+WARNING 2025-02-21 02:26:14,324 log Not Found: /login.html
+WARNING 2025-02-21 02:26:14,326 basehttp "GET /login.html HTTP/1.1" 404 25419
+INFO 2025-02-21 02:26:17,091 basehttp "GET /binhluan/ HTTP/1.1" 200 39478
+INFO 2025-02-21 02:26:18,208 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:26:19,706 basehttp "GET /giaotiep/ HTTP/1.1" 200 23526
+WARNING 2025-02-21 02:26:19,808 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+WARNING 2025-02-21 02:26:21,093 log Not Found: /giaotiep/register
+WARNING 2025-02-21 02:26:21,095 basehttp "GET /giaotiep/register HTTP/1.1" 404 25440
+INFO 2025-02-21 02:26:37,349 basehttp "GET /binhluan/ HTTP/1.1" 200 39478
+INFO 2025-02-21 02:26:38,025 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:26:39,358 basehttp "GET /giaotiep/ HTTP/1.1" 200 23528
+WARNING 2025-02-21 02:26:39,528 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:26:40,482 basehttp "GET /register/ HTTP/1.1" 200 10441
+WARNING 2025-02-21 02:27:04,504 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:27:05,797 basehttp "GET /giaotiep/ HTTP/1.1" 200 23525
+WARNING 2025-02-21 02:27:05,860 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:27:06,917 basehttp "GET /login/ HTTP/1.1" 302 0
+INFO 2025-02-21 02:27:07,105 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 02:27:07,526 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:27:20,171 basehttp "GET /giaotiep/ HTTP/1.1" 200 23528
+WARNING 2025-02-21 02:27:20,225 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:27:22,002 basehttp "GET /register/ HTTP/1.1" 200 10441
+INFO 2025-02-21 02:27:50,536 basehttp "GET /register/ HTTP/1.1" 200 10441
+INFO 2025-02-21 02:28:35,330 basehttp "GET /giaotiep/ HTTP/1.1" 200 23453
+WARNING 2025-02-21 02:28:35,420 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:33:16,718 basehttp "GET /giaotiep/ HTTP/1.1" 200 24823
+WARNING 2025-02-21 02:33:16,935 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:36:08,223 basehttp "GET /giaotiep/ HTTP/1.1" 200 25023
+WARNING 2025-02-21 02:36:08,709 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:40:55,001 basehttp "GET /giaotiep/ HTTP/1.1" 200 25124
+WARNING 2025-02-21 02:40:55,446 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:42:15,647 basehttp "GET /giaotiep/ HTTP/1.1" 200 25127
+WARNING 2025-02-21 02:42:15,735 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:42:21,545 basehttp "GET /register/ HTTP/1.1" 200 10441
+INFO 2025-02-21 02:42:21,643 basehttp "GET /static/home/assets/img/illustrations/man-with-laptop.png HTTP/1.1" 304 0
+INFO 2025-02-21 02:42:38,915 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 02:42:39,871 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:42:41,789 basehttp "GET /giaotiep/ HTTP/1.1" 200 25127
+WARNING 2025-02-21 02:42:41,850 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:44:27,386 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 02:44:27,817 basehttp "GET /notifications/ HTTP/1.1" 200 21
+INFO 2025-02-21 02:44:30,620 basehttp "GET /giaotiep/ HTTP/1.1" 200 25157
+WARNING 2025-02-21 02:44:30,721 basehttp "GET /static/css/styles.css HTTP/1.1" 404 1856
+INFO 2025-02-21 02:44:32,703 basehttp "GET / HTTP/1.1" 200 28160
+INFO 2025-02-21 02:44:33,505 basehttp "GET /notifications/ HTTP/1.1" 200 21

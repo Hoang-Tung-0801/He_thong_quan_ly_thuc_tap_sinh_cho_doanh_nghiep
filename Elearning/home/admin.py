@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from .models import (
     Department, Intern, Recruitment, TrainingProgram, Performance,
     Feedback, Task, Project, Attendance, Report, Event, Notification,
-    JobPost, Candidate, Interview, CandidateEvaluation, UserPermission, Integration, Profile,
+    JobPost, Candidate, Interview, CandidateEvaluation, UserPermission, Integration, Profile, Comment,
 )
 
 # Custom Admin Actions
@@ -243,3 +243,10 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ('gender', 'education', 'dob')
     list_per_page = 20
     date_hierarchy = 'dob'
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'phone', 'created_at')  # Hiển thị các cột trong bảng admin
+    search_fields = ('name', 'email', 'comment')  # Cho phép tìm kiếm
+    list_filter = ('created_at',)  # Bộ lọc theo ngày tạo
+    list_per_page = 20

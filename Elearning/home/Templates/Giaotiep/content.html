@@ -1,0 +1,388 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Chương trình Đào tạo</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+
+  <style>
+    /* Dark Mode Placeholder Styles */
+    .dark-mode ::placeholder {
+        color: #a0a0a0;
+        opacity: 1;
+    }
+
+    .dark-mode :-ms-input-placeholder {
+        color: #a0a0a0;
+    }
+
+    .dark-mode ::-ms-input-placeholder {
+        color: #a0a0a0;
+    }
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-mode .card {
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+    .card-header {
+      background-color: #007bff;
+      color: white;
+      border-radius: 10px 10px 0 0;
+      padding: 15px;
+    }
+    .dark-mode .card-header {
+      background-color: #0d6efd;
+    }
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .btn-success:hover {
+      background-color: #218838;
+    }
+    .btn-warning {
+      background-color: #ffc107;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .btn-warning:hover {
+      background-color: #e0a800;
+    }
+    .form-control {
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    .dark-mode .form-control {
+      background-color: #2d2d2d;
+      border-color: #444;
+      color: #ffffff;
+    }
+    .form-control:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    .form-label {
+      font-weight: bold;
+      color: #333;
+    }
+    .dark-mode .form-label {
+      color: #ffffff;
+    }
+    .form-check-label {
+      color: #555;
+    }
+    .dark-mode .form-check-label {
+      color: #ffffff;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dropdown-menu {
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark Mode Styles for Select Options */
+    .dark-mode .form-select {
+        background-color: #2d2d2d;
+        border-color: #444;
+        color: #ffffff;
+    }
+
+    .dark-mode .form-select option {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+    .footer {
+    background-color: white;
+    padding: 20px;
+    text-align: left;
+    font-size: 16px;
+    border-top: 3px solid #e30000;
+  }
+
+
+  .footer p {
+      margin: 5px 0;
+      color: black;
+  }
+
+  .footer a {
+      color: #e30000;
+      text-decoration: none;
+      font-weight: bold;
+  }
+
+  .footer a:hover {
+      text-decoration: underline;
+  }
+
+  .divider {
+    border: none;
+    height: 2px;
+    background-color: #ddd; /* Màu xám nhạt */
+    margin: 30px 0;
+  }
+  .back-button {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .back-button:hover {
+      background-color: #c82333;
+  }
+  
+/* Nút đăng ký cố định */
+    .login-button {
+        position: fixed;
+        bottom: 60px;
+        right: 50px;
+        background-color:rgb(255, 158, 67);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 20px;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-button:hover {
+        background-color:rgb(242, 255, 61);
+    }
+    
+    /* Định dạng menu dọc */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px; /* Độ rộng menu */
+        height: 100vh; /* Chiều cao toàn màn hình */
+        background: #f8f9fa;
+        padding-top: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Định dạng danh sách menu */
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Định dạng các mục menu */
+    .sidebar ul li {
+        padding: 15px;
+        text-align: left;
+    }
+
+    /* Định dạng liên kết */
+    .sidebar ul li a {
+        text-decoration: none;
+        font-weight: bold;
+        color: #333;
+        display: block;
+        transition: 0.3s;
+    }
+
+    /* Hiệu ứng hover */
+    .sidebar ul li a:hover {
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+    }
+
+    /* Định dạng nội dung để không bị menu che mất */
+    .content {
+        margin-left: 220px; /* Đẩy nội dung sang phải để không bị menu che */
+        padding: 20px;
+    }
+
+    /* Hiệu ứng cuộn mượt */
+    html {
+        scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<nav class="sidebar">
+  <ul>
+      <li><a href="#gioithieu">Giới thiệu</a></li>
+      <li><a href="#loiich">Lợi ích</a></li>
+      <li><a href="#tinhnang">Tính năng cần có</a></li>
+      <li><a href="#hieuquadaotao">Giúp nâng cao hiệu quả đào tạo</a></li>
+      <li><a href="#luachontoiuu">Lựa chọn tối ưu cho doanh nghiệp</a></li>
+      <li><a href="#ketluan">Kết luận</a></li>
+      <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<body>
+  
+  <!-- Nút đăng nhập với icon cố định -->
+  <button class="login-button" onclick="redirectToLogin()">
+    <i class="fas fa-sign-in-alt"></i> Đăng ký
+  </button>
+
+
+  <i class="bi bi-box-arrow-in-right"></i>
+  <button class="back-button" onclick="goBack()">⬅ Quay lại</button>
+
+  <div class="container mt-5">
+      <h1 id="gioithieu" class="text-center"> Phần Mềm Quản Lý Hồ Sơ Thực Tập Sinh</h1>
+      <p class="text-center text-muted">Giải pháp toàn diện cho doanh nghiệp</p>
+      <hr>
+
+      <div class="row">
+          <div class="col-md-6">
+              <p>Phần Mềm Quản Lý Hồ Sơ Thực Tập Sinh là công cụ không thể thiếu cho doanh nghiệp, giúp tối ưu quy trình quản lý, từ tuyển dụng đến đánh giá và đào tạo.</p>
+              <h2 id="loiich">Lợi Ích</h2>
+              <ul>
+                  <li>Lưu trữ thông tin tập trung, dễ dàng tra cứu.</li>
+                  <li>Tự động hóa quy trình: hợp đồng, đánh giá, đào tạo.</li>
+                  <li>Báo cáo và phân tích dữ liệu thực tập sinh.</li>
+                  <li>Tiết kiệm thời gian và chi phí.</li>
+              </ul>
+          </div>
+      </div>
+  </div>
+  <div class="container mt-5">
+    <h2 id="tinhnang" class="mt-4">Các Tính Năng Cần Có Của Phần Mềm Quản Lý Hồ Sơ Thực Tập Sinh</h2>
+    <p>Một phần mềm quản lý hồ sơ thực tập sinh hiệu quả cần đáp ứng các yêu cầu sau:</p>
+
+    <ul>
+        <li><strong>Quản lý hồ sơ thực tập sinh:</strong> Tên, tuổi, địa chỉ, liên hệ, trình độ học vấn, kinh nghiệm làm việc.</li>
+        <li><strong>Quản lý quá trình thực tập:</strong> Phân công công việc, theo dõi tiến độ, đánh giá hiệu quả.</li>
+        <li><strong>Quản lý tuyển dụng:</strong> Tạo và lưu trữ hợp đồng, theo dõi thời hạn.</li>
+        <li><strong>Báo cáo và thống kê:</strong> Cung cấp các báo cáo tổng hợp về tình hình thực tập.</li>
+    </ul>
+  </div>
+  <div class="container mt-5">
+    <h2 id="hieuquadaotao" class="mt-4">Phần Mềm Quản Lý Hồ Sơ Thực Tập Sinh và Nâng Cao Hiệu Quả Đào Tạo</h2>
+    <p>Phần mềm không chỉ giúp quản lý hồ sơ mà còn hỗ trợ doanh nghiệp nâng cao hiệu quả đào tạo thực tập sinh.</p>
+
+    <ul>
+        <li><strong>Đánh giá năng lực:</strong> Đánh giá khách quan năng lực của từng thực tập sinh.</li>
+        <li><strong>Phân bổ công việc phù hợp:</strong> Phân công công việc phù hợp với năng lực và chuyên môn.</li>
+        <li><strong>Theo dõi tiến độ đào tạo:</strong> Theo dõi sát sao quá trình học tập và làm việc của thực tập sinh.</li>
+    </ul>
+
+    <h2 id="luachontoiuu" class="mt-5">Phần Mềm Quản Lý Hồ Sơ Thực Tập Sinh: Lựa Chọn Tối Ưu Cho Doanh Nghiệp</h2>
+    <p>Việc lựa chọn phần mềm quản lý hồ sơ thực tập sinh phù hợp là yếu tố quan trọng giúp doanh nghiệp tối ưu hóa quy trình quản lý và nâng cao hiệu quả hoạt động.</p>
+
+    <ul>
+        <li><strong>Tính năng đáp ứng nhu cầu:</strong> Phần mềm cần đáp ứng đầy đủ các yêu cầu quản lý của doanh nghiệp.</li>
+        <li><strong>Dễ sử dụng và thân thiện:</strong> Giao diện trực quan, dễ thao tác.</li>
+    </ul>
+  </div>
+  <div class="container mt-5">
+    <h2 id="ketluan" class="mt-4">Kết luận</h2>
+    <p>
+        Phần mềm quản lý hồ sơ thực tập sinh là giải pháp hiệu quả giúp doanh nghiệp quản lý thông tin, 
+        nâng cao hiệu quả đào tạo và tối ưu hóa quy trình quản lý. Đầu tư vào phần mềm quản lý hồ sơ thực tập sinh 
+        là một bước tiến quan trọng giúp doanh nghiệp phát triển bền vững.
+    </p>
+
+    <h2 id="faq" class="mt-5">FAQ</h2>
+    <ol>
+        <li>Phần mềm quản lý hồ sơ thực tập sinh có phù hợp với doanh nghiệp nhỏ không?</li>
+        <li>Chi phí sử dụng phần mềm là bao nhiêu?</li>
+        <li>Phần mềm có hỗ trợ đa ngôn ngữ không?</li>
+        <li>Làm thế nào để cài đặt và sử dụng phần mềm?</li>
+        <li>Phần mềm có bảo mật thông tin tốt không?</li>
+        <li>Tôi có thể dùng thử phần mềm trước khi quyết định mua không?</li>
+        <li>Có những gói dịch vụ nào cho phần mềm quản lý hồ sơ thực tập sinh?</li>
+    </ol>
+  </div>
+  
+
+  <hr class="divider"> <!-- Đường kẻ phân cách -->
+
+  <div class="container mt-5">
+    <div class="d-flex align-items-center">
+        <img src="{% static 'home/assets/img/avatars/bear.png' %}" alt="User Avatar" class="rounded-circle me-2" width="50">
+        <h5 class="mb-0">Quản Lý thực tập sinh cho doanh nghiệp</h5>
+    </div>
+
+    <div class="mt-4 p-4 bg-light border rounded">
+        <h4>Để lại một bình luận</h4>
+        <p class="text-muted">Email của bạn sẽ không được hiển thị công khai.</p>
+
+        <form id="commentForm" action="{% url 'giaotiep' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+              
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="saveInfo">
+                <label class="form-check-label" for="saveInfo">Lưu tên của tôi, email, Số điện thoại và Địa chỉ trong trình duyệt này cho lần bình luận kế tiếp của tôi.</label>
+            </div>
+            <button type="submit" class="btn btn-primary">GỬI BÌNH LUẬN</button>
+        </form>
+    </div>
+    
+  </div>
+  <footer class="footer">
+    <div class="container">
+        <h4><b>HỆ THỐNG QUẢN LÝ THỰC TẬP SINH CHO DOANH NGHIỆP</b></h4>
+        <p>📍 Phường Trung Mỹ Tây, Quận 12, Thành phố Hồ Chí Minh, Việt Nam</p>
+        <p>📞 Chăm sóc Khách Hàng: <a "tel:11110000">11110000</a></p>
+        <p>✉️ Email: <a "dungdao10az@gmail.com">dungdao10az@gmail.com</a></p>
+        <p>📱 Zalo: <a "#">Trainee Management</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function goBack() {
+      window.location.href = "http://127.0.0.1:8000/"; // Chuyển hướng về trang chủ
+  }
+  
+
+    function redirectToLogin() {
+      window.location.href = "{% url 'register' %}"; // Thay 'login' bằng tên URL của trang login.html trong Django
+    }
+
+
+</script>
+</body>
+</html>

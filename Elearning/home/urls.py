@@ -120,6 +120,12 @@ urlpatterns = [
     path('quanlyhoso/delete-hosothuctapsinh/<int:profile_id>/', views.delete_hosothuctapsinh, name='delete_hosothuctapsinh'),
 
     #quản lý báo cáo và phân tích
+
+    #x
+    path('giaotiep/', views.submit_comment, name='giaotiep'),
+    path('binhluan/', views.comment_list, name='comment_list'),
+    path("chinhsua/", views.edit_comment, name="edit_comment"), 
+    path("xoa/", views.delete_comment, name="delete_comment"),
 ]
 
 # Phục vụ file media trong môi trường DEBUG

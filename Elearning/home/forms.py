@@ -1,6 +1,7 @@
 from django import forms
 from .models import Recruitment, Interview, Communication, Profile
 from django.utils import timezone
+from .models import Comment
 
 class RecruitmentForm(forms.ModelForm):
     class Meta:
@@ -76,3 +77,8 @@ class ProfileForm(forms.ModelForm):
         if birth_date and birth_date > timezone.now().date():
             raise forms.ValidationError("Ngày sinh không được ở trong tương lai.")
         return birth_date
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['name', 'email', 'phone', 'address', 'comment']

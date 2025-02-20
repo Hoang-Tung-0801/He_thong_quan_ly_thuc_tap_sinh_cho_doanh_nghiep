@@ -34,6 +34,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ProfileForm
 from .models import Profile
+from .models import Comment
+from .forms import CommentForm
 logger = logging.getLogger(__name__)
 
 # Hàm gửi email xác thực tài khoản
@@ -1577,3 +1579,49 @@ def delete_hosothuctapsinh(request, profile_id):
         intern.delete()
         return JsonResponse({'success': True, 'message': 'Hồ sơ đã được xóa thành công!'})
     return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ'})
+
+#
+def submit_comment(request):
+    form = CommentForm()  # Khởi tạo form trống
+    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            # Lưu dữ liệu vào database
+            Comment.objects.create(
+                name=form.cleaned_data["name"],
+                email=form.cleaned_data["email"],
+                phone=form.cleaned_data["phone"],
+                address=form.cleaned_data["address"],
+                comment=form.cleaned_data["comment"]
+            )
+            return redirect("comment_list")  # Tải lại trang sau khi gửi bình luận
+    return render(request, "Giaotiep/giaotiep.html", {"form": form})
+
+def comment_list(request):
+    comments = Comment.objects.all().order_by('-created_at')  # Lấy tất cả bình luận từ database
+    return render(request, 'Giaotiepvaphanhoi/giaotiepvaphanhoi.html', {'comments': comments})
+
+
+@csrf_exempt
+def edit_comment(request, comment_id):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            comment = Comment.objects.get(id=comment_id)
+            comment.content = data["content"]
+            comment.save()
+            return JsonResponse({"success": True})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+
+
+@csrf_exempt
+def delete_comment(request, comment_id):
+    if request.method == "POST":
+        try:
+            comment = Comment.objects.get(id=comment_id)
+            comment.delete()
+            return JsonResponse({"success": True})
+        except Comment.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Bình luận không tồn tại"})
