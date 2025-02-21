@@ -1583,3 +1583,6 @@ def intern_delete(request, intern_id):
         intern.delete()
         return JsonResponse({'success': True, 'message': 'Intern deleted successfully!'})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+
+
